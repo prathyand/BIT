@@ -1,0 +1,13 @@
+Activate the python backend environment using:
+source proj_env/bin/activate
+
+Then go ahead an install the requirements:
+
+Updates pip:
+python3.6 -m pip install --upgrade pip
+
+Installs reqiurements:
+python3.6 -m pip install -r requirements.txt
+
+Updates requirements if pip is used to install more packages:
+pip freeze > requirements.txt
