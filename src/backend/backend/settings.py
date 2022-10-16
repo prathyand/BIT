@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "login"
+    "login",
+    # always make sure there's a comma ending this list
 ]
 
 MIDDLEWARE = [
