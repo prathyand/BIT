@@ -22,5 +22,26 @@ services:
       - APP_PORT=3001
     ports:
       - 3001:3001
+
+  web_app:
+    container_name: thebit_web_app
+    # image: 
+    restart: unless-stopped
+    build: 
+      context: ./frontend
+      # args:
+      #   - GATEWAY1=auth_service
+      #   - GATEWAY1_PORT=3001
+    depends_on:
+      - auth_service
+    ports:
+      - 3000:80
+    environment:
+      - GATEWAY1=auth_service
+      - GATEWAY1_PORT=3001
+
+    stdin_open: true
+    tty: true
+
 volumes:
   thebitdb:

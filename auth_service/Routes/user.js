@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const dotenv = require('dotenv');
+const auth = require('../auth/auth');
 
 const User = require("../Models/User");
 
@@ -26,7 +27,7 @@ router.post(
             });
             if (user) {
                 return res.status(400).json({
-                    msg: "User Already Exists",user:user
+                    msg: "User Already Exists"
                 });
             }
 
@@ -68,7 +69,6 @@ router.post(
 //Handle User Login
 router.post(
     "/login",
-
     async (req, res) => {
   
       const { email, password } = req.body;
@@ -103,6 +103,65 @@ router.post(
                 });
             }
         );
+      } catch (e) {
+        console.error(e);
+        res.status(500).json({
+          message: "Server Error"
+        });
+      }
+    }
+  );
+
+  // Handle GET to retrieve user profile
+  router.get("/profile", auth, async (req, res) => {
+    try {
+      // console.log(req.userid);
+      const user = await User.findOne({'userid':req.userid});
+
+      const profilevector={};
+
+      profilevector.first_name=user.first_name;
+      profilevector.last_name=user.last_name;
+      profilevector.user_email=user.user_email;
+      profilevector.cellphone_no=user.cellphone_no || "";
+
+      res.json(profilevector);
+    } catch (e) {
+      // console.log(e);
+      res.send({ message: "Error in Fetching user" });
+    }
+  });
+
+  // Handle POST to update user profile
+  router.post(
+    "/updateprofile",
+    auth,
+    async (req, res) => {
+   
+      try {
+        const user = await User.findOne({'userid':req.userid});
+        if (!user)
+          return res.status(400).json({
+            message: "User Not Exist"
+          });
+
+        for (const property in req.body) {
+          // console.log(`${property}: ${req.body[property]}`);
+          user[property]=req.body[property];
+        }
+
+        await user.save();
+
+        const profilevector={};
+
+        profilevector.first_name=user.first_name;
+        profilevector.last_name=user.last_name;
+        profilevector.user_email=user.user_email;
+        profilevector.cellphone_no=user.cellphone_no || "";
+        res.status(200).json({
+          message: profilevector
+        });
+  
       } catch (e) {
         console.error(e);
         res.status(500).json({
