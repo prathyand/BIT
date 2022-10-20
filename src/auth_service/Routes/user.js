@@ -18,7 +18,8 @@ router.post(
             email,
             password,
             first_name,
-            last_name
+            last_name,
+            cellphone_no
         } = req.body;
         // console.log(email);
         try {
@@ -40,7 +41,8 @@ router.post(
             user.user_email=email;
             user.first_name=first_name;
             user.last_name=last_name;
-            
+            user.cellphone_no=cellphone_no;
+
             await user.save();
 
             const payload = {
