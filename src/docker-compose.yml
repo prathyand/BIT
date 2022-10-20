@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  mongodb:
+    container_name: thebit_mongo
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - thebitdb:/data/db
+
+  auth_service:
+    container_name: auth_service
+    depends_on:
+      - mongodb
+    build: ./auth_service
+    restart: unless-stopped
+    environment:
+      - DB_HOSTS=thebit_mongo:27017
+      - DB_DATABASE_AUTH=authDB
+      - APP_PORT=3001
+    ports:
+      - 3001:3001
+
+  web_app:
+    container_name: thebit_web_app
+    # image: 
+    restart: unless-stopped
+    build: 
+      context: ./frontend
+      # args:
+      #   - GATEWAY1=auth_service
+      #   - GATEWAY1_PORT=3001
+    depends_on:
+      - auth_service
+    ports:
+      - 3000:80
+    environment:
+      - GATEWAY1=auth_service
+      - GATEWAY1_PORT=3001
+
+    stdin_open: true
+    tty: true
+
+volumes:
+  thebitdb:
