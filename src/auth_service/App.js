@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
   app.use("/signup", signupRoute);
   app.use("/profile", profileRoute);
   app.use("/updateprofile", updateprofileRoute);
-  app.use("/auth/google", updateprofileRoute);
+  app.use("/auth/google", gloginRoute);
   
 
   const server = app.listen(CONSTANTS.APP_PORT, () => {
