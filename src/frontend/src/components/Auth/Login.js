@@ -144,7 +144,8 @@ class Login extends React.Component{
                         onSuccess={this.onSuccess.bind(this)}
                         onFailure={this.onFailure.bind(this)}
                         cookiePolicy={'single_host_origin'}
-                        isSignedIn={true}
+                        prompt="select_account"
+                        isSignedIn={false}
                     />
                     </div>
                 </form>
