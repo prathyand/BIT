@@ -38,4 +38,8 @@ Hop to the branch you want to merge into (bring changes to/update)
 git merge <other-branch-name>
 
 If that causes issues, consider using:
+<<<<<<< HEAD
 git mergetool
+=======
+git mergetool
+>>>>>>> authentication_module

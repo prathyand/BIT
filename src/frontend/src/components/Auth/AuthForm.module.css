@@ -66,10 +66,17 @@
 
 .actions .toggle {
   margin-top: 1rem;
+  margin-bottom: 1rem;
   background-color: transparent;
   color: #9f5ccc;
   border: none;
   padding: 0.15rem 1.5rem;
+}
+
+.actions .toggle2 {
+  background-color: transparent;
+  color: #9f5ccc;
+  border: none;
 }
 
 .actions .toggle:hover {
