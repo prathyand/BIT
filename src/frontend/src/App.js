@@ -3,8 +3,23 @@ import Layout from './components/Layout/Layout';
 import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
+import { gapi } from 'gapi-script';
+import { useEffect } from 'react';
+import constants from './constants';
+
+
 
 function App(props) {
+  const clientId = constants.CLIENT_ID
+  useEffect(() => {
+    const initClient = () => {
+          gapi.client.init({
+          clientId: clientId,
+          scope: ''
+        });
+     };
+     gapi.load('client:auth2', initClient);
+ });
   return (
     <Layout>
       <Routes>
