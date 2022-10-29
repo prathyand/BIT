@@ -1,7 +1,6 @@
 FROM node:alpine
-WORKDIR /app
+WORKDIR /api_gateway
 COPY package.json .
 RUN npm install
-COPY . ./
-EXPOSE 5000
-CMD ["node", "server.js"]
+COPY . .
+CMD npm start
