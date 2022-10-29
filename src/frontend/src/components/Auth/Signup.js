@@ -5,9 +5,13 @@ import classes from './AuthForm.module.css';
 import { Alert } from "react-bootstrap";
 import AuthContext from '../../contexts/AuthContext';
 import { Navigate } from "react-router-dom";
+import { GoogleLogin } from 'react-google-login';
+import constants from '../../constants';
 
 const CONSTANTS = require("../../constants");
 const domainName_gw1 = "http://" + CONSTANTS.GATEWAY1 + ":" + CONSTANTS.GATEWAY1_PORT;
+const webDomain = "http://" + CONSTANTS.DOMAIN + ":" + CONSTANTS.FE_PORT
+const clientId = constants.CLIENT_ID
 
 class SignUp extends React.Component{
 
@@ -72,6 +76,42 @@ class SignUp extends React.Component{
             });
     }
 
+    onSuccess(res){
+        // console.log(res.tokenId)
+        fetch(
+            domainName_gw1+"/auth/google",
+            {
+            method : "POST",
+            mode: 'no-cors',
+            body : JSON.stringify(
+            {
+                idToken: res.tokenId
+            }),
+            headers:
+            {
+                "Content-Type" : "application/json",
+                "Origin" : webDomain
+            }
+          }).then(response => {
+                if(response.ok){
+                    response.json().then((data)=>{
+                        this.setState({success:"Signup Successful"})
+                        this.context.login(data)
+                        console.log(this.context)
+                        // setTimeout(()=>{this.setState({isLoggedin:true})},2000)
+                    })
+                    console.log(this.context)
+                    // this.props.navigation.navigate('./', {replace:true})
+                }else{
+                    console.log(response)
+                }
+            });
+    }
+
+    onFailure(res){
+        console.log(res.error)
+    }
+
     render(){
         const switchAuthModeHandler = () =>{
             this.props.handleToUpdate(true);
@@ -103,12 +143,19 @@ class SignUp extends React.Component{
                     </div>
                     <div className={classes.actions}>
                         <button>Create Account</button>
-                        <button
-                            type='button'
+                        <button type='button'
                             className={classes.toggle}
                             onClick={switchAuthModeHandler}
                         >Login with existing account
                         </button>
+                        <GoogleLogin
+                            clientId={clientId}
+                            buttonText="Google Sign Up"
+                            onSuccess={this.onSuccess}
+                            onFailure={this.onFailure}
+                            cookiePolicy={'single_host_origin'}
+                            isSignedIn={true}
+                        />
                     </div>
                 </form>
                 </section>
