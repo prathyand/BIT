@@ -1,81 +1,66 @@
 const request = require('request');
 var express = require('express');
 var app = express();
-
 app.use(express.json()) 
-const CONSTANTS = require("constants")
-const port = process.env.PORT || 3000;
+const CONSTANTS = require("./constants")
 
 
-// const router = express.Router();
-app.all('/*', (req, res, next) => {
-    //console.log(req)
-    const incoming_path = req.path
-    const incoming_body = req.body
-    const incoming_method = req.method
-    const incoming_hostname = req.hostname
-    const incoming_hostip = req.ip
-    const incoming_protocol = req.protocol
-    const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    console.log(path) // /
-    console.log(body) // {}
-    console.log(method) // GET
-    console.log(req.protocol) //http
-    console.log(req.ip) // ::1
-    console.log(req.hostname)  // localhost
-    console.log(req.baseUrl) // *blank*
-    console.log(body)
-    console.log(fullUrl)
+function forward_auth_req(req, res, path) {
+    const outboundUrl = req.protocol + '://' + CONSTANTS.CONTAINER_HOSTNAME + ':' + CONSTANTS.AUTH_PORT + path
+    const body = req.body
+    const method = req.method
+    const headers = req.headers
 
-    // var response = request(path, )
-    // res.send(response)
     var options = {
-        url: 'https://www.reddit.com/r/funny.json',
-        method: incoming_method,
-        headers: {
-            'Accept': 'application/json',
-            'Accept-Charset': 'utf-8',
-            'User-Agent': 'my-reddit-client'
-        },
+        url: outboundUrl,
+        method: method,
+        headers: headers,
+        body: body,
         json: true,
-        body: incoming_body,
-        time: true
-    }
-    var options = {
-        url: 'https://www.reddit.com/r/funny.json',
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Accept-Charset': 'utf-8',
-            'User-Agent': 'my-reddit-client'
-        },
-        json: true,
-        body: 'hello world',
-        time: true
     }
 
-    request(options, (err, res, body) => {
+    console.log(options)
+
+    request(options, (err, res2, body) => {
+        // console.log(res2)
         if (!err && res.statusCode == 200) {
-            console.log('success!')
-
-            // var json = JSON.parse(body);
-            // console.log(response)
-            // console.log(json.kind)
-            // return json
+            res.send(res2)
         }
         else {
-            console.log(err)
+            //console.log(err)
+            console.log('error block triggered')
             res.status(400).json({
                 message: "incorrect http request"
             })
         }
     });
+}
 
-    console.log('done')
-    next();
-    
+
+
+app.use("/login", (req, res) => {
+    console.log(req.body)
+    forward_auth_req(req, res, "/login");
 });
+
+app.use("/signup", (req, res, next) => {
+    forward_auth_req(req, res, "/signup");
+});
+
+app.use("/profile", (req, res, next) => {
+    forward_auth_req(req, res, "/profile");
+});
+
+app.use("/updateprofile", (req, res, next) => {
+    forward_auth_req(req, res, "updateprofile");
+});
+
+app.use("/auth/google", (req, res, next) => {
+    forward_auth_req(req, res, "/auth/google");
+});
+
 
 // app.use('/', router);
 // console.log(process.env);
+port = 5000
 app.listen(port, () => console.log(`Listening on port ${port}`));

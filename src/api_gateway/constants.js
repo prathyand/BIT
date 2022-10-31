@@ -6,4 +6,6 @@ module.exports = {
     DB_DATABASE_AUTH: process.env.DB_DATABASE || 'authDB',
     APP_PORT: process.env.APP_PORT || 3001,
     frontend_google_clientID: process.env.GCLIENT_ID || " ",
+    AUTH_PORT: process.env.AUTH_PORT || '3001',
+    CONTAINER_HOSTNAME: process.env.CONTAINER_HOSTNAME || 'localhost'
 }
