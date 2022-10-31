@@ -7,9 +7,12 @@ const signupRoute =require("./Routes/signup");
 const profileRoute =require("./Routes/profile");
 const updateprofileRoute =require("./Routes/updateprofile");
 const gloginRoute =require("./Routes/google_login");
-
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
+
 const CONSTANTS = require("./constants");
 
 app.use(function (req, res, next) {
