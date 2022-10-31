@@ -4,7 +4,7 @@ import ProfileForm from './ProfileForm';
 const UserProfile = () => {
   return (
     <section>
-      <h1>Your User Profile</h1>
+      <h1 style={{paddingLeft:"5%"}}>Profile</h1>
       <ProfileForm />
     </section>
   );

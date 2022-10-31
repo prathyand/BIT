@@ -63,10 +63,10 @@ class SignUp extends React.Component{
                     response.json().then((data)=>{
                         this.setState({success:"Signup Successful"})
                         this.context.login(data)
-                        console.log(this.context)
+                        // console.log(this.context)
                         // setTimeout(()=>{this.setState({isLoggedin:true})},2000)
                     })
-                    console.log(this.context)
+                    // console.log(this.context)
                     // this.props.navigation.navigate('./', {replace:true})
                 }else{
                     response.json().then((err)=>{
@@ -97,10 +97,10 @@ class SignUp extends React.Component{
                     response.json().then((data)=>{
                         this.setState({success:"Signup Successful"})
                         this.context.login(data)
-                        console.log(this.context)
+                        // console.log(this.context)
                         // setTimeout(()=>{this.setState({isLoggedin:true})},2000)
                     })
-                    console.log(this.context)
+                    // console.log(this.context)
                     // this.props.navigation.navigate('./', {replace:true})
                 }else{
                     console.log(response)

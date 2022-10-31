@@ -10,6 +10,7 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props)=>{
   const [token,setToken] = useState(null)
+  const [location,setLocation] = useState("Bloomington")
 
   const navigate = useNavigate();
 
@@ -24,11 +25,17 @@ export const AuthContextProvider = (props)=>{
     navigate("/")
   }
 
+  const updateLocation = (value) => {
+    setLocation(value)
+  }
+
   const context = {
     token : token,
     isLoggedIn : isLoggedIn,
+    location: location,
     login : loginHandler,
-    logout : logoutHandler
+    logout : logoutHandler,
+    updateLocation : updateLocation
   }
   // console.log(props)
   return (<AuthContext.Provider value={context}>{props.children}</AuthContext.Provider>)

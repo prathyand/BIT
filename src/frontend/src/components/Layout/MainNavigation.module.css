@@ -54,3 +54,36 @@
   background-color: #c291e2;
   color: #38015c;
 }
+
+.search-container {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown {
+  background-color: white;
+  display: flex;
+  position: fixed;
+  width: 220px;
+  flex-direction: column;
+  border: 1px solid gray;
+}
+
+.dropdown:empty {
+  border: none;
+}
+
+.dropdownRow {
+  cursor: pointer;
+  text-align: start;
+  margin: 2px 0;
+}
+
+input {
+  width: 220px;
+}
+
+.searchInner {
+  display: flex;
+}
