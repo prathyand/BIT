@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 var app = express();
 app.use(express.json()) 
 const CONSTANTS = require("./constants")
+const router = express.Router();
 
 app.use(bodyParser.json());
 
@@ -13,6 +14,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+// try making mathods async
 function forward_auth_req(req, res, path) {
     const outboundUrl = req.protocol + '://' + CONSTANTS.CONTAINER_HOSTNAME + ':' + CONSTANTS.AUTH_PORT + path
     const body = req.body
@@ -28,27 +30,35 @@ function forward_auth_req(req, res, path) {
     }
 
 
-    request(options, (err, res2, body) => {
+    request(options, async (err, res2, body) => {
         // console.log(res2)
         console.log(options)
-        if (!err && res.statusCode == 200) {
-            res.send(res2)
-        }
-        else {
-            //console.log(err)
-            console.log('error block triggered')
-            res.status(400).json({
-                message: "incorrect http request"
-            })
-        }
+        res.send(res2)
+        // if (!err && res2.statusCode == 200) {
+            // res.send(res2)
+        // }
+        // else {
+            // //console.log(err)
+            // console.log('error block triggered')
+            // res.status(400).json({
+                // message: "incorrect http request"
+            // })
+        // }
     });
 }
 
-
-app.use("/login", (req, res) => {
-    console.log(req.body)
+router.post('/', (req, res) => {
+    console.log("body: " + req.body)
     forward_auth_req(req, res, "/login");
 });
+
+app.use("/login", router);
+
+
+// app.use("/login", (req, res) => {
+    // console.log(req.body)
+    // forward_auth_req(req, res, "/login");
+// });
 
 app.use("/signup", (req, res) => {
     forward_auth_req(req, res, "/signup");
@@ -65,6 +75,8 @@ app.use("/updateprofile", (req, res) => {
 app.use("/auth/google", (req, res) => {
     forward_auth_req(req, res, "/auth/google");
 });
+
+
 
 
 // app.use('/', router);
