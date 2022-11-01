@@ -1,12 +1,12 @@
-const request = require('request');
-var express = require('express');
+// const request = require('request');
+const axios = require('axios')
+const express = require('express');
 const bodyParser = require("body-parser");
-var app = express();
+const app = express();
 app.use(express.json()) 
-const CONSTANTS = require("./constants")
+const CONSTANTS = require("./constants");
+const constants = require('./constants');
 const router = express.Router();
-
-app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -15,71 +15,62 @@ app.use(function (req, res, next) {
 });
 
 // try making mathods async
-function forward_auth_req(req, res, path) {
-    const outboundUrl = req.protocol + '://' + CONSTANTS.CONTAINER_HOSTNAME + ':' + CONSTANTS.AUTH_PORT + path
-    const body = req.body
-    const method = req.method
-    const headers = req.headers
+const forward_auth_req = async (req, res, path) => {
+    const outboundUrl = req.protocol + '://' + CONSTANTS.AUTH_CONTAINER_HOSTNAME + ':' + CONSTANTS.AUTH_PORT + path;
+    
+    // ****** for debugging, enable logs *********//
+    // console.log("outbound url ",outboundUrl);
+    // console.log("path ",path);
+    // console.log("method ",req.method);
+    // console.log("headers token ",JSON.parse(JSON.stringify(req.headers))['token']);
 
-    var options = {
-        url: outboundUrl,
-        method: method,
-        headers: headers,
-        body: body,
-        json: true,
+    try {
+        const resp = await axios({
+            method: req.method,
+            url: outboundUrl,
+            data: JSON.parse(JSON.stringify(req.body)),
+            headers: {'Content-Type' : "application/json",
+                'token':JSON.parse(JSON.stringify(req.headers))['token']}
+        });
+
+        console.log("response data is "+ JSON.stringify(resp.data));
+
+        // sending back response to frontend
+        res.status(resp.status).send(resp.data);
+    } catch (err) {
+        // Handle Error Here
+        console.error(err);
+        // sending back error to frontend
+        res.status(err.response.status).send(err.response.data);
     }
 
-
-    request(options, async (err, res2, body) => {
-        // console.log(res2)
-        console.log(options)
-        res.send(res2)
-        // if (!err && res2.statusCode == 200) {
-            // res.send(res2)
-        // }
-        // else {
-            // //console.log(err)
-            // console.log('error block triggered')
-            // res.status(400).json({
-                // message: "incorrect http request"
-            // })
-        // }
-    });
 }
 
-router.post('/', (req, res) => {
-    console.log("body: " + req.body)
-    forward_auth_req(req, res, "/login");
+app.use(bodyParser.json());
+
+router.post('/login', async (req, res) => {
+    forward_auth_req(req, res, "/login");  
 });
 
-app.use("/login", router);
-
-
-// app.use("/login", (req, res) => {
-    // console.log(req.body)
-    // forward_auth_req(req, res, "/login");
-// });
-
-app.use("/signup", (req, res) => {
-    forward_auth_req(req, res, "/signup");
+router.post('/signup', async (req, res) => {
+    forward_auth_req(req, res, "/signup");  
 });
 
-app.use("/profile", (req, res) => {
-    forward_auth_req(req, res, "/profile");
+router.get('/profile', async (req, res) => {
+    forward_auth_req(req, res, "/profile");  
 });
 
-app.use("/updateprofile", (req, res) => {
-    forward_auth_req(req, res, "updateprofile");
+router.post('/updateprofile', async (req, res) => {
+    forward_auth_req(req, res, "/updateprofile");  
 });
 
-app.use("/auth/google", (req, res) => {
-    forward_auth_req(req, res, "/auth/google");
+router.post('/auth/google', async (req, res) => {
+    forward_auth_req(req, res, "/auth/google");  
 });
 
-
+app.use("/", router);
 
 
 // app.use('/', router);
 // console.log(process.env);
-port = 5000
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(constants.CONTAINER_PORT, () => console.log(`Listening on port ${constants.CONTAINER_PORT}`));
