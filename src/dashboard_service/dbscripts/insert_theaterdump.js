@@ -12,7 +12,7 @@ try{
     
     var conn = mongoose.connection;
 
-    let theaterdata = JSON.parse(fs.readFileSync('theater.json')); 
+    let theaterdata = JSON.parse(fs.readFileSync('theater_new.json')); 
 
     for(var i=0;i<theaterdata.length;i++){
         theaterdata[i]['showings']=theaterdata[i]['showings'][0];

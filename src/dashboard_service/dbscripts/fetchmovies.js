@@ -28,8 +28,6 @@ const fetch_movies = async (page) => {
   } catch (err) {
       // Handle Error Here
       console.error(err);
-      // sending back error to frontend
-      res.status(err.response.status).send(err.response.data);
   }
 }
 
