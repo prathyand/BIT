@@ -73,4 +73,4 @@ app.use("/", router);
 
 // app.use('/', router);
 // console.log(process.env);
-app.listen(constants.CONTAINER_PORT, () => console.log(`Listening on port ${constants.CONTAINER_PORT}`));
+app.listen(constants.APP_PORT, () => console.log(`Listening on port ${constants.APP_PORT}`));
