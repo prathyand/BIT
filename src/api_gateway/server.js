@@ -1,11 +1,13 @@
-// const request = require('request');
-const axios = require('axios')
 const express = require('express');
 const bodyParser = require("body-parser");
+const CONSTANTS = require("./constants");
+const httpProxy = require('express-http-proxy')
+
+const authServerProxy = httpProxy('http://'+CONSTANTS.AUTH_CONTAINER_HOSTNAME + ':' + CONSTANTS.AUTH_PORT);
+const dashboardServerProxy = httpProxy('http://'+CONSTANTS.DASHBOARD_CONTAINER_HOSTNAME + ':' + CONSTANTS.DASHBOARD_PORT);
+
 const app = express();
 app.use(express.json()) 
-const CONSTANTS = require("./constants");
-const constants = require('./constants');
 const router = express.Router();
 
 app.use(function (req, res, next) {
@@ -14,63 +16,63 @@ app.use(function (req, res, next) {
     next();
 });
 
-// try making mathods async
-const forward_auth_req = async (req, res, path) => {
-    const outboundUrl = req.protocol + '://' + CONSTANTS.AUTH_CONTAINER_HOSTNAME + ':' + CONSTANTS.AUTH_PORT + path;
-    
-    // ****** for debugging, enable logs *********//
-    // console.log("outbound url ",outboundUrl);
-    // console.log("path ",path);
-    // console.log("method ",req.method);
-    // console.log("headers token ",JSON.parse(JSON.stringify(req.headers))['token']);
-
-    try {
-        const resp = await axios({
-            method: req.method,
-            url: outboundUrl,
-            data: JSON.parse(JSON.stringify(req.body)),
-            headers: {'Content-Type' : "application/json",
-                'token':JSON.parse(JSON.stringify(req.headers))['token']}
-        });
-
-        console.log("response data is "+ JSON.stringify(resp.data));
-
-        // sending back response to frontend
-        res.status(resp.status).send(resp.data);
-    } catch (err) {
-        // Handle Error Here
-        console.error(err);
-        // sending back error to frontend
-        res.status(err.response.status).send(err.response.data);
-    }
-
-}
-
 app.use(bodyParser.json());
 
-router.post('/login', async (req, res) => {
-    forward_auth_req(req, res, "/login");  
+// Auth service requests
+router.post('/login', (req, res,next) => {
+    authServerProxy(req,res,next);  
 });
 
-router.post('/signup', async (req, res) => {
-    forward_auth_req(req, res, "/signup");  
+router.post('/signup', (req, res,next) => {
+    authServerProxy(req,res,next);  
 });
 
-router.get('/profile', async (req, res) => {
-    forward_auth_req(req, res, "/profile");  
+router.get('/profile', (req, res,next) => {
+    authServerProxy(req,res,next);  
 });
 
-router.post('/updateprofile', async (req, res) => {
-    forward_auth_req(req, res, "/updateprofile");  
+router.post('/updateprofile', (req, res,next) => {
+    authServerProxy(req,res,next);  
 });
 
-router.post('/auth/google', async (req, res) => {
-    forward_auth_req(req, res, "/auth/google");  
+router.post('/auth/google', (req, res,next) => {
+    authServerProxy(req,res,next);  
+});
+
+// Dashboard service requests
+router.post('/cities', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.post('/movies/theater/:theaterId', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.post('/movies/city/:cityName', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.post('/movies/zip/:zipcode', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.post('/theaters/', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.post('/theaters/city/:cityname', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.post('/theaters/zip/:zipcode', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.post('/theaters/movie/:movieId', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
 });
 
 app.use("/", router);
 
 
-// app.use('/', router);
-// console.log(process.env);
-app.listen(constants.APP_PORT, () => console.log(`Listening on port ${constants.APP_PORT}`));
+app.listen(CONSTANTS.APP_PORT, () => console.log(`Listening on port ${CONSTANTS.APP_PORT}`));
