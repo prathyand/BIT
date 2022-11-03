@@ -18,6 +18,7 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json());
 
+// Auth service requests
 router.post('/login', (req, res,next) => {
     authServerProxy(req,res,next);  
 });
@@ -38,12 +39,7 @@ router.post('/auth/google', (req, res,next) => {
     authServerProxy(req,res,next);  
 });
 
-app.get('/theaters/movie/:movieId', (req, res,next) => {
-    authServerProxy(req,res,next);  
-});
-
-
-
+// Dashboard service requests
 router.post('/cities', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
