@@ -1,17 +1,14 @@
-// const request = require('request');
-const axios = require('axios')
 const express = require('express');
 const bodyParser = require("body-parser");
-const app = express();
-app.use(express.json()) 
 const CONSTANTS = require("./constants");
-const router = express.Router();
-
 const httpProxy = require('express-http-proxy')
 
 const authServerProxy = httpProxy('http://'+CONSTANTS.AUTH_CONTAINER_HOSTNAME + ':' + CONSTANTS.AUTH_PORT);
 const dashboardServerProxy = httpProxy('http://'+CONSTANTS.DASHBOARD_CONTAINER_HOSTNAME + ':' + CONSTANTS.DASHBOARD_PORT);
 
+const app = express();
+app.use(express.json()) 
+const router = express.Router();
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
