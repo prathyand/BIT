@@ -47,10 +47,10 @@ class Login extends React.Component{
                     response.json().then((data)=>{
                         this.setState({success: "Signin Successful" })
                         this.context.login(data)
-                        console.log(this.context)
+                        // console.log(this.context)
                         // setTimeout(()=>{this.setState({isLoggedin:true})},2000)
                     })
-                    console.log(this.context)
+                    // console.log(this.context)
                     // this.props.navigation.navigate('./', {replace:true})
                 }else{
                     console.log(response)
@@ -66,8 +66,8 @@ class Login extends React.Component{
         event.preventDefault()
         this.mailEntered = this.emailUserInp.current.value;
         this.passwordEntered = this.passwordInp.current.value;
-        console.log(this.mailEntered);
-        console.log(this.passwordEntered);
+        // console.log(this.mailEntered);
+        // console.log(this.passwordEntered);
         fetch(
             domainName_gw1+"/login",
             {
@@ -86,15 +86,14 @@ class Login extends React.Component{
                     response.json().then((data)=>{
                         this.setState({success:"Signin Successful"})
                         this.context.login(data)
-                        alert("Signin Successful")
-                        console.log(this.context)
+                        // alert("Signin Successful")
+                        // console.log(this.context)
                     })
                 }else{
                     console.log(response)
-                    // response.json().then((err)=>{
-                    //     this.setState({error:err.message})
-                    //     // alert(err.message)
-                    // })
+                    response.json().then((err)=>{
+                        this.setState({error:err.message})
+                    })
                 }
             })
     }
@@ -135,7 +134,6 @@ class Login extends React.Component{
                     </button>
                     <button type='button'
                         className={classes.toggle2}
-                        onClick={switchAuthModeHandler}
                         >Forgot Password?
                     </button>
                     <GoogleLogin
