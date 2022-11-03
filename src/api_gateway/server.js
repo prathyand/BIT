@@ -40,35 +40,35 @@ router.post('/auth/google', (req, res,next) => {
 });
 
 // Dashboard service requests
-router.post('/cities', (req, res,next) => {
+router.get('/cities', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.post('/movies/theater/:theaterId', (req, res,next) => {
+router.get('/movies/theater/:theaterId', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.post('/movies/city/:cityName', (req, res,next) => {
+router.get('/movies/city/:cityName', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.post('/movies/zip/:zipcode', (req, res,next) => {
+router.get('/movies/zip/:zipcode', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.post('/theaters/', (req, res,next) => {
+router.get('/theaters/', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.post('/theaters/city/:cityname', (req, res,next) => {
+router.get('/theaters/city/:cityname', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.post('/theaters/zip/:zipcode', (req, res,next) => {
+router.get('/theaters/zip/:zipcode', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.post('/theaters/movie/:movieId', (req, res,next) => {
+router.get('/theaters/movie/:movieId', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
