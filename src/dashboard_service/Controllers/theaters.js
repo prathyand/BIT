@@ -54,7 +54,7 @@ const getCityTheaters = (async (req, res) => {
 // grabs all theaters in a specific zip code
 const getZipTheaters = (async (req, res) => {
     try {
-        const zip = req.params.cityname
+        const zip = req.params.zipcode
         // maybe this should return the entire table instead of just the distinct names? Ask Shanthan maybe
         const theaterList = await Theater.find({'Zip':zip})
         return res.status(200).json({theaterList: theaterList})
@@ -69,7 +69,7 @@ const getMoviesTheaters = (async (req, res) => {
     try {
         const movieId = req.params.movieId
         // maybe this should return the entire table instead of just the distinct names? Ask Shanthan maybe
-        const theaterList = Theater.find({"showings.movies.id": movieId})
+        const theaterList = await Theater.find({"showings.movies.id": movieId})
 
 
         return res.status(200).json({theaterList: theaterList})
