@@ -48,6 +48,8 @@ services:
     environment:
       - AUTH_CONTAINER_HOSTNAME=auth_service
       - AUTH_PORT=3001
+      - DASHBOARD_CONTAINER_HOSTNAME=dashboard_service
+      - DASHBOARD_PORT=3002
       - APP_PORT=5001
     ports:
       - 5001:5001
