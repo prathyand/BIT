@@ -13,9 +13,7 @@ class AuthForm extends React.Component {
   }
 
   handleToUpdate(val){
-    this.setState({isLogin : val}, () => {
-      console.log(this.state.isLogin)
-    })
+    this.setState({isLogin : val})
   }
 
   render(){

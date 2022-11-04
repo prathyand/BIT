@@ -10,5 +10,8 @@ module.exports = {
     GATEWAY1_PORT: process.env.GATEWAY1_PORT || 5001,
     DOMAIN: process.env.FEDOMAIN || 'localhost',
     FE_PORT: process.env.FEPORT || 3000,
-    CLIENT_ID: process.env.CLIENT_ID || "624148654388-pep2rsbqfuscb5mibsh16l3fv1hhlp7e.apps.googleusercontent.com"
+    CLIENT_ID: process.env.CLIENT_ID || "624148654388-pep2rsbqfuscb5mibsh16l3fv1hhlp7e.apps.googleusercontent.com",
+    GOOGLE_EP: "/auth/google",
+    EMAIL_LOGIN_EP: "/login",
+    SIGNUP_EP: "/signup"
 }
