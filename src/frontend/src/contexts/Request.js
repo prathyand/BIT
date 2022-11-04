@@ -1,5 +1,7 @@
-import React from "react"
+import React from "react";
 import constants from '../constants';
+import AuthContext from '../contexts/AuthContext';
+import { useContext } from 'react';
 
 const Request = React.createContext({
     getRequest : (url,data) => {},
@@ -8,18 +10,20 @@ const Request = React.createContext({
 
 export const RequestProvider = (props)=>{
     const domainName_gw1 = "http://" + constants.GATEWAY1 + ":" + constants.GATEWAY1_PORT;
-    const webDomain = "http://" + constants.DOMAIN + ":" + constants.FE_PORT
+    const webDomain = "http://" + constants.DOMAIN + ":" + constants.FE_PORT;
+    const authContext = useContext(AuthContext)
     const fetchRequest =  (method,url,reqBody,reqHeader) => {
         let headerPart = reqHeader ? reqHeader : {
             "Content-Type" : "application/json"
         }
-        return fetch(
-            domainName_gw1+url,
-            {
+        let params = {
             method : method,
-            body : reqBody,
-            headers:headerPart
-        });
+            headers: headerPart
+        };
+        if(method === "POST"){
+            params["body"] = reqBody
+        }
+        return fetch(domainName_gw1+url,params)
     };
     const sendGoogleAuth = (url,data) => {
         let body = JSON.stringify(
@@ -37,9 +41,31 @@ export const RequestProvider = (props)=>{
         let body = JSON.stringify(data)
         return fetchRequest("POST",url,body);
     };
-    const handleGet = (url,data) => {
 
+    const sendUpdateProfile = (url,data) => {
+        let header = {
+            "Content-Type" : "application/json",
+            token : authContext.token
+        }
+        return fetchRequest("POST",url,data,header)
+    }
+
+    const getProfile = (url) => {
+        let header = {
+            token : authContext.token
+        }
+        return fetchRequest("GET",url,"",header)
+    }
+
+    const handleGet = (url,data) => {
+        switch(url){
+            case "/profile":
+                return getProfile(url)
+            default:
+                break;
+        }
     };
+
     const handlePost = (url,data) => {
         switch(url){
             case "/auth/google":
@@ -47,6 +73,8 @@ export const RequestProvider = (props)=>{
             case "/login":
             case "/signup":
                 return sendAuthCreds(url,data)
+            case "/updateprofile":
+                return sendUpdateProfile(url,data)
             default:
                 break;
         }

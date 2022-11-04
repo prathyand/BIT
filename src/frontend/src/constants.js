@@ -13,5 +13,7 @@ module.exports = {
     CLIENT_ID: process.env.CLIENT_ID || "624148654388-pep2rsbqfuscb5mibsh16l3fv1hhlp7e.apps.googleusercontent.com",
     GOOGLE_EP: "/auth/google",
     EMAIL_LOGIN_EP: "/login",
-    SIGNUP_EP: "/signup"
+    SIGNUP_EP: "/signup",
+    PROFILE_EP: "/profile",
+    UPDATE_PROFILE_EP: "/updateprofile"
 }
