@@ -10,7 +10,7 @@ import { BsSearch } from 'react-icons/bs'
 
 const MainNavigation = () => {
   const ctxt = useContext(AuthContext)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const search = useRef()
   const updateLocation = (event) =>{
     event.preventDefault()
