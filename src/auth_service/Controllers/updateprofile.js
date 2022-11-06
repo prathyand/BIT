@@ -1,14 +1,7 @@
-const express = require("express");
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// const CONSTANTS = require("../constants");
 const User = require("../Models/User");
-const dotenv = require('dotenv');
-dotenv.config();
-const router = express.Router();
-const auth = require('../auth/auth');
 
-const updateProfile = (async (req, res) => {
+
+const updateProfile = async (req, res) => {
       try {
         const user = await User.findOne({'userid':req.userid});
         if (!user)
@@ -17,7 +10,6 @@ const updateProfile = (async (req, res) => {
           });
 
         for (const property in req.body) {
-          // console.log(`${property}: ${req.body[property]}`);
           user[property]=req.body[property];
         }
 
@@ -40,6 +32,6 @@ const updateProfile = (async (req, res) => {
         });
       }
     }
-  );
+  ;
 
   module.exports = {updateProfile};

@@ -1,13 +1,6 @@
-const express = require("express");
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// const CONSTANTS = require("../constants");
 const User = require("../Models/User");
-const dotenv = require('dotenv');
-dotenv.config();
-const auth = require('../auth/auth');
 
-const profile = (async (req, res) => {
+const profile = async (req, res) => {
     try {
       // console.log(req.userid);
       const user = await User.findOne({'userid':req.userid});
@@ -24,6 +17,6 @@ const profile = (async (req, res) => {
       // console.log(e);
       res.send({ message: "Error in Fetching user" });
     }
-  });
+  };
 
   module.exports = {profile};

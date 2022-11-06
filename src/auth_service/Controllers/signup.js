@@ -1,12 +1,10 @@
-const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const CONSTANTS = require("../constants");
 const User = require("../Models/User");
 const dotenv = require('dotenv');
 dotenv.config();
 
-const signup = (async (req, res) => {
+const signup = async (req, res) => {
         const {
             email,
             password,
@@ -25,7 +23,6 @@ const signup = (async (req, res) => {
                 });
             }
 
-         
             user = new User();
             
             // encrypt the password
@@ -64,7 +61,6 @@ const signup = (async (req, res) => {
             console.log(err.message);
             res.status(500).send("Error in Saving");
         }
-    }
-);
+    };
 
 module.exports = {signup};
