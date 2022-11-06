@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node App.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +19,9 @@
     "google-auth-library": "^8.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.5"
+  },
+  "devDependencies": {
+    "jest": "^29.2.2",
+    "supertest": "^6.3.1"
   }
 }
