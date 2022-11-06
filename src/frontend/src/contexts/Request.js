@@ -9,7 +9,7 @@ const Request = React.createContext({
 });
 
 export const RequestProvider = (props)=>{
-    const domainName_gw1 = "http://" + constants.REACT_APP_GATEWAY + ":" + constants.REACT_APP_GATEWAY1_POR;
+    const domainName_gw1 = "http://" + constants.REACT_APP_GATEWAY + ":" + constants.REACT_APP_GATEWAY_PORT;
     const webDomain = "http://" + constants.DOMAIN + ":" + constants.FE_PORT;
     const authContext = useContext(AuthContext)
     const fetchRequest =  (method,url,reqBody,reqHeader) => {
