@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  mongodb:
+    container_name: thebit_mongo
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - thebitdb:/data/db
+
+  auth_service:
+    container_name: auth_service
+    depends_on:
+      - mongodb
+    image: prathyand/thebitbeta:auth_module_latest
+    restart: unless-stopped
+    environment:
+      - DB_HOSTS=thebit_mongo:27017
+      - DB_DATABASE_AUTH=authDB
+      - APP_PORT=3001
+    ports:
+      - 3001:3001
+
+  dashboard_service:
+    container_name: dashboard_service
+    depends_on:
+      - mongodb
+      - auth_service
+    image: prathyand/thebitbeta:dashboard_service_latest
+    restart: unless-stopped
+    environment:
+      - DB_HOSTS=thebit_mongo:27017
+      - DB_DATABASE_AUTH=serv_DB
+      - APP_PORT=3002
+    ports:
+      - 3002:3002
+
+  api_gateway:
+    container_name: api_gateway
+    depends_on:
+      - mongodb
+      - auth_service
+      - dashboard_service
+    image: prathyand/thebitbeta:api_gateway_latest
+    restart: unless-stopped
+    environment:
+      - AUTH_CONTAINER_HOSTNAME=auth_service
+      - AUTH_PORT=3001
+      - DASHBOARD_CONTAINER_HOSTNAME=dashboard_service
+      - DASHBOARD_PORT=3002
+      - APP_PORT=5001
+    ports:
+      - 5001:5001
+
+  web_app:
+    container_name: thebit_web_app
+    restart: unless-stopped
+    image: prathyand/thebitbeta:frontend_latest
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile-AWS.dockerfile
+      args:
+        - REACT_APP_GATEWAY1=ec2-18-217-75-44.us-east-2.compute.amazonaws.com
+        - REACT_APP_GATEWAY1_PORT=5001
+    depends_on:
+      - api_gateway
+    ports:
+      - 80:80
+
+    stdin_open: true
+    tty: true
+
+volumes:
+  thebitdb:
