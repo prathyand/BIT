@@ -72,7 +72,14 @@
   padding: 0.15rem 1.5rem;
 }
 
-.actions .toggle:hover {
+.actions .toggle2 {
+  background-color: transparent;
+  color: #9f5ccc;
+  border: none;
+}
+
+.actions .toggle:hover,
+.actions .toggle2:hover {
   background-color: transparent;
   color: #ae82cc;
 }
