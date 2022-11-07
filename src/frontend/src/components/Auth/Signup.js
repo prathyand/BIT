@@ -24,10 +24,11 @@ const SignUp = (props) => {
     const formSubmitted = (event) => {
         event.preventDefault()
         let data = {
-            firstname: firstNameInp.current.value,
-            lastname: lastNameInp.current.value,
+            first_name: firstNameInp.current.value,
+            last_name: lastNameInp.current.value,
             email: emailUserInp.current.value,
-            password: passwordInp.current.value
+            password: passwordInp.current.value,
+            cellphone_no:""
         }
         let signUpReq = request.postRequest(constants.SIGNUP_EP,data);
         signUpReq.then(response => {
