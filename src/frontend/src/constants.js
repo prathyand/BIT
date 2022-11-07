@@ -6,8 +6,8 @@
 // dotenv.config();
 
 module.exports = {
-    GATEWAY1: process.env.REACT_APP_GATEWAY || 'localhost',
-    GATEWAY1_PORT: process.env.REACT_APP_GATEWAY_PORT || 5001,
+    REACT_APP_GATEWAY: process.env.REACT_APP_GATEWAY || 'localhost',
+    REACT_APP_GATEWAY_PORT: process.env.REACT_APP_GATEWAY_PORT || 5001,
     DOMAIN: process.env.FEDOMAIN || 'localhost',
     FE_PORT: process.env.FEPORT || 3000,
     CLIENT_ID: process.env.CLIENT_ID || "624148654388-pep2rsbqfuscb5mibsh16l3fv1hhlp7e.apps.googleusercontent.com",
