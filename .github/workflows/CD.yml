@@ -85,7 +85,7 @@ jobs:
             cd ..
             cd ..
             sudo rm -rf TheBIT/
-            git clone git@github.iu.edu:pdeshmuk/TheBIT.git
+            git clone git@github.com:prathyand/TheBIT.git
             cd TheBIT/src 
             echo "Fetching latest docker images"
             sudo docker compose -f docker-compose_aws.yml pull

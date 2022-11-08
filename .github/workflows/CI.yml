@@ -27,8 +27,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/gallium"
-          cache: "npm"
-          cache-dependency-path: '**/package-lock.json'
+          # cache: "npm"
+          # cache-dependency-path: '**/package-lock.json'
       - name: Run with npm
         working-directory: ./src/auth_service
         run: |
@@ -41,8 +41,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/gallium"
-          cache: "npm"
-          cache-dependency-path: '**/package-lock.json'
+          # cache: "npm"
+          # cache-dependency-path: '**/package-lock.json'
       - name: Run with npm
         working-directory: ./src/api_gateway
         run: |
@@ -55,8 +55,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/gallium"
-          cache: "npm"
-          cache-dependency-path: '**/package-lock.json'
+          # cache: "npm"
+          # cache-dependency-path: '**/package-lock.json'
       - name: Run with npm
         working-directory: ./src/dashboard_service
         run: |
@@ -69,8 +69,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/gallium"
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          # cache: 'npm'
+          # cache-dependency-path: '**/package-lock.json'
       - name: Build Web-App module
         working-directory: ./src/frontend
         run: |
