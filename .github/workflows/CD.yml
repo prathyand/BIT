@@ -1,6 +1,6 @@
 # This is a workflow to deploy current version of the application stack to AWS EC2
 
-name: depoly
+name: deploy
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the development branch and master branch
@@ -11,7 +11,7 @@ on:
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
-    runs-on: 
+    runs-on: self-hosted
 #     strategy:
 #       matrix:
 #         contexts: [./src/auth_service,./src/frontend]
@@ -85,13 +85,10 @@ jobs:
             cd ..
             cd ..
             sudo rm -rf TheBIT/
-            git clone git@github.com:prathyand/TheBIT.git
+            git clone git@github.iu.edu:pdeshmuk/TheBIT.git
             cd TheBIT/src 
             echo "Fetching latest docker images"
             sudo docker compose -f docker-compose_aws.yml pull
             echo "Deploying the application"
             sudo docker compose -f docker-compose_aws.yml up -d
-
-
-
 
