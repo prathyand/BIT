@@ -1,9 +1,10 @@
 # BookInTime (TheBIT)
-### URL: ec2-18-217-75-44.us-east-2.compute.amazonaws.com
+[![build-test](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CI.yml/badge.svg)](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CI.yml)
+[![Deploy](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CD.yml/badge.svg)](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CD.yml)
+### [TheBIT](https://ec2-18-217-75-44.us-east-2.compute.amazonaws.com)
 ### Instructions for contributing to this repository (from the command line)
 Clone the repository by navigating to an appropriate directory and entering:
 git clone <link copied from website>
-
 https://stackoverflow.com/questions/21756614/difference-between-git-merge-origin-master-and-git-pull
 Pull changes to remote repository made by someone else with:
 git pull origin <branch-name>

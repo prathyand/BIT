@@ -5,8 +5,8 @@ name: build
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  push:
-    branches: [master]
+  # push:
+  #   branches: [master]
   pull_request:
     branches: [master]
 
@@ -15,7 +15,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-22.04
+    runs-on: self-hosted
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -27,8 +27,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/gallium"
-          cache: "npm"
-          cache-dependency-path: '**/package-lock.json'
+          # cache: "npm"
+          # cache-dependency-path: '**/package-lock.json'
       - name: Run with npm
         working-directory: ./src/auth_service
         run: |
@@ -41,8 +41,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/gallium"
-          cache: "npm"
-          cache-dependency-path: '**/package-lock.json'
+          # cache: "npm"
+          # cache-dependency-path: '**/package-lock.json'
       - name: Run with npm
         working-directory: ./src/api_gateway
         run: |
@@ -55,8 +55,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/gallium"
-          cache: "npm"
-          cache-dependency-path: '**/package-lock.json'
+          # cache: "npm"
+          # cache-dependency-path: '**/package-lock.json'
       - name: Run with npm
         working-directory: ./src/dashboard_service
         run: |
@@ -69,8 +69,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/gallium"
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          # cache: 'npm'
+          # cache-dependency-path: '**/package-lock.json'
       - name: Build Web-App module
         working-directory: ./src/frontend
         run: |
