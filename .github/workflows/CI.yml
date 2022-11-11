@@ -78,12 +78,4 @@ jobs:
           CI="" npm run build --if-present
 
 
-      - name: 'Cleanup build folder'
-      - uses: actions/checkout@v2
-        run: |
-          ls -la ./
-          rm -rf ./* || true
-          rm -rf ./.??* || true
-          ls -la ./
-
 
