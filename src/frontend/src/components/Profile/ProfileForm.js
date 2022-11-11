@@ -1,23 +1,24 @@
-// import classes from './ProfileForm.module.css';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import { useContext, useState, useEffect, useCallback } from 'react';
+import Request from '../../contexts/Request';
 import AuthContext from '../../contexts/AuthContext';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-
-const domainName = "http://" + CONSTANTS.GATEWAY1 + ":" + CONSTANTS.GATEWAY1_PORT;
+import { Navigate } from "react-router-dom";
 
 const ProfileForm = () => {
-  const context = useContext(AuthContext)
   const [fname,setFName] = useState("")
   const [lname,setLName] = useState("")
   const [email,setMail] = useState("")
   const [phoneno,setPhone] = useState("")
   const [edit,setEdit] = useState(false)
   const [changePass,setChangePass] = useState(false)
+  const request = useContext(Request)
+  const authContext = useContext(AuthContext)
+  const isLoggedIn = authContext.isLoggedIn
 
   const setData = (data) =>{
     setFName(data.first_name)
@@ -38,27 +39,18 @@ const ProfileForm = () => {
 
   const sendUpdate = (event) =>{
     event.preventDefault()
-    fetch(
-      domainName+"/updateprofile",
+    let body = JSON.stringify(
       {
-        method : "POST",
-        body : JSON.stringify(
-        {
-          "first_name": fname,
-          "last_name": lname,
-          "user_email": email,
-          "cellphone_no": phoneno
-        }),
-        headers:
-        {
-            "Content-Type" : "application/json",
-            token : context.token
-        }
-      }
-    ).then(response => {
+        "first_name": fname,
+        "last_name": lname,
+        "user_email": email,
+        "cellphone_no": phoneno
+      })
+    let updateProfile = request.postRequest(constants.UPDATE_PROFILE_EP,body);
+    updateProfile.then(response => {
       if(response.ok){
         response.json().then((data)=>{
-          setData(data)
+          setData(data.message)
         });
       }else{
         console.log(response)
@@ -67,26 +59,21 @@ const ProfileForm = () => {
   }
 
   const fetchProfile = useCallback(() => {
-    const token = context.token
-    fetch(
-    domainName+"/profile",{
-      headers:
-      {
-        token : token
-      }
+    if(isLoggedIn){
+      let getProfile = request.getRequest(constants.PROFILE_EP);
+      getProfile.then(response => {
+          if(response.ok){
+              response.json().then((data)=>{
+                  // console.log(data)
+                  setData(data)
+              })
+              // console.log(context)
+              // this.props.navigation.navigate('./', {replace:true})
+          }else{
+              console.log(response)
+          }
+      });
     }
-  ).then(response => {
-        if(response.ok){
-            response.json().then((data)=>{
-                // console.log(data)
-                setData(data)
-            })
-            // console.log(context)
-            // this.props.navigation.navigate('./', {replace:true})
-        }else{
-            console.log(response)
-        }
-    });
   },[]);// eslint-disable-line react-hooks/exhaustive-deps
   
   useEffect(()=>{
@@ -94,6 +81,9 @@ const ProfileForm = () => {
   },[fetchProfile])
 
   return (
+    <>
+    {!isLoggedIn && <Navigate to="/"/>}
+    {isLoggedIn && (
     <Card style={{ width: '94.5rem', padding: "2rem" }}>
       {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
       <Card.Body>
@@ -184,6 +174,9 @@ const ProfileForm = () => {
         </Form>
       </Card.Body>
     </Card>
+    )
+    }
+    </>
   );
 }
 

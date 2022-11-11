@@ -74,5 +74,12 @@ router.get('/theaters/movie/:movieId', (req, res,next) => {
 
 app.use("/", router);
 
+app.get("/ping", (req, res) => {
+    res.json({
+      ping: "pokemon"
+    });
+  });
 
-app.listen(CONSTANTS.APP_PORT, () => console.log(`Listening on port ${CONSTANTS.APP_PORT}`));
+const server = app.listen(CONSTANTS.APP_PORT, () => console.log(`Listening on port ${CONSTANTS.APP_PORT}`));
+
+module.exports = { app, server };
