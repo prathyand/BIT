@@ -16,18 +16,18 @@ const {
 // sample usage: 
 // get the list of all the movies for city 'Bloomington':
 // GET http://dashboard_service:3002/movies/city/Bloomington
-router.get('/city/:cityName',auth, getCitiesMovies);
+router.get('/city/:cityName', getCitiesMovies);
 
 // sample usage: 
 // get the list of all the movies for theater 'theaterId':
 // GET http://dashboard_service:3002/movies/theater/9d53b57f-9224-4de2-a65d-b062239dd72a
 // Here, theaterId is: 9d53b57f-9224-4de2-a65d-b062239dd72a
-router.get('/theater/:theaterId',auth, getTheatersMovies);
+router.get('/theater/:theaterId', getTheatersMovies);
 
 
 // sample usage: 
 // get the list of all the movies for zip 'zipcode':
 // GET http://dashboard_service:3002/movies/zip/46202
-router.get('/zip/:zipcode',auth, getZipsMovies);
+router.get('/zip/:zipcode', getZipsMovies);
 
 module.exports = router;
