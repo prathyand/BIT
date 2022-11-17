@@ -11,15 +11,15 @@ const {
 
 
 // grabs all unique theater names from Theater data table
-router.get('/', auth, getTheaters)
+router.get('/', getTheaters)
 
 // gets all theaters in a specific city
-router.get('/city/:cityname', auth, getCityTheaters)
+router.get('/city/:cityname', getCityTheaters)
 
 // grabs all theaters in a specific zip code
-router.get('/zip/:zipcode', auth, getZipTheaters)
+router.get('/zip/:zipcode', getZipTheaters)
 
 // grabs all theaters playing a movie (by movie id)
-router.get('/movie/:movieId', auth, getMoviesTheaters)
+router.get('/movie/:movieId', getMoviesTheaters)
 
 module.exports = router;
