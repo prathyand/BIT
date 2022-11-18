@@ -1,11 +1,14 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router"
+import constants from "../constants"
 
 const AuthContext = React.createContext({
   token:"",
   isLoggedIn : false,
   login:(token)=>{},
-  logout:()=>{}
+  logout:()=>{},
+  location:"",
+  updateLocation:(value)=>{}
 })
 
 export const AuthContextProvider = (props)=>{
@@ -17,16 +20,19 @@ export const AuthContextProvider = (props)=>{
   const isLoggedIn = !!token
 
   const loginHandler = (token) => {
-    setToken(token.token)
+    setToken(token)
+    window.localStorage.setItem(constants.AUTH_TOKEN_KEY,token)
   }
 
   const logoutHandler = () => {
     setToken(null)
-    navigate("/")
+    window.localStorage.removeItem(constants.AUTH_TOKEN_KEY)
+    navigate("/auth")
   }
 
   const updateLocation = (value) => {
     setLocation(value)
+    navigate("/")
   }
 
   const context = {

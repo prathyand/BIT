@@ -57,10 +57,50 @@ export const RequestProvider = (props)=>{
         return fetchRequest("GET",url,"",header)
     }
 
+    const getMovies = (url) => {
+        let header = {
+            token : authContext.token
+        }
+        let tempUrl = url + authContext.location
+        return fetchRequest("GET",tempUrl,"",header)
+    }
+
+    const getMovieTheatersndShows = (url,data) => {
+        let header = {
+            token : authContext.token
+        }
+        let tempUrl = url + data.movieId
+        return fetchRequest("GET",tempUrl,"",header)
+    }
+
+    const getCities = (url) => {
+        let header = {
+            token : authContext.token
+        }
+        return fetchRequest("GET",url,"",header)
+    }
+
+    const getTheaterMovies = (url,data) => {
+        let header = {
+            token : authContext.token
+        }
+        let tempUrl = url + data.theaterId
+        return fetchRequest("GET",tempUrl,"",header)
+    }
+
     const handleGet = (url,data) => {
         switch(url){
             case "/profile":
                 return getProfile(url)
+            case "/movies/city/":
+            case "/theaters/city/":
+                return getMovies(url)
+            case "/theaters/movie/":
+                return getMovieTheatersndShows(url,data)
+            case "/cities":
+                return getCities(url)
+            case constants.REQUEST.THEATERS_MOVIES:
+                return getTheaterMovies(url,data)
             default:
                 break;
         }
