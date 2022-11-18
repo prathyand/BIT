@@ -33,13 +33,16 @@ app.use(function (req, res, next) {
       ping: "pokemon"
     });
   });
-
-
-  const server = app.listen(CONSTANTS.APP_PORT, () => {
+  
+  let server;
+  if (process.env.NODE_ENV !== 'test') {
+    server = app.listen(CONSTANTS.APP_PORT, () => {
     console.log(`Server is running at port ${CONSTANTS.APP_PORT}`);
-    if (process.env.NODE_ENV != 'test') {
       connectDB();
-    }
   });
-
+  }else{
+    server = app.listen(0, () => {
+    console.log(`Server is running at port 0`);
+    });
+  }
   module.exports = { app, server };
