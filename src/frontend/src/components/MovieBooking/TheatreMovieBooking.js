@@ -3,35 +3,42 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Button } from 'react-bootstrap';
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import {useLocation} from 'react-router-dom';
+import AuthContext from '../../contexts/AuthContext';
+import { Navigate } from "react-router-dom";
 
 const TheatreMovieBooking = () => {
     const location = useLocation()
-    const theatreData = location.state.theatre
-    const theatreName = theatreData.tname
+    const theaterData = location.state.theater
+    const theaterName = theaterData.name
     const movieData = location.state.movie
     const movie = movieData.title
-    const poster = movieData.poster
-    const descr = movieData.description
-    const options = theatreData.shows
+    const poster = movieData.poster_path
+    const descr = movieData.overview
+    const options = []
+    for(let i=0; i< movieData.timings.length;i++){
+        options.push(movieData.timings[i].time)
+    }
     const numSeats = [1,2,3,4,5,6]
     const show = useRef(options[0])
     const seats = useRef(1)
     const [movieBooked,setMovieBooked] = useState("")
     const [showTime, setShowTime] = useState("")
-    const [theatre, setTheatre] = useState("")
+    const [theater, setTheater] = useState("")
     const [nseats,setSeats] = useState("")
     const [price, setPrice] = useState("")
     const [edit,setEdit] = useState(true)
     const [showSummary, setShowSumary] = useState(false)
+    const authContext = useContext(AuthContext)
+    const isLoggedIn = authContext.isLoggedIn
     const proceedSummary = (event) => {
         event.preventDefault()
         // console.log(show.current.value,seats.current.value)
         let tempShow = show.current.value
         let tempSeats = seats.current.value
         setMovieBooked(movie)
-        setTheatre(theatreName)
+        setTheater(theaterName)
         setShowTime(tempShow)
         setSeats(tempSeats)
         setPrice("$" + (10*tempSeats).toString())
@@ -43,6 +50,9 @@ const TheatreMovieBooking = () => {
       }
   return (
     <section>
+        {!isLoggedIn && <Navigate to="/auth"/>}
+        {isLoggedIn && 
+        <>
       <h1 style={{paddingLeft:"1%"}}>Movie Booking</h1>
       <Row>
       <Col xs={12} md={8}>
@@ -62,10 +72,10 @@ const TheatreMovieBooking = () => {
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                Theatre Chosen
+                Theater Chosen
                 </Form.Label>
                 <Col sm={10}>
-                <Form.Control type="inputtext" value={theatreName} disabled/>
+                <Form.Control type="inputtext" value={theaterName} disabled/>
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -111,10 +121,10 @@ const TheatreMovieBooking = () => {
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
                 <Form.Label>
-                Theatre Chosen
+                Theater Chosen
                 </Form.Label>
                 <Col sm={10}>
-                <Form.Control type="inputtext" value={theatre} disabled/>
+                <Form.Control type="inputtext" value={theater} disabled/>
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -153,6 +163,8 @@ const TheatreMovieBooking = () => {
       </Card>
       </Col>
     </Row>
+    </>
+    }
     </section>
   );
 };

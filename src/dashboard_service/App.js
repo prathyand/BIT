@@ -32,11 +32,13 @@ app.use(function (req, res, next) {
     });
   });
 
-  const server = app.listen(CONSTANTS.APP_PORT, () => {
-    console.log(`Server is running at port ${CONSTANTS.APP_PORT}`);
-    if (process.env.NODE_ENV != 'test') {
+  let server;
+  if (process.env.NODE_ENV != 'test') {
+    server = app.listen(CONSTANTS.APP_PORT, () => {
+      console.log(`Server is running at port ${CONSTANTS.APP_PORT}`);
       connectDB();
-    }
-  });
-
+    });
+  }else{
+    server = app.listen(0, () => console.log(`Listening on port 0`));
+  } 
   module.exports = { app, server };

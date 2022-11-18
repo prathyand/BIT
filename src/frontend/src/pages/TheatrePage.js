@@ -5,116 +5,98 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
+import { useContext, useCallback, useEffect, useState } from 'react';
+import Request from '../contexts/Request';
+import constants from '../constants';
+import AuthContext from '../contexts/AuthContext';
+import { Navigate } from "react-router-dom";
 
 const TheatrePage = (props) => {
-    const tempMovie = [{
-        poster:"Incredibles_2.jpeg",
-        title:"Incredibles 2",
-        description:"Test Description"
-    },
-    {
-        poster:"Inside_out.jpeg",
-        title:"Inside Out",
-        description:"Test Description"
-    },
-    {
-        poster:"Moana.jpeg",
-        title:"Moana",
-        description:"Test Description"
-    },
-    {
-        poster:"Raya.jpeg",
-        title:"Raya The Last Dragon",
-        description:"Test Description"
-    },
-    {
-        poster:"Soul.jpeg",
-        title:"Soul",
-        description:"Test Description"
-    }]
-    const theatres = [{
-        tname: "AMC11",
-        shows: ["9AM","12PM","3PM","6PM","9PM"],
-        movies: tempMovie
-    },
-    {
-        tname: "AMC13",
-        shows: ["9AM","12PM","3PM","6PM","9PM"],
-        movies: tempMovie
-    },
-    {
-        tname: "AMC15",
-        shows: ["9AM","12PM","3PM","6PM","9PM"],
-        movies: tempMovie
-    }]
-    const navigate = useNavigate();
-    const bookMovieHandler = (event,movie,theatre) =>{
-        navigate("/theatremovie",{state:{movie:movie,theatre:theatre}})
-    } 
+  const request = useContext(Request);
+  const authContext = useContext(AuthContext)
+  const isLoggedIn = authContext.isLoggedIn
+  const navigate = useNavigate();
+  const bookMovieHandler = (event,movie,theater) =>{
+      event.preventDefault()
+      navigate("/theatremovie",{state:{movie:movie,theater:theater}})
+  }
+  const [theaters, setTheaters] = useState([])
+  const fetchTheaters = useCallback(() => {
+    const fetchMovies = (theatersData) => {
+      for(let i=0;i<theatersData.length;i++){
+        let theaterData = theatersData[i]
+        let theterId = theaterData._id
+        let getMovies = request.getRequest(constants.REQUEST.THEATERS_MOVIES,{theaterId:theterId});
+        getMovies.then(response => {
+            if(response.ok){
+                response.json().then((data)=>{
+                    // console.log(data.moviesList)
+                    theaterData.movies = data.moviesList
+                    if(i === theatersData.length-1){
+                      setTheaters(theatersData)
+                  }
+                })
+            }else{
+                console.log(response)
+            }
+        });
+      }
+    }
+    let getTheaters = request.getRequest(constants.REQUEST.THEATERS);
+    getTheaters.then(response => {
+        if(response.ok){
+            response.json().then((data)=>{
+              // console.log(data.theaterList)
+              // setTheaters(data.theaterList)
+              fetchMovies(data.theaterList)
+            })
+        }else{
+            console.log(response)
+        }
+    });
+  },[request]);
+  useEffect(()=>{
+    fetchTheaters()
+  },[fetchTheaters])
 
   // console.log(location)
   return (
+    <>
+    {!isLoggedIn && <Navigate to="/auth"/>}
+    {isLoggedIn && 
     <Accordion>
-    {theatres.map((theatre) => (    
-    <Accordion.Item eventKey={theatre.tname}>
-      <Accordion.Header>{theatre.tname}</Accordion.Header>
-      <Accordion.Body>
-    <Row xs={1} md={4} className="g-4">
-      {theatre.movies.map((movie) => (
-      <React.Fragment key={movie.title}>
-        <Col>
-          <Card>
-            <Card.Img variant="top" src={movie.poster} />
-            <Card.Body>
-              <Card.Title>{movie.title}</Card.Title>
-              <Card.Text>
-                {movie.description}
-              </Card.Text>
-            </Card.Body>
-            <Card.Footer>
-              {/* <Button>BookM</Button> */}
-              <Button onClick={(event) => bookMovieHandler(event, movie, theatre)}>Book Movie</Button>
-              {/* <small className="text-muted">Last updated 3 mins ago</small> */}
-            </Card.Footer>
-          </Card>
-        </Col>
-      </React.Fragment>
+      {theaters.length > 1 && theaters.map((theater) => (   
+      <React.Fragment key={theater._id}>
+        <Accordion.Item eventKey={theater._id}>
+            <Accordion.Header>{theater.name}</Accordion.Header>
+            <Accordion.Body>
+                <Row xs={1} md={4} className="g-4">
+                    {theater.movies && theater.movies.map((movie) => (
+                        <React.Fragment key={movie.title}>
+                            <Col>
+                                <Card>
+                                    <Card.Img variant="top" src={movie.poster_path} width="300" height="300"/>
+                                    <Card.Body style={{minHeight:"150px", maxHeight:"150px",overflowY:"scroll"}}>
+                                        <Card.Title>{movie.title}</Card.Title>
+                                        <Card.Text>
+                                            {movie.overview}
+                                        </Card.Text>
+                                    </Card.Body>
+                                    <Card.Footer>
+                                        <Button onClick={(event) => bookMovieHandler(event, movie, theater)}>Book Movie</Button>
+                                    </Card.Footer>
+                                </Card>
+                            </Col>
+                        </React.Fragment>
+                    ))}
+                </Row>
+        </Accordion.Body>
+        </Accordion.Item>
+      </React.Fragment>   
       ))}
-      <Col>
-        <Card>
-          <Card.Img variant="top" src="test.png" />
-          <Card.Body>
-            <Card.Title>Card title</Card.Title>
-            <Card.Text>
-              This is a wider card with supporting text below as a natural lead-in
-              to additional content. This content is a little bit longer.
-            </Card.Text>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Last updated 3 mins ago</small>
-          </Card.Footer>
-        </Card>
-      </Col>
-      <Col>
-        <Card>
-          <Card.Img variant="top" src="test.png" />
-          <Card.Body>
-            <Card.Title>Card title</Card.Title>
-            <Card.Text>
-              This is a wider card with supporting text below as a natural lead-in
-              to additional content. This content is a little bit longer.
-            </Card.Text>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Last updated 3 mins ago</small>
-          </Card.Footer>
-        </Card>
-      </Col>
-    </Row>
-    </Accordion.Body>
-    </Accordion.Item>
-    ))}
-    </Accordion>
+      </Accordion>
+      }
+      </>
   );
 };
 
