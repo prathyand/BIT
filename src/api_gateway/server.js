@@ -82,6 +82,12 @@ app.get("/ping", (req, res) => {
     });
   });
 
-const server = app.listen(CONSTANTS.APP_PORT, () => console.log(`Listening on port ${CONSTANTS.APP_PORT}`));
+  let server;
+  if(process.env.NODE_ENV!=='test'){
+    server = app.listen(CONSTANTS.APP_PORT, () => console.log(`Listening on port ${CONSTANTS.APP_PORT}`));
+  }else{
+    server = app.listen(0, () => console.log(`Listening on port 0`));
+  }
+ 
 
 module.exports = { app, server };
