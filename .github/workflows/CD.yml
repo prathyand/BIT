@@ -93,7 +93,6 @@ jobs:
             cd TheBIT/src 
             echo "Fetching latest docker images"
             sudo docker compose -f docker-compose_aws.yml pull
-            sudo docker compose -f docker-compose_aws.yml build
             echo "Deploying the application"
             sudo docker compose -f docker-compose_aws.yml up -d
 

@@ -62,7 +62,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile-AWS.dockerfile
       args:
-        - REACT_APP_GATEWAY1=ec2-18-217-75-44.us-east-2.compute.amazonaws.com
+        - REACT_APP_GATEWAY1=149.165.169.69
         - REACT_APP_GATEWAY1_PORT=5001
     depends_on:
       - api_gateway
