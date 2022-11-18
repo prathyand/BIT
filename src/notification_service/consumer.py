@@ -36,7 +36,7 @@ def callback(ch, method, properties, body):
     details['seats']=body['seats']
     details['date']=body['date']
     sendmail(details)
-    time.sleep(body.count(b'.'))
+    # time.sleep(body.count(b'.'))
     print(" [x] Done")
     
 
