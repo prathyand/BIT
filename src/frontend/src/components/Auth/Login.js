@@ -19,12 +19,12 @@ const Login = (props) => {
     const isLoggedIn = authContext.isLoggedIn
 
     const onSuccess = (res) => {
-        let googleAuth = request.postRequest(constants.GOOGLE_EP,res);
+        let googleAuth = request.postRequest(constants.REQUEST.GOOGLE_EP,res);
         googleAuth.then(response => {
             if(response.ok){
                 response.json().then((data)=>{
                     setSuccess("Signin Successful")
-                    authContext.login(data)
+                    authContext.login(data.token)
                 })
             }else{
                 console.log(response)
@@ -43,12 +43,12 @@ const Login = (props) => {
             password: passwordInp.current.value
         }
         
-        let loginAuth = request.postRequest(constants.EMAIL_LOGIN_EP,data);
+        let loginAuth = request.postRequest(constants.REQUEST.EMAIL_LOGIN_EP,data);
         loginAuth.then(response => {
             if(response.ok){
                 response.json().then((data)=>{
                     setSuccess("Signin Successful")
-                    authContext.login(data)
+                    authContext.login(data.token)
                 })
             }else{
                 console.log(response)

@@ -30,12 +30,12 @@ const SignUp = (props) => {
             password: passwordInp.current.value,
             cellphone_no:""
         }
-        let signUpReq = request.postRequest(constants.SIGNUP_EP,data);
+        let signUpReq = request.postRequest(constants.REQUEST.SIGNUP_EP,data);
         signUpReq.then(response => {
                 if(response.ok){
                     response.json().then((data)=>{
                         setSuccess("Signin Successful")
-                        context.login(data)
+                        context.login(data.token)
                     })
                 }else{
                     response.json().then((err)=>{
@@ -46,7 +46,7 @@ const SignUp = (props) => {
     }
 
     const onSuccess = (res) => {
-        let googleAuth = request.postRequest(constants.GOOGLE_EP,res);
+        let googleAuth = request.postRequest(constants.REQUEST.GOOGLE_EP,res);
         googleAuth.then(response => {
             if(response.ok){
                 response.json().then((data)=>{
