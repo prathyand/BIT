@@ -28,6 +28,7 @@ services:
     depends_on:
       - mongodb
       - auth_service
+      - rabbitmq
     build: ./dashboard_service
     restart: unless-stopped
     environment:
@@ -37,12 +38,30 @@ services:
     ports:
       - 3002:3002
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'thebit_rabbitmq'
+    hostname: "thebit_rabbitmq"
+    restart: unless-stopped
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - queue:/var/lib/rabbitmq/
+      - queue:/var/log/rabbitmq
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   api_gateway:
     container_name: api_gateway
     depends_on:
       - mongodb
       - auth_service
       - dashboard_service
+      - rabbitmq
     build: ./api_gateway
     restart: unless-stopped
     environment:
@@ -72,3 +91,4 @@ services:
 
 volumes:
   thebitdb:
+  queue:
