@@ -46,7 +46,7 @@ const ProfileForm = () => {
         "user_email": email,
         "cellphone_no": phoneno
       })
-    let updateProfile = request.postRequest(constants.UPDATE_PROFILE_EP,body);
+    let updateProfile = request.postRequest(constants.REQUEST.UPDATE_PROFILE_EP,body);
     updateProfile.then(response => {
       if(response.ok){
         response.json().then((data)=>{
@@ -60,7 +60,7 @@ const ProfileForm = () => {
 
   const fetchProfile = useCallback(() => {
     if(isLoggedIn){
-      let getProfile = request.getRequest(constants.PROFILE_EP);
+      let getProfile = request.getRequest(constants.REQUEST.PROFILE_EP);
       getProfile.then(response => {
           if(response.ok){
               response.json().then((data)=>{

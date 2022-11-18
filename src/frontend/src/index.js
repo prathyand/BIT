@@ -9,7 +9,6 @@ import { RequestProvider } from './contexts/Request'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
         <RequestProvider>
@@ -17,5 +16,4 @@ root.render(
         </RequestProvider>
       </AuthContextProvider>
     </BrowserRouter>
-  </React.StrictMode>
 );
