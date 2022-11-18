@@ -84,7 +84,8 @@ jobs:
             cd $HOME
             echo "stopping containers"
             cd TheBIT/src
-            sudo docker compose -f docker-compose_aws.yml down
+            sudo docker compose -f docker-compose_aws.yml stop
+            sudo docker compose -f docker-compose_aws.yml rm --force
             cd ..
             cd ..
             sudo rm -rf TheBIT/
