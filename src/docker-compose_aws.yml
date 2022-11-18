@@ -58,12 +58,6 @@ services:
     container_name: thebit_web_app
     restart: unless-stopped
     image: prathyand/thebitbeta:frontend_latest
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile-AWS.dockerfile
-      args:
-        - REACT_APP_GATEWAY1=149.165.169.69
-        - REACT_APP_GATEWAY1_PORT=5001
     depends_on:
       - api_gateway
     ports:
