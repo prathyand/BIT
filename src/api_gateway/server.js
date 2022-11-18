@@ -2,11 +2,13 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const CONSTANTS = require("./constants");
 const httpProxy = require('express-http-proxy')
+var cors = require('cors')
 
 const authServerProxy = httpProxy('http://'+CONSTANTS.AUTH_CONTAINER_HOSTNAME + ':' + CONSTANTS.AUTH_PORT);
 const dashboardServerProxy = httpProxy('http://'+CONSTANTS.DASHBOARD_CONTAINER_HOSTNAME + ':' + CONSTANTS.DASHBOARD_PORT);
 
 const app = express();
+app.use(cors())
 app.use(express.json()) 
 const router = express.Router();
 

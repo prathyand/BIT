@@ -1,4 +1,5 @@
 const express = require("express");
+var cors = require('cors')
 const bodyParser = require("body-parser");
 const connectDB = require("./dbconnect");
 const CONSTANTS = require("./constants");
@@ -8,6 +9,7 @@ theatersrouter = require('./Routes/theaters');
 
 const app = express();
 
+app.use(cors())
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
