@@ -61,6 +61,15 @@ jobs:
           tags: prathyand/thebitbeta:dashboard_service_latest
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Build and push notification_service
+        uses: docker/build-push-action@v3
+        with:
+          context: ./src/notification_service/
+          file: ./src/notification_service/Dockerfile
+          push: true
+          tags: prathyand/thebitbeta:notification_service_latest
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Build and push frontend
         uses: docker/build-push-action@v3
         with:
