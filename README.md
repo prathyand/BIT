@@ -52,7 +52,7 @@ docker compose rm --force
 
 ## :building_construction: System Architecture
 
-![sysarch](assets/system_arch.svg?raw=true "sysarch")
+![sysarch](assets/system_arch.png?raw=true "sysarch")
 
 
 ## 💪🏽 Team 
