@@ -102,8 +102,8 @@ const bookMovie = (async (req, res) => {
                     channel.sendToQueue(queue, Buffer.from(payload));
                     console.log("sent message to %s", queue);
                 });
-                // setTimeout(function() { conn.close()}, 500);
-                conn.close();
+                setTimeout(function() { conn.close()}, 500);
+                // conn.close();
             });
 
             res.status(200).json(message);
