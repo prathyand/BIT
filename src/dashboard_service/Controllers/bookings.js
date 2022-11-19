@@ -21,6 +21,7 @@ const bookMovie = (async (req, res) => {
             try {
                 const decoded = jwt.verify(token, process.env.TOKEN_SECRET); //is this variable set?
                 const userid = decoded.userid;
+                
                 // next
             } catch (e) {
                 console.error(e)
@@ -50,7 +51,11 @@ const bookMovie = (async (req, res) => {
         try {
             // if user is logged in, use JWT for their userID and insert (same step as authenticating token)
             const booking = new Booking();
-            booking.user_id = userid
+            try{
+                booking.user_id = userid
+            } catch {
+                booking.user_id = ""
+            }
             booking.email=email;
             booking.theater_id =theater_id;
             booking.theater_name =theater_name;
@@ -87,7 +92,8 @@ const bookMovie = (async (req, res) => {
                     channel.assertQueue(queue, {
                         durable: true
                     });
-                    channel.sendToQueue(queue, Buffer.from(message));
+                    const payload = JSON.stringify(message)
+                    channel.sendToQueue(queue, Buffer.from(payload));
                     console.log("sent message to %s", queue);
                 });
             });
@@ -95,7 +101,7 @@ const bookMovie = (async (req, res) => {
             // save user to DB
         } catch (err) {
             console.log(err.message);
-            res.status(500).send("Error in Saving");
+            res.status(500).send("Error in Saving (trying to connect to rabbitmq)");
         }
     });
 
