@@ -1,7 +1,8 @@
-const express = require("express");
-const Theater = require("../Models/Theater");
-const Movie = require("../Models/Movies");
 const Booking = require("../Models/Bookings");
+const amqp = require("amqplib/callback_api");
+const { connection } = require("mongoose");
+const jwt = require("jsonwebtoken");
+const CONSTANTS = require("../constants")
 
 const getBookings = (async (req, res) => {
     try{
@@ -13,65 +14,92 @@ const getBookings = (async (req, res) => {
     }
 });
 
-// const bookMovie = async (req, res) => {
-        // const {
-            // email,
-            // password,
-            // first_name,
-            // last_name,
-            // cellphone_no
-        // } = req.body;
-        // // console.log(email);
-        // try {
-            // let user = await User.findOne({
-                // 'user_email':email
-            // });
-            // if (user) {
-                // return res.status(400).json({
-                    // msg: "User Already Exists"
-                // });
-            // }
+const bookMovie = (async (req, res) => {
+        // check for JWT token, make sure it's not expired
+        const token = req.header("token");
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, process.env.TOKEN_SECRET); //is this variable set?
+                const userid = decoded.userid;
+                // next
+            } catch (e) {
+                console.error(e)
+                res.status(500).send({message: "Invalid token"})
+            }
+        } else {
+            const userid = ""
+        }
 
-            // user = new User();
+        const {
+            email,
+            theater_id,
+            theater_name,
+            movie_id,
+            movie_name,
+            price,
+            seats
+        } = req.body; // also need date, time from frontend
+    
+        const rabbitmq_host = CONSTANTS.RABBITMQ_HOST;
+        const rabbitmq_port = CONSTANTS.RABBITMQ_PORT;
+        const queue = CONSTANTS.RABBITMQ_QUEUE;
+
+        const address = "amqp://" + rabbitmq_host + ":" + rabbitmq_port
+        // const address = "amqp://guest:guest@" + rabbitmq_host + ":" + rabbitmq_port
+
+        try {
+            // if user is logged in, use JWT for their userID and insert (same step as authenticating token)
+            const booking = new Booking();
+            booking.user_id = userid
+            booking.email=email;
+            booking.theater_id =theater_id;
+            booking.theater_name =theater_name;
+            booking.movie_id =movie_id;
+            booking.movie_name =movie_name;
+            booking.price =price;
+            booking.seats =seats;
+            const res = await booking.save();
+            const booking_id = res._id; //attempting to get booking id
+
+            // need to update number of seats left in showing
             
-            // // encrypt the password
-            // const salt = await bcrypt.genSalt(10);
-            // user.password = await bcrypt.hash(password, salt);
+            amqp.connect(address, (err, conn) => {
+                if (err){
+                    console.log(err)
+                    res.status(500).send("Error in connecting to rabbitmq agent");
+                } 
 
-            // // generate userid
-            // user.userid =  Math.floor(Math.random() * Date.now());
+                conn.createChannel((err1, channel) => {
+                    if (err1){
+                        console.log(err)
+                        res.status(500).send("Error in creating rabbitmq channel");
+                    } 
 
-            // user.user_email=email;
-            // user.first_name=first_name;
-            // user.last_name=last_name;
-            // user.cellphone_no=cellphone_no;
-            // // save user to DB
-            // await user.save();
+                    var message = {
+                        "email": email,
+                        "booking_id": booking_id,
+                        "movie_name": movie_name,
+                        "theater_name": theater_name,
+                        "seats": seats,
+                        "price": price
+                    }
 
-            // // prepare payload for JWT
-            // const payload = {
-                // userid:user.userid
-            // };
-            // // create a token and send it in response body
-            // jwt.sign(
-                // payload,
-                // process.env.TOKEN_SECRET, {
-                    // expiresIn: '3600s'
-                // },
-                // (err, token) => {
-                    // if (err) throw err;
-                    // res.status(200).json({
-                        // token
-                    // });
-                // }
-            // );
+                    channel.assertQueue(queue, {
+                        durable: true
+                    });
+                    channel.sendToQueue(queue, Buffer.from(message));
+                    console.log("sent message to %s", queue);
+                });
+            });
 
-        // } catch (err) {
-            // console.log(err.message);
-            // res.status(500).send("Error in Saving");
-        // }
-    // };
+            // save user to DB
+        } catch (err) {
+            console.log(err.message);
+            res.status(500).send("Error in Saving");
+        }
+    });
 
 module.exports = {
-    getBookings
+    getBookings,
+    bookMovie
 }

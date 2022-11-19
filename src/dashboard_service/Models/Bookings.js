@@ -18,10 +18,11 @@ const bookingschema = mongoose.Schema({
     theater_id: String,
     theater_name: String,
     movie_id: String,
-    movie_title: String,
+    movie_name: String,
     price: Number,
     seats: Number,
 });
 
 
-const Booking = mongoose.model("booking", bookingschema)
+const Booking = mongoose.model("booking", bookingschema);
+module.exports = Booking;

@@ -6,4 +6,7 @@ module.exports = {
     DB_DATABASE: process.env.DB_DATABASE || 'serv_DB',
     APP_PORT: process.env.APP_PORT || 3002,
     TOKEN_SECRET:process.env.TOKEN_SECRET,
+    RABBITMQ_HOST: process.env.RABBITMQ_HOST || 'localhost',
+    RABBITMQ_PORT: process.env.RABBITMQ_PORT || '5672',
+    RABBITMQ_QUEUE: process.env.RABBITMQ_PORT || 'email_worker_queue'
 }
