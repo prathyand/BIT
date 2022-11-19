@@ -50,6 +50,9 @@ docker compose rm --force
 - RabbitMQ
 
 
+## :building_construction: System Architecture
+
+![sysarch](assets/system_arch.svg?raw=true "sysarch")
 
 
 ## 💪🏽 Team 
