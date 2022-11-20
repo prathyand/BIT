@@ -7,6 +7,7 @@ const signupRoute =require("./Routes/signup");
 const profileRoute =require("./Routes/profile");
 const updateprofileRoute =require("./Routes/updateprofile");
 const gloginRoute =require("./Routes/google_login");
+const paymentRoute = require("./Routes/payments");
 const cors = require('cors');
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(function (req, res, next) {
   app.use("/profile", profileRoute);
   app.use("/updateprofile", updateprofileRoute);
   app.use("/auth/google", gloginRoute);
+  app.use("/payment",paymentRoute);
   
   app.get("/ping", (req, res) => {
     res.json({
