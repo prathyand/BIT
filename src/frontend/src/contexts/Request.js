@@ -25,19 +25,19 @@ export const RequestProvider = (props)=>{
         }
         return fetch(domainName_gw1+url,params)
     };
-    const fetchRequesttemp =  (method,url,reqBody,reqHeader) => {
-        let headerPart = reqHeader ? reqHeader : {
-            "Content-Type" : "application/json"
-        }
-        let params = {
-            method : method,
-            headers: headerPart
-        };
-        if(method === "POST"){
-            params["body"] = reqBody
-        }
-        return fetch("http://localhost:3001"+url,params)
-    };
+    // const fetchRequesttemp =  (method,url,reqBody,reqHeader) => {
+    //     let headerPart = reqHeader ? reqHeader : {
+    //         "Content-Type" : "application/json"
+    //     }
+    //     let params = {
+    //         method : method,
+    //         headers: headerPart
+    //     };
+    //     if(method === "POST"){
+    //         params["body"] = reqBody
+    //     }
+    //     return fetch("http://localhost:3001"+url,params)
+    // };
     const sendGoogleAuth = (url,data) => {
         let body = JSON.stringify(
         {
