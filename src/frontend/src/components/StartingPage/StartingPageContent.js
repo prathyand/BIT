@@ -13,11 +13,13 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import Request from '../../contexts/Request';
 import constants from '../../constants';
+import AuthContext from '../../contexts/AuthContext';
 
 const StartingPageContent = () => {
   const navigate = useNavigate();
   const request = useContext(Request);
   const [movies, setMovies] = useState([]);
+  const authContext = useContext(AuthContext)
   const bookMovieHandler = (event,movie) =>{
     navigate("/movie",{state:{movie:movie}})
   }
@@ -37,6 +39,14 @@ const StartingPageContent = () => {
   useEffect(()=>{
     fetchMovies()
   },[fetchMovies])
+
+  useEffect(() => {
+    let loginToken = localStorage.getItem(constants.AUTH_TOKEN_KEY);
+    if (loginToken) {
+      authContext.login(loginToken)
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <section className={classes.starting}>

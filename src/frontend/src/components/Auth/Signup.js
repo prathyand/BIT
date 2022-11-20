@@ -39,7 +39,7 @@ const SignUp = (props) => {
             data = {
                 first_name: firstNameInp.current.value,
                 last_name: lastNameInp.current.value,
-                email: "",
+                email: emailUserInp.current.value,
                 password: passwordInp.current.value,
                 cellphone_no:phnoUserInp.current.value,
                 isEmail:false
@@ -108,12 +108,10 @@ const SignUp = (props) => {
                         <label htmlFor='lname'>Last Name</label>
                         <input type='text' id='lname' required ref={lastNameInp}/>
                     </div>
-                    { !isMobileLogin && 
-                        <div className={classes.control}>
-                        <label htmlFor='email'>Your Email</label>
-                        <input type='email' id='email' required  ref={emailUserInp}/>
-                        </div>
-                    }   
+                    <div className={classes.control}>
+                    <label htmlFor='email'>Your Email</label>
+                    <input type='email' id='email' required  ref={emailUserInp}/>
+                    </div>  
                     { isMobileLogin && 
                         <div className={classes.control}>
                         <label htmlFor='mobile'>Your Mobile Number</label>

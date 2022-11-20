@@ -139,104 +139,92 @@ const MainNavigation = () => {
       <div style={{display:"flex"}}>
         <Link to='/' id="webTitle">
           <div className={classes.logo}>BookInTime</div>
-        </Link>
-        {ctxt.isLoggedIn && 
-          <Form.Select 
-            aria-label="Choose Location" 
-            style={{width:"11rem", marginLeft:"5px"}}
-            onChange={updateLocation}
-            value={selectedCity}
-            placeholder="Select Location" size="sm">
-              {cities.map((option) => (
-                  <option key={option} value={option}>{option}</option>
-              ))}
-          </Form.Select>
-        }
+        </Link> 
+        <Form.Select 
+          aria-label="Choose Location" 
+          style={{width:"11rem", marginLeft:"5px"}}
+          onChange={updateLocation}
+          value={selectedCity}
+          placeholder="Select Location" size="sm">
+            {cities.map((option) => (
+                <option key={option} value={option}>{option}</option>
+            ))}
+        </Form.Select>
       </div>
       <div style={{display:"flex", alignItems:"center"}}>
-        {ctxt.isLoggedIn && 
-          <div className={classes.searchContainer}>
-            <div className={classes.searchInner}>
-              <input type="text" ref={search}
-                    onKeyDown={handleSearchEnter}
-                    value={value}
-                    onChange={onChange} 
-                    placeholder="Search"/>
-              <select 
-                aria-label="Search By" 
-                placeholder="Select Search Criteria" 
-                ref={searchCriteria}
-                onChange={criteriaChange}>
-                <option value="movie">Movie</option>
-                <option value="zip">ZipCode</option>
-                <option value="theater">Theater</option>
-              </select>
-              <button onClick={handleSearch}>
-                <BsSearch/>
-              </button>
-            </div>
-            <div className={classes.dropdown}>
-              {suggestions === "movie" && movies
-                .filter((item) => {
-                  const searchTerm = value.toLowerCase();
-                  const movieName = item.title.toLowerCase();
-
-                  return (
-                    searchTerm &&
-                    searchTerm !== movieName && 
-                    movieName.startsWith(searchTerm)
-                  );
-                })
-                .slice(0, 10)
-                .map((item) => (
-                  <div
-                    onClick={() => onSearch(item.title)}
-                    className={classes.dropdownRow}
-                    key={item.title}
-                  >
-                    {item.title}
-                  </div>
-                ))}
-              {suggestions === "theater" && theaters
-                .filter((item) => {
-                  const searchTerm = value.toLowerCase();
-                  const theterName = item.name.toLowerCase();
-
-                  return (
-                    searchTerm &&
-                    searchTerm !== theterName && 
-                    theterName.startsWith(searchTerm)
-                  );
-                })
-                .slice(0, 10)
-                .map((item) => (
-                  <div
-                    onClick={() => onSearch(item.name)}
-                    className={classes.dropdownRow}
-                    key={item.name}
-                  >
-                    {item.name}
-                  </div>
-                ))}
-            </div>
+        <div className={classes.searchContainer}>
+          <div className={classes.searchInner}>
+            <input type="text" ref={search}
+                  onKeyDown={handleSearchEnter}
+                  value={value}
+                  onChange={onChange} 
+                  placeholder="Search"/>
+            <select 
+              aria-label="Search By" 
+              placeholder="Select Search Criteria" 
+              ref={searchCriteria}
+              onChange={criteriaChange}>
+              <option value="movie">Movie</option>
+              <option value="zip">ZipCode</option>
+              <option value="theater">Theater</option>
+            </select>
+            <button onClick={handleSearch}>
+              <BsSearch/>
+            </button>
           </div>
-        }
+          <div className={classes.dropdown}>
+            {suggestions === "movie" && movies
+              .filter((item) => {
+                const searchTerm = value.toLowerCase();
+                const movieName = item.title.toLowerCase();
+
+                return (
+                  searchTerm &&
+                  searchTerm !== movieName && 
+                  movieName.startsWith(searchTerm)
+                );
+              })
+              .slice(0, 10)
+              .map((item) => (
+                <div
+                  onClick={() => onSearch(item.title)}
+                  className={classes.dropdownRow}
+                  key={item.title}
+                >
+                  {item.title}
+                </div>
+              ))}
+            {suggestions === "theater" && theaters
+              .filter((item) => {
+                const searchTerm = value.toLowerCase();
+                const theterName = item.name.toLowerCase();
+
+                return (
+                  searchTerm &&
+                  searchTerm !== theterName && 
+                  theterName.startsWith(searchTerm)
+                );
+              })
+              .slice(0, 10)
+              .map((item) => (
+                <div
+                  onClick={() => onSearch(item.name)}
+                  className={classes.dropdownRow}
+                  key={item.name}
+                >
+                  {item.name}
+                </div>
+              ))}
+          </div>
+        </div>
         <nav>
           <ul>
-            {ctxt.isLoggedIn && 
-              (
-                <li>
-                  <Link to='/'>Movie</Link>
-                </li>
-              )
-            }
-            {ctxt.isLoggedIn && 
-              (
-                <li>
-                  <Link to='/theatrepage'>Theatre</Link>
-                </li>
-              )
-            }
+            <li>
+              <Link to='/'>Movie</Link>
+            </li>
+            <li>
+              <Link to='/theatrepage'>Theatre</Link>
+            </li>
             {!ctxt.isLoggedIn && 
               (
                 <li>

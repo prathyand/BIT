@@ -7,8 +7,6 @@ import { Button } from 'react-bootstrap';
 import { useContext, useCallback, useEffect, useState,useRef } from 'react';
 import Request from '../../contexts/Request';
 import constants from '../../constants';
-import AuthContext from '../../contexts/AuthContext';
-import { Navigate } from "react-router-dom";
 import classes from './MovieBooking.module.css';
 
 
@@ -32,8 +30,6 @@ const MovieBooking = (props) => {
     const [price, setPrice] = useState("")
     const [edit,setEdit] = useState(true)
     const [showSummary, setShowSumary] = useState(false)
-    const authContext = useContext(AuthContext)
-    const isLoggedIn = authContext.isLoggedIn
     const columnsSeats = [1,2,3,4,5,6,7,8,9,"",10,11,12,13,14,15,16,17,18]
     const rowSeats = ["A","B","C","D","E","F","G","H","I","J"]
     const [seatNums,setSeatProps] = useState({})
@@ -195,15 +191,12 @@ const MovieBooking = (props) => {
     }
   return (
     <section>
-    {!isLoggedIn && <Navigate to="/auth"/>}
-    {isLoggedIn && 
-        <>
       <h1 style={{paddingLeft:"1%"}}>Movie Booking</h1>
       <Row>
       <Col xs={12} md={8}>
       <div>
       <Card style={{background:"transparent"}}>
-        <Card.Img variant="top" src={poster}/>
+        <Card.Img variant="top" src={poster} width="998px" height="400px"/>
         <Card.Body>
           <Card.Title>{movie}</Card.Title>
           <Card.Text>{descr}</Card.Text>
@@ -335,8 +328,6 @@ const MovieBooking = (props) => {
       </Card>
       </Col>
     </Row>
-    </>
-    }
     </section>
   );
 };
