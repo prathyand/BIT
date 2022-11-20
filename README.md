@@ -55,6 +55,11 @@ docker compose rm --force
 ![sysarch](assets/system_arch.png?raw=true "sysarch")
 
 
+## :arrows_clockwise: CI-CD Workflow
+
+![sysworkflow](assets/workflow.svg?raw=true "sysworkflow")
+
+
 ## 💪🏽 Team 
 
 - **Prathmesh Deshmukh**: Second year Master's student studying at Indiana University Bloomington, majoring in Computer Science.
