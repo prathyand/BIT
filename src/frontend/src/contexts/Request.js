@@ -103,7 +103,7 @@ export const RequestProvider = (props)=>{
 
     const sendPaymentReq = (url,data) => {
         let body = JSON.stringify(data)
-        return fetchRequesttemp("POST",url,body)
+        return fetchRequest("POST",url,body)
     }
 
     const handleGet = (url,data) => {
