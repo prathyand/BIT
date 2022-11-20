@@ -25,6 +25,19 @@ export const RequestProvider = (props)=>{
         }
         return fetch(domainName_gw1+url,params)
     };
+    // const fetchRequesttemp =  (method,url,reqBody,reqHeader) => {
+    //     let headerPart = reqHeader ? reqHeader : {
+    //         "Content-Type" : "application/json"
+    //     }
+    //     let params = {
+    //         method : method,
+    //         headers: headerPart
+    //     };
+    //     if(method === "POST"){
+    //         params["body"] = reqBody
+    //     }
+    //     return fetch("http://localhost:3001"+url,params)
+    // };
     const sendGoogleAuth = (url,data) => {
         let body = JSON.stringify(
         {
@@ -88,6 +101,11 @@ export const RequestProvider = (props)=>{
         return fetchRequest("GET",tempUrl,"",header)
     }
 
+    const sendPaymentReq = (url,data) => {
+        let body = JSON.stringify(data)
+        return fetchRequest("POST",url,body)
+    }
+
     const handleGet = (url,data) => {
         switch(url){
             case "/profile":
@@ -115,6 +133,8 @@ export const RequestProvider = (props)=>{
                 return sendAuthCreds(url,data)
             case "/updateprofile":
                 return sendUpdateProfile(url,data)
+            case "/payment":
+                return sendPaymentReq(url,data)
             default:
                 break;
         }

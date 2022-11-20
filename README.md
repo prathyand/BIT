@@ -52,7 +52,12 @@ docker compose rm --force
 
 ## :building_construction: System Architecture
 
-![sysarch](assets/system_arch.svg?raw=true "sysarch")
+![sysarch](assets/system_arch.png?raw=true "sysarch")
+
+
+## :arrows_clockwise: CI-CD Workflow
+
+![sysworkflow](assets/workflow.svg?raw=true "sysworkflow")
 
 
 ## 💪🏽 Team 

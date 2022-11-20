@@ -12,8 +12,10 @@ const Login = (props) => {
     const clientId = constants.CLIENT_ID
     const emailUserInp = useRef()
     const passwordInp = useRef()
+    const phnoUserInp = useRef()
     const [error, setError] = useState("")
     const [success, setSuccess] = useState("")
+    const [isMobileLogin, setMobileLogin] = useState(false)
     const authContext = useContext(AuthContext)
     const request = useContext(Request)
     const isLoggedIn = authContext.isLoggedIn
@@ -38,9 +40,19 @@ const Login = (props) => {
 
     const formSubmitted = (event) => {
         event.preventDefault()
-        let data = {
-            email: emailUserInp.current.value,
-            password: passwordInp.current.value
+        let data = {}
+        if(!isMobileLogin){
+            data = {
+                email: emailUserInp.current.value,
+                password: passwordInp.current.value,
+                isEmail: true
+            }
+        }else{
+            data = {
+                cellphone_no: phnoUserInp.current.value,
+                password: passwordInp.current.value,
+                isEmail: false
+            }
         }
         
         let loginAuth = request.postRequest(constants.REQUEST.EMAIL_LOGIN_EP,data);
@@ -63,6 +75,15 @@ const Login = (props) => {
         props.handleToUpdate(false);
     }
 
+    const mobileLoginHandler = (event) =>{
+        event.preventDefault()
+        if(!isMobileLogin){
+            setMobileLogin(true)
+        }else{
+            setMobileLogin(false)
+        }
+    }
+
     return (  
             <>
             {isLoggedIn && <Navigate to="/"/>}
@@ -80,16 +101,39 @@ const Login = (props) => {
                         </h2> 
                     }
                     <form onSubmit={formSubmitted.bind(this)}>
-                        <div className={classes.control}>
-                        <label htmlFor='email'>Your Email</label>
-                        <input type='email' id='email' required  ref={emailUserInp}/>
-                        </div>
+                        { !isMobileLogin && 
+                            <div className={classes.control}>
+                            <label htmlFor='email'>Your Email</label>
+                            <input type='email' id='email' required  ref={emailUserInp}/>
+                            </div>
+                        }   
+                        { isMobileLogin && 
+                            <div className={classes.control}>
+                            <label htmlFor='mobile'>Your Mobile Number</label>
+                            <input type='number' id='phno' required  ref={phnoUserInp}/>
+                            </div>
+                        }
                         <div className={classes.control}>
                         <label htmlFor='password'>Your Password</label>
                         <input type='password' id='password' required ref={passwordInp}/>
                         </div>
                         <div className={classes.actions}>
                         <button>Login</button>
+                        <button type='button'
+                            className={classes.toggle}
+                            onClick={mobileLoginHandler}
+                            >
+                                {!isMobileLogin && 
+                                <>
+                                    Login With Mobile Number
+                                </>
+                                }
+                                {isMobileLogin &&
+                                    <>
+                                    Login With Email
+                                    </>
+                                }   
+                        </button>
                         <button type='button'
                             className={classes.toggle}
                             onClick={switchAuthModeHandler}
