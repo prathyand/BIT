@@ -6,6 +6,7 @@ const CONSTANTS = require("./constants");
 citiesrouter = require('./Routes/cities');
 moviesrouter = require('./Routes/movies');
 theatersrouter = require('./Routes/theaters');
+bookingsrouter = require('./Routes/bookings');
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use(function (req, res, next) {
   app.use("/cities",citiesrouter);
   app.use("/movies",moviesrouter);
   app.use("/theaters",theatersrouter);
+  app.use("/bookings",bookingsrouter);
+
 
   app.get("/ping", (req, res) => {
     res.json({
