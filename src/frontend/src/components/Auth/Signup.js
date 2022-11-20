@@ -15,20 +15,35 @@ const SignUp = (props) => {
     const lastNameInp = useRef()
     const emailUserInp = useRef()
     const passwordInp = useRef()
+    const phnoUserInp = useRef()
     const [error, setError] = useState("")
     const [success, setSuccess] = useState("")
     const context = useContext(AuthContext)
     const request = useContext(Request)
+    const [isMobileLogin, setMobileLogin] = useState(false)
 
 
     const formSubmitted = (event) => {
         event.preventDefault()
-        let data = {
-            first_name: firstNameInp.current.value,
-            last_name: lastNameInp.current.value,
-            email: emailUserInp.current.value,
-            password: passwordInp.current.value,
-            cellphone_no:""
+        let data = {}
+        if(!isMobileLogin){
+            data = {
+                first_name: firstNameInp.current.value,
+                last_name: lastNameInp.current.value,
+                email: emailUserInp.current.value,
+                password: passwordInp.current.value,
+                cellphone_no:"",
+                isEmail:true
+            }
+        }else{
+            data = {
+                first_name: firstNameInp.current.value,
+                last_name: lastNameInp.current.value,
+                email: emailUserInp.current.value,
+                password: passwordInp.current.value,
+                cellphone_no:phnoUserInp.current.value,
+                isEmail:false
+            }
         }
         let signUpReq = request.postRequest(constants.REQUEST.SIGNUP_EP,data);
         signUpReq.then(response => {
@@ -66,6 +81,15 @@ const SignUp = (props) => {
     const switchAuthModeHandler = () =>{
         props.handleToUpdate(true);
     }
+
+    const mobileLoginHandler = (event) =>{
+        event.preventDefault()
+        if(!isMobileLogin){
+            setMobileLogin(true)
+        }else{
+            setMobileLogin(false)
+        }
+    }
         
     return (
         <>
@@ -85,15 +109,36 @@ const SignUp = (props) => {
                         <input type='text' id='lname' required ref={lastNameInp}/>
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='email'>Your Email</label>
-                        <input type='email' id='email' required ref={emailUserInp}/>
-                    </div>
+                    <label htmlFor='email'>Your Email</label>
+                    <input type='email' id='email' required  ref={emailUserInp}/>
+                    </div>  
+                    { isMobileLogin && 
+                        <div className={classes.control}>
+                        <label htmlFor='mobile'>Your Mobile Number</label>
+                        <input type='number' id='phno' required  ref={phnoUserInp}/>
+                        </div>
+                    }
                     <div className={classes.control}>
                         <label htmlFor='password'>Your Password</label>
                         <input type='password' id='password' required ref={passwordInp}/>
                     </div>
                     <div className={classes.actions}>
                         <button>Create Account</button>
+                        <button type='button'
+                            className={classes.toggle}
+                            onClick={mobileLoginHandler}
+                            >
+                                {!isMobileLogin && 
+                                <>
+                                    Signup With Mobile Number
+                                </>
+                                }
+                                {isMobileLogin &&
+                                    <>
+                                    Signup With Email
+                                    </>
+                                }   
+                        </button>
                         <button type='button'
                             className={classes.toggle}
                             onClick={switchAuthModeHandler}

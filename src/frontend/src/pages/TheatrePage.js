@@ -8,13 +8,9 @@ import Accordion from 'react-bootstrap/Accordion';
 import { useContext, useCallback, useEffect, useState } from 'react';
 import Request from '../contexts/Request';
 import constants from '../constants';
-import AuthContext from '../contexts/AuthContext';
-import { Navigate } from "react-router-dom";
 
 const TheatrePage = (props) => {
   const request = useContext(Request);
-  const authContext = useContext(AuthContext)
-  const isLoggedIn = authContext.isLoggedIn
   const navigate = useNavigate();
   const bookMovieHandler = (event,movie,theater) =>{
       event.preventDefault()
@@ -62,8 +58,6 @@ const TheatrePage = (props) => {
   // console.log(location)
   return (
     <>
-    {!isLoggedIn && <Navigate to="/auth"/>}
-    {isLoggedIn && 
     <Accordion>
       {theaters.length > 1 && theaters.map((theater) => (   
       <React.Fragment key={theater._id}>
@@ -95,7 +89,6 @@ const TheatrePage = (props) => {
       </React.Fragment>   
       ))}
       </Accordion>
-      }
       </>
   );
 };

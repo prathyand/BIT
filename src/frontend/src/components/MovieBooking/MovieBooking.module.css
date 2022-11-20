@@ -1,0 +1,45 @@
+.table tbody tr td:not(:first-child) {
+    border: 2px solid blue;
+    width: 3em;
+    height:3em;
+}
+
+.table tbody tr td {
+    text-align: center;
+}
+
+.booked {
+    background: darkgray;
+    pointer-events: none;
+}
+
+.selected {
+    background: green;
+}
+
+.table tbody tr td:hover {
+    cursor: pointer;
+}
+  
+.table tbody tr td:first-child {
+    font-weight:bold;
+}
+
+.table tr td:nth-child(11) {
+    border:none!important;
+}
+
+.table {
+    border-spacing: 3em;
+    text-align: center;
+}
+
+.screen {
+    text-align: center;
+    font-weight: 800;
+    font-size: xx-large;
+}
+
+.theater {
+    border-style: none;
+}

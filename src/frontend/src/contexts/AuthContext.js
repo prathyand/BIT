@@ -27,7 +27,7 @@ export const AuthContextProvider = (props)=>{
   const logoutHandler = () => {
     setToken(null)
     window.localStorage.removeItem(constants.AUTH_TOKEN_KEY)
-    navigate("/auth")
+    navigate("/")
   }
 
   const updateLocation = (value) => {
