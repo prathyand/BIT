@@ -10,11 +10,25 @@ dotenv.config();
 
 const login = async (req, res) => {
   
-      const { email, password } = req.body;
+      // const { email, password } = req.body;
+      const {isEmail,password} = req.body;
       try {
-        let user = await User.findOne({
-          'user_email':email
-        });
+        let user;
+        if(isEmail){
+          const {email}  = req.body;
+          user = await User.findOne({
+            'user_email':email
+          });
+        }else{
+          const {cellphone_no}  = req.body;
+          // console.log(cellphone_no)
+          if(!(!cellphone_no || cellphone_no.length === 0 || !cellphone_no.trim())){ //make sure that cellphone_no is not empty
+            user = await User.findOne({
+              'cellphone_no':cellphone_no
+            });
+          }
+        }
+        
         if (!user)
           return res.status(400).json({
             message: "User Not Exist"
