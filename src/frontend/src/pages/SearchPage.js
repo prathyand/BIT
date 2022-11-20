@@ -74,7 +74,7 @@ const SearchPage = () => {
         if(criteria === "movie"){
             navigate("/movie",{state:{movie:movie}})
         }else if(criteria === "theater"){
-            navigate(navigate("/theatremovie",{state:{movie:movie,theatre:theater,}}))
+            navigate("/theatremovie",{state:{movie:movie,theater:theater,}})
         }
     }
     // console.log(filteredData)
