@@ -14,7 +14,8 @@ let requestEndPoints = {
     THEATERS: "/theaters/city/",
     MOVIE_TS:"/theaters/movie/",
     CITIES: "/cities",
-    THEATERS_MOVIES:"/movies/theater/"
+    THEATERS_MOVIES:"/movies/theater/",
+    PAYMENT:"/payment"
 }
 
 module.exports = {
