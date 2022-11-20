@@ -25,6 +25,10 @@ router.post('/login', (req, res,next) => {
     authServerProxy(req,res,next);  
 });
 
+router.post('/payment', (req, res,next) => {
+    authServerProxy(req,res,next);  
+});
+
 router.post('/signup', (req, res,next) => {
     authServerProxy(req,res,next);  
 });
