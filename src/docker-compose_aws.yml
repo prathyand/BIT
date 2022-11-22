@@ -39,7 +39,7 @@ services:
       - 3002:3002
 
   notification_service:
-    image: notification_service_latest
+    image: prathyand/thebitbeta:notification_service_latest
     container_name: notification_service
     depends_on:
       - dashboard_service
