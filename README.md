@@ -11,11 +11,13 @@ Repository Structure
     │   └── workflows/
     │       ├── CI.yml
     │       └── CD.yml
+    ├── assets/
     ├── src/
-    │   ├── auth_service
-    │   ├── frontend
-    │   ├── api_gateway
-    │   ├── dashboard_service
+    │   ├── auth_service/
+    │   ├── dashboard_service/
+    │   ├── notification_service/
+    │   ├── api_gateway/
+    │   ├── frontend/
     │   ├── docker-compose.yml
     │   └── docker-compose_aws.yml
     ├── .gitignore
