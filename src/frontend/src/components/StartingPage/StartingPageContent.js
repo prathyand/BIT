@@ -42,14 +42,16 @@ const StartingPageContent = () => {
 
   useEffect(() => {
     const loginToken = localStorage.getItem(constants.AUTH_TOKEN_KEY);
-    let getProfile = request.getRequest("/test",{token:loginToken});
+    if(loginToken){
+      let getProfile = request.getRequest("/test",{token:loginToken});
       getProfile.then(response => {
           if(response.ok){
               authContext.login(loginToken)
           }else{
               localStorage.removeItem(constants.AUTH_TOKEN_KEY)
           }
-    });
+      });
+    }
     // eslint-disable-next-line
   }, []);
 
