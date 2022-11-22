@@ -70,6 +70,13 @@ export const RequestProvider = (props)=>{
         return fetchRequest("GET",url,"",header)
     }
 
+    const testToken = (url,data) => {
+        let header = {
+            token : data.token
+        }
+        return fetchRequest("GET","/profile","",header)
+    }
+
     const getMovies = (url) => {
         let header = {
             token : authContext.token
@@ -119,6 +126,8 @@ export const RequestProvider = (props)=>{
                 return getCities(url)
             case constants.REQUEST.THEATERS_MOVIES:
                 return getTheaterMovies(url,data)
+            case "/test":
+                return testToken(url,data)
             default:
                 break;
         }
