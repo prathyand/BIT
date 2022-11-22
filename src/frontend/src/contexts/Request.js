@@ -108,6 +108,14 @@ export const RequestProvider = (props)=>{
         return fetchRequest("GET",tempUrl,"",header)
     }
 
+    const getResultsByZipcode = (url,data) => {
+        let header = {
+            token : authContext.token
+        }
+        let tempUrl = url + data.zipcode
+        return fetchRequest("GET",tempUrl,"",header)
+    }
+
     const sendPaymentReq = (url,data) => {
         let body = JSON.stringify(data)
         return fetchRequest("POST",url,body)
@@ -128,6 +136,9 @@ export const RequestProvider = (props)=>{
                 return getTheaterMovies(url,data)
             case "/test":
                 return testToken(url,data)
+            case constants.REQUEST.MOVIEZIP:
+            case constants.REQUEST.THEATERZIP:
+                return getResultsByZipcode(url,data)
             default:
                 break;
         }
