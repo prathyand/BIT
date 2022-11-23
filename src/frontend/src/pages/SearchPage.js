@@ -17,10 +17,13 @@ const SearchPage = () => {
     const searchVal = location.state.searchVal
     const theaters = location.state.theaters
     const criteria = location.state.searchCriteria
+    const searchNum = location.state.searchNum
+    const tab = ["/","/theatrepage"].includes(location.state.tab) ? location.state.tab : "/"
     const [theaterMovies, setTheaterMovies] = useState([])
+    const [moviesList,setMoviesList] = useState([])
     // let theaterMovies;
     const navigate = useNavigate();
-    let filteredData;
+    let filteredData = 0;
     if(criteria === "movie"){
         filteredData = movie.filter((item) => {
             const searchTerm = searchVal.toLowerCase();
@@ -39,7 +42,7 @@ const SearchPage = () => {
                 searchTerm &&
                 theterName.startsWith(searchTerm)
             );
-            })
+        })
     }
 
     const fetchMoviesforTheaters = () => {
@@ -47,6 +50,7 @@ const SearchPage = () => {
             let theater = filteredData[i]
             let theterId = theater._id
             let getMovies = request.getRequest(constants.REQUEST.THEATERS_MOVIES,{theaterId:theterId});
+            // eslint-disable-next-line
             getMovies.then(response => {
                 if(response.ok){
                     response.json().then((data)=>{
@@ -65,10 +69,41 @@ const SearchPage = () => {
         }
     }
 
+    const fetchResultsForZipCode = () => {
+        if(tab === "/"){
+            let getMovies = request.getRequest(constants.REQUEST.MOVIEZIP,{zipcode:searchVal});
+            getMovies.then(response => {
+                if(response.ok){
+                    response.json().then((data)=>{
+                        filteredData = data.movieidList
+                        setMoviesList(filteredData)
+                    });
+                }else{
+                    console.log(response)
+                }
+            });
+        }else if(tab === "/theatrepage"){
+            let getMovies = request.getRequest(constants.REQUEST.THEATERZIP,{zipcode:searchVal});
+            getMovies.then(response => {
+                if(response.ok){
+                    response.json().then((data)=>{
+                        filteredData = data.theaterList;
+                        fetchMoviesforTheaters()
+                        // console.log("Zipcode data Theater",data.theaterList)
+                    });
+                }else{
+                    console.log(response)
+                }
+            });
+        }
+    }
+
     useEffect(()=>{
+        criteria === "movie" && setMoviesList(filteredData)
+        criteria === "zip" && fetchResultsForZipCode()
         criteria === "theater" && fetchMoviesforTheaters()
         // eslint-disable-next-line
-    },[])
+    },[searchNum])
 
     const bookMovieHandler = (event,movie, theater) =>{
         if(criteria === "movie"){
@@ -78,13 +113,14 @@ const SearchPage = () => {
         }
     }
     // console.log(filteredData)
-    const count = filteredData.length; 
+    const count = (criteria === "movie" || (criteria === "zip" && tab === "/"))  ? moviesList.length : 
+                    (criteria === "theater" || (criteria === "zip" && tab === "/theatrepage")) ? theaterMovies.length : filteredData.length;
     return (
     <>
         <h1>Found {count} results</h1>
-        { criteria === "movie" && 
+        { (criteria === "movie" || criteria === "zip") && 
             <Row xs={1} md={4} className="g-4">
-            {filteredData.map((movie) => (
+            {moviesList && moviesList.map((movie) => (
             <React.Fragment key={movie.title}>
                 <Col>
                 <Card>
@@ -104,8 +140,8 @@ const SearchPage = () => {
             ))}
             </Row>
         }
-        { criteria === "theater" && 
-            <Accordion>
+        { (criteria === "theater" || criteria === "zip") && 
+            <Accordion style={{paddingTop:"15px"}}>
             {theaterMovies.map((theater) => (
             <React.Fragment key={theater._id}>   
             <Accordion.Item eventKey={theater._id}>
