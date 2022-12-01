@@ -33,13 +33,13 @@ services:
     restart: unless-stopped
     environment:
       - DB_HOSTS=thebit_mongo:27017
-      - DB_DATABASE_AUTH=serv_DB
+      - DB_DATABASE=serv_DB
       - APP_PORT=3002
     ports:
       - 3002:3002
 
   notification_service:
-    image: notification_service_latest
+    image: prathyand/thebitbeta:notification_service_latest
     container_name: notification_service
     depends_on:
       - dashboard_service

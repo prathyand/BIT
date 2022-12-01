@@ -14,6 +14,32 @@ const getBookings = (async (req, res) => {
     }
 });
 
+
+const getCustomerInfo = (async (req,res)=>{
+        try{
+            // grab all movies for zip 'zipcode'
+            email = req.body.email
+            userID = req.body.userID
+
+            if(email != ""){
+                const bookingslist = await Booking.find({'email':email})
+            }
+            else if(userID != ""){
+                const bookingslist = await Booking.find({'user_id':userID})
+            }
+            else {
+                console.log("Both email and userID fields were empty when attempting to query booking info by email or userID");
+                return res.status(400).send('Need to include email or userID in get request json body');
+            }
+            
+            return res.status(200).json({bookingsList:bookingsList});
+
+        }catch(err){
+            console.log(err);
+            return res.status(400).send('Couldnt find bookings by userID/email');
+        }
+});
+
 const bookMovie = (async (req, res) => {
         // check for JWT token, make sure it's not expired
         const token = req.header("token");
@@ -116,5 +142,6 @@ const bookMovie = (async (req, res) => {
 
 module.exports = {
     getBookings,
+    getCustomerInfo,
     bookMovie
 }

@@ -9,11 +9,13 @@ import { BsSearch } from 'react-icons/bs';
 import { useContext, useCallback, useEffect, useState,useRef } from 'react';
 import Request from '../../contexts/Request';
 import constants from '../../constants';
+import {useLocation} from 'react-router-dom';
 
 const MainNavigation = () => {
   const ctxt = useContext(AuthContext)
   const navigate = useNavigate()
   const search = useRef()
+  const location = useLocation()
   const searchCriteria = useRef()
   const [cities,setCities] = useState([])
   const [movies, setMovies] = useState([])
@@ -53,18 +55,27 @@ const MainNavigation = () => {
           state = {
             movie: movies,
             searchVal: value,
-            searchCriteria: criteria
+            searchCriteria: criteria,
+            searchNum: Math.random()*10
           }
           break;
         case "theater":
           state = {
             theaters: theaters,
             searchVal: value,
-            searchCriteria: criteria
+            searchCriteria: criteria,
+            searchNum: Math.random()*10
+          }
+          break;
+        case "zip":
+          state={
+            searchVal: value,
+            searchCriteria: criteria,
+            tab: location.pathname,
+            searchNum: Math.random()*10
           }
           break;
         default:
-
       }
       navigate("/search",{state:state})
       setValue("")
