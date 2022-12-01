@@ -2,8 +2,14 @@ const CONSTANTS = require("./constants");
 const mongoose = require("mongoose");
 
 function connectAuthDB() {
+  let MONGOURI;
+  if(CONSTANTS.environment=='kubernetes'){
+    MONGOURI = 'mongodb://' + CONSTANTS.DB_HOSTS + '/' + CONSTANTS.DB_DATABASE_AUTH+ '?replicaSet=' + CONSTANTS.DB_REPLICASET+ '&' + CONSTANTS.PREFS;
+  }else{
+    MONGOURI = 'mongodb://' + CONSTANTS.DB_HOSTS + '/' + CONSTANTS.DB_DATABASE_AUTH
+  }
   mongoose
-    .connect('mongodb://' + CONSTANTS.DB_HOSTS + '/' + CONSTANTS.DB_DATABASE_AUTH, { useNewUrlParser: true })
+    .connect(MONGOURI, { useNewUrlParser: true })
     .catch((err) => {
       console.log("error in connecting to database : ", err);
       process.exit(1);

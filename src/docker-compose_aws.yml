@@ -33,7 +33,7 @@ services:
     restart: unless-stopped
     environment:
       - DB_HOSTS=thebit_mongo:27017
-      - DB_DATABASE_AUTH=serv_DB
+      - DB_DATABASE=serv_DB
       - APP_PORT=3002
     ports:
       - 3002:3002

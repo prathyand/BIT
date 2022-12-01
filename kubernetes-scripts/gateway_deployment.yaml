@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+  labels:
+    app: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: prathyand/thebitbeta:api_gateway_latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5001
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: AUTH_CONTAINER_HOSTNAME
+          value: "auth-service"
+        - name: AUTH_PORT
+          value: "8080"
+        - name: DASHBOARD_CONTAINER_HOSTNAME
+          value: "dashboard-service"
+        - name: DASHBOARD_PORT
+          value: "8080"
+        - name: APP_PORT
+          value: "5001"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway-service
+spec:
+  selector:
+    app: api-gateway
+  type: NodePort  
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 5001
+      nodePort: 30000
