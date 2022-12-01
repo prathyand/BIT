@@ -33,7 +33,7 @@ spec:
         - name: DB_REPLICASET
           value: "MainRepSet"
         - name: PREFS
-          value: "directConnection=true&readPreference=primaryPreferred"
+          value: "readPreference=primaryPreferred"
         - name: DB_DATABASE
           value: "serv_DB"
         - name: environment
