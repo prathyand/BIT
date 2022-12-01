@@ -12,6 +12,7 @@ Repository Structure
     │       ├── CI.yml
     │       └── CD.yml
     ├── assets/
+    ├── kubernetes-scripts/
     ├── src/
     │   ├── auth_service/
     │   ├── dashboard_service/
@@ -47,6 +48,7 @@ docker compose rm --force
 - ExpressJS
 - RESTful Webservices
 - Docker
+- Kubernetes
 - Python
 - MongoDB
 - RabbitMQ
