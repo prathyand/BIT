@@ -8,5 +8,8 @@ module.exports = {
     TOKEN_SECRET:process.env.TOKEN_SECRET,
     RABBITMQ_HOST: process.env.RABBITMQ_HOST || 'localhost',
     RABBITMQ_PORT: process.env.RABBITMQ_PORT || '5672',
-    RABBITMQ_QUEUE: process.env.RABBITMQ_QUEUE || 'email_worker_queue'
+    RABBITMQ_QUEUE: process.env.RABBITMQ_QUEUE || 'email_worker_queue',
+    environment: process.env.environment || 'docker',
+    DB_REPLICASET: process.env.DB_REPLICASET,
+    PREFS: process.env.PREFS
 }
