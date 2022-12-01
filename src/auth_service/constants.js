@@ -6,4 +6,7 @@ module.exports = {
     DB_DATABASE_AUTH: process.env.DB_DATABASE || 'authDB',
     APP_PORT: process.env.APP_PORT || 3001,
     frontend_google_clientID: process.env.GCLIENT_ID || " ",
+    environment: process.env.environment || 'docker',
+    DB_REPLICASET: process.env.DB_REPLICASET,
+    PREFS: process.env.PREFS
 }
