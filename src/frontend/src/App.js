@@ -10,7 +10,10 @@ import constants from './constants';
 import MoviePage from './pages/MoviePage';
 import TheatreMoviePage from './pages/TheatrePage';
 import TheatreMovieBooking from './components/MovieBooking/TheatreMovieBooking';
-import SearchPage from './pages/SearchPage'
+import SearchPage from './pages/SearchPage';
+import AdminPage from './pages/AdminPage';
+import Success from './pages/SuccessPage';
+import Failure from './pages/FailurePage';
 
 function App(props) {
   const clientId = constants.CLIENT_ID
@@ -24,8 +27,8 @@ function App(props) {
      gapi.load('client:auth2', initClient);
  });
   return (
-    <Layout>
-      <Routes>
+    <Routes>
+        <Route element={<Layout />}>
           <Route path='/' element={<HomePage />}exact></Route>
           <Route path='/auth' element={<AuthPage />}></Route>
           <Route path='/profile' element={<ProfilePage />}></Route>
@@ -33,8 +36,11 @@ function App(props) {
           <Route path='/theatrepage' element={<TheatreMoviePage />}></Route>
           <Route path='/theatremovie' element={<TheatreMovieBooking />}></Route>
           <Route path='/search' element={<SearchPage />}></Route>
-      </Routes>
-    </Layout>
+          <Route path='/bookingsuccess' element={<Success />}></Route>
+          <Route path='/bookingfail' element={<Failure />}></Route>
+        </Route>
+        <Route path='/admin' element={<AdminPage />}></Route>
+    </Routes>
   );
 }
 

@@ -8,6 +8,7 @@ import { useContext, useCallback, useEffect, useState,useRef } from 'react';
 import Request from '../../contexts/Request';
 import constants from '../../constants';
 import classes from './MovieBooking.module.css';
+import AuthContext from '../../contexts/AuthContext';
 
 
 const MovieBooking = (props) => {
@@ -16,14 +17,21 @@ const MovieBooking = (props) => {
     const descr = props.params.overview
     const movieId = props.params._id
     const request = useContext(Request);
+    const authContext = useContext(AuthContext);
     const [theatres, setTheatres] = useState([]);
     const [shows, setShows] = useState([])
     const numSeats = [1,2,3,4,5,6]
     const theatre = useRef()
     const show = useRef()
+    const userMail = useRef()
+    const userFname = useRef()
+    const userLname = useRef()
+    const movieDate = useRef()
     const seats = useRef(1)
     const [movieBooked,setMovieBooked] = useState("")
     const [showTime, setShowTime] = useState("")
+    const [validated, setValidated] = useState(false);
+    const [showDate, setDate] = useState("");
     const [selectedTheatre, setSelectedTheatre] = useState("")
     const [nseats,setSeats] = useState("")
     const [seatNumbersChosen,setSeatsChosen] = useState("")
@@ -33,10 +41,12 @@ const MovieBooking = (props) => {
     const columnsSeats = [1,2,3,4,5,6,7,8,9,"",10,11,12,13,14,15,16,17,18]
     const rowSeats = ["A","B","C","D","E","F","G","H","I","J"]
     const [seatNums,setSeatProps] = useState({})
+    const isLoggedin = authContext.isLoggedIn
     // eslint-disable-next-line
     const [seatElements,setSeatElements] = useState({})
     let selectedSeat = []
     let selectedSeatElement = {}
+    let bookingDetails = {}
     const proceedSummary = (event) => {
         event.preventDefault()
         let tempSeats = seats.current.value
@@ -49,6 +59,20 @@ const MovieBooking = (props) => {
         setSeatElements(selectedSeatElement)
         setShowSumary(true)
         setEdit(false)
+        setDate(movieDate.current.value)
+        bookingDetails = {
+            email:"test@test.com",
+            theater_id:theatre.current.selectedOptions[0].getAttribute("id"),
+            theater_name:theatre.current.value,
+            movie_id:movieId,
+            movie_name:movie,
+            price:"$" + (10*tempSeats).toString(),
+            seats:tempSeats,
+            booking_time:show.current.value,
+            booking_date:movieDate.current.value,
+            seatIDs:selectedSeat
+        }
+        authContext.setBookingDetails(bookingDetails)
     }
     const editBooking = (event) => {
         setEdit(event.target.checked)
@@ -129,10 +153,30 @@ const MovieBooking = (props) => {
         fetchMovieTheatres()
     },[fetchMovieTheatres])
 
+    const handleSubmit = (event) => {
+        const form = document.getElementById("userDets");
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }else{
+            event.preventDefault()
+        }
+        setValidated(true);
+    };
+
     const makePayment = (event) => {
+        const form = document.getElementById("userDets");
+        document.getElementById("userDetsSubmit") && document.getElementById("userDetsSubmit").click();
+        if (!isLoggedin && form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            return
+        }
         event.preventDefault()
+        let transactionId = Date.now()
         let data = {
-            seats:nseats
+            seats:nseats,
+            transId: transactionId
         }
         let payment = request.postRequest(constants.REQUEST.PAYMENT,data)
         payment.then(response => {
@@ -140,7 +184,16 @@ const MovieBooking = (props) => {
                 console.log(response)
                 response.json().then((data)=>{
                     console.log(data)
-                    window.open(data.redirect, "Payment Page", "width=800,height=800");
+                    // window.open(data.redirect, "Payment Page", "width=800,height=800");
+                    bookingDetails = authContext.getBookingDetails();
+                    bookingDetails["transactionId"] = transactionId;
+                    if(!authContext.isLoggedIn){
+                        bookingDetails["email"] = userMail.current.value
+                        bookingDetails["fname"] = userFname.current.value
+                        bookingDetails["lname"] = userLname.current.value
+                    }
+                    authContext.setBookingDetails(bookingDetails)
+                    window.open(data.redirect, "_self");
                 })
             }else{
                 console.log(response)
@@ -207,9 +260,17 @@ const MovieBooking = (props) => {
                 <Col sm={10}>
                     <Form.Select size="lg" ref={theatre} disabled={!edit} onChange={getShows}>
                         {theatres.map((option) => (
-                            <option>{option.theater}</option>
+                            <option id={option.id}>{option.theater}</option>
                         ))}
                     </Form.Select>
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                Select the date
+                </Form.Label>
+                <Col sm={10}>
+                <input type="date" ref={movieDate}></input>
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -269,8 +330,43 @@ const MovieBooking = (props) => {
       <Col xs={6} md={4}>
       <Card style={{background:"transparent"}}>
         <Card.Body>
+            {!isLoggedin && 
+            <>
+            <Card.Title>User Details</Card.Title>
+            <Form noValidate validated={validated} onSubmit={handleSubmit} id="userDets">
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label required>Email</Form.Label>
+                    <Col sm={10}>
+                    <Form.Control type="inputtext" ref={userMail} required disabled={!showSummary}/>
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a email.
+                    </Form.Control.Feedback>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label>First Name</Form.Label>
+                    <Col sm={10}>
+                    <Form.Control type="inputtext" ref={userFname} required disabled={!showSummary}/>
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a first name.
+                    </Form.Control.Feedback>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label>Last Name</Form.Label>
+                    <Col sm={10}>
+                    <Form.Control type="inputtext" ref={userLname} required disabled={!showSummary}/>
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a last name.
+                    </Form.Control.Feedback>
+                    </Col>
+                </Form.Group>
+                <Button type="submit" id="userDetsSubmit" style={{visibility:"hidden"}}></Button>
+            </Form>
+            </>
+            }
           <Card.Title>Booking Summary</Card.Title>
-          <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3">
                 <Form.Label>Movie Chosen</Form.Label>
                 <Col sm={10}>
                 <Form.Control type="inputtext" value={movieBooked} disabled/>
@@ -282,6 +378,14 @@ const MovieBooking = (props) => {
                 </Form.Label>
                 <Col sm={10}>
                 <Form.Control type="inputtext" value={selectedTheatre} disabled/>
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label>
+                Show Date
+                </Form.Label>
+                <Col sm={10}>
+                <Form.Control type="inputtext" value={showDate} disabled/>
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -323,7 +427,7 @@ const MovieBooking = (props) => {
           </Form.Group>
         </Card.Body>
         <Card.Footer style={{textAlign:"center"}}>
-            <Button disabled={!showSummary} onClick={makePayment}>Proceed to Payment</Button>
+            <Button disabled={!showSummary} type="submit" onClick={makePayment}>Proceed to Payment</Button>
         </Card.Footer>
       </Card>
       </Col>

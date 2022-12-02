@@ -8,33 +8,43 @@ import {useLocation} from 'react-router-dom';
 import Request from '../../contexts/Request';
 import constants from '../../constants';
 import classes from './MovieBooking.module.css';
+import AuthContext from '../../contexts/AuthContext';
 
 const TheatreMovieBooking = () => {
     const location = useLocation()
     const theaterData = location.state.theater
     const theaterName = theaterData.name
+    const theaterId = theaterData._id
     const movieData = location.state.movie
     const movie = movieData.title
+    const movieId = movieData._id
     const poster = movieData.poster_path
     const descr = movieData.overview
     const options = []
+    const authContext = useContext(AuthContext);
     for(let i=0; i< movieData.timings.length;i++){
         options.push(movieData.timings[i].time)
     }
     const numSeats = [1,2,3,4,5,6]
     const show = useRef(options[0])
     const seats = useRef(1)
+    const userMail = useRef()
+    const userFname = useRef()
+    const userLname = useRef()
     const [movieBooked,setMovieBooked] = useState("")
     const [showTime, setShowTime] = useState("")
     const [theater, setTheater] = useState("")
     const [nseats,setSeats] = useState("")
     const [price, setPrice] = useState("")
     const [edit,setEdit] = useState(true)
+    const [validated, setValidated] = useState(false);
     const [showSummary, setShowSumary] = useState(false)
     const [seatNumbersChosen,setSeatsChosen] = useState("")
     const request = useContext(Request);
+    const isLoggedin = authContext.isLoggedIn
     let selectedSeat = []
     let selectedSeatElement = {}
+    let bookingDetails = {}
     const columnsSeats = [1,2,3,4,5,6,7,8,9,"",10,11,12,13,14,15,16,17,18]
     const rowSeats = ["A","B","C","D","E","F","G","H","I","J"]
     const [seatNums,setSeatProps] = useState({})
@@ -51,23 +61,61 @@ const TheatreMovieBooking = () => {
         setShowSumary(true)
         setSeatsChosen(selectedSeat)
         setEdit(false)
+        bookingDetails = {
+            email:"test@test.com",
+            theater_id:theaterId,
+            theater_name:theaterName,
+            movie_id:movieId,
+            movie_name:movie,
+            price:"$" + (10*tempSeats).toString(),
+            seats:tempSeats
+        }
+        authContext.setBookingDetails(bookingDetails)
     }
     const editBooking = (event) => {
         setEdit(event.target.checked)
     }
 
+    const handleSubmit = (event) => {
+        const form = document.getElementById("userDets");
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }else{
+            event.preventDefault()
+        }
+        setValidated(true);
+    };
+
     const makePayment = (event) => {
+        const form = document.getElementById("userDets");
+        document.getElementById("userDetsSubmit").click();
+        if (!isLoggedin && form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            return
+        }
         event.preventDefault()
         let data = {
             seats:nseats
         }
+        let transactionId = Date.now()
         let payment = request.postRequest(constants.REQUEST.PAYMENT,data)
         payment.then(response => {
             if(response.ok){
                 console.log(response)
                 response.json().then((data)=>{
                     console.log(data)
-                    window.open(data.redirect, "Payment Page", "width=800,height=800");
+                    // window.open(data.redirect, "Payment Page", "width=800,height=800");
+                    bookingDetails = authContext.getBookingDetails();
+                    bookingDetails["transactionId"] = transactionId;
+                    if(!authContext.isLoggedIn){
+                        bookingDetails["email"] = userMail.current.value
+                        bookingDetails["fname"] = userFname.current.value
+                        bookingDetails["lname"] = userLname.current.value
+                    }
+                    authContext.setBookingDetails(bookingDetails)
+                    window.open(data.redirect, "_self");
                 })
             }else{
                 console.log(response)
@@ -228,6 +276,32 @@ const TheatreMovieBooking = () => {
       <Col xs={6} md={4}>
       <Card>
         <Card.Body>
+            {!isLoggedin && 
+            <>
+            <Card.Title>User Details</Card.Title>
+            <Form noValidate validated={validated} onSubmit={handleSubmit} id="userDets">
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label required>Email</Form.Label>
+                    <Col sm={10}>
+                    <Form.Control type="inputtext" ref={userMail} required disabled={!showSummary}/>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label>First Name</Form.Label>
+                    <Col sm={10}>
+                    <Form.Control type="inputtext" ref={userFname} required disabled={!showSummary}/>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label>Last Name</Form.Label>
+                    <Col sm={10}>
+                    <Form.Control type="inputtext" ref={userLname} required disabled={!showSummary}/>
+                    </Col>
+                </Form.Group>
+                <Button type="submit" id="userDetsSubmit" style={{visibility:"hidden"}}></Button>
+            </Form>
+            </>
+            }
           <Card.Title>Booking Summary</Card.Title>
           <Form.Group as={Row} className="mb-3">
                 <Form.Label>Movie Chosen</Form.Label>

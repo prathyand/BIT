@@ -8,7 +8,9 @@ const AuthContext = React.createContext({
   login:(token)=>{},
   logout:()=>{},
   location:"",
-  updateLocation:(value)=>{}
+  updateLocation:(value)=>{},
+  setBookingDetails : (value)=>{},
+  getBookingDetails : (value)=>{}
 })
 
 export const AuthContextProvider = (props)=>{
@@ -35,13 +37,22 @@ export const AuthContextProvider = (props)=>{
     navigate("/")
   }
 
+  const setBooking = (value) => {
+    localStorage.setItem("transaction",JSON.stringify(value));
+  }
+  const getBooking = (value) => {
+    return JSON.parse(localStorage.getItem("transaction"));
+  }
+
   const context = {
     token : token,
     isLoggedIn : isLoggedIn,
     location: location,
     login : loginHandler,
     logout : logoutHandler,
-    updateLocation : updateLocation
+    updateLocation : updateLocation,
+    setBookingDetails : setBooking,
+    getBookingDetails : getBooking
   }
   // console.log(props)
   return (<AuthContext.Provider value={context}>{props.children}</AuthContext.Provider>)
