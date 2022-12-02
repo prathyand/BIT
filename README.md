@@ -8,7 +8,8 @@
 
 ### :computer: [Production URL](http://149.165.169.69/)
 
-Repository Structure
+
+**Repository Structure**
 ```
 .
 └── root/
@@ -51,7 +52,6 @@ docker compose rm --force
 - ReactJS
 - NodeJS
 - ExpressJS
-- RESTful Webservices
 - Docker
 - Kubernetes
 - Python
