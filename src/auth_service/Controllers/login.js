@@ -42,13 +42,14 @@ const login = async (req, res) => {
           });
   
         const payload = {
-            userid:user.userid
+            userid:user.userid,
+            usertype:user.usertype
         };
   
         jwt.sign(
             payload,
             process.env.TOKEN_SECRET, {
-                expiresIn: '3600s'
+                expiresIn: '72000s'
             },
             (err, token) => {
                 if (err) throw err;
