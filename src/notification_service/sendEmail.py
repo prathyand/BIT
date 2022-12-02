@@ -5,33 +5,47 @@ from QRGenerator import generate_QR_code
 SSLPORT = 465 
 PWD = 'lgugznawuemiyomm'
 BODY="""\
-Hello!
+Hello {},
 
 YOUR BOOKING DETAILS:
 Booking id: {}
 Movie: {}
-Theatre name: {}
-No of seats: {}
-Date: {}
+Theater name: {}
+seats {}
+Reservation date: {}
+Reservation time: {}
 
-QR code is attched to this email!
+The QR code is attched to this email!
 
 Thank you,
 TeamTheBIT
 """
 
 def sendmail(details):
-    # details={'email':'prathyand@gmail.com', 'booking_id': '1234567','moviename':'James Bond','theatre':'abc cinema','seats':5,'date':'10/12/2022'}
+    # details={
+    #     "email": "prathyand@gmail.com",
+    #     "fname": "prath",
+    #     "lname": "mesh",
+    #     "booking_id": "6389e03431514845fcbc433f",
+    #     "moviename": "Dodgeball",
+    #     "theater": "amc12",
+    #     "seats": 2,
+    #     "price": "$20",
+    #     "reservation_date": "2022-12-10",
+    #     "reservation_time": "9:00",
+    #     "seatIDs": "A23,B56"
+    # }
     try:
         context = ssl.create_default_context()
 
         newMessage = EmailMessage()                         
-        newMessage['Subject'] = "Your booking details" 
+        newMessage['Subject'] = "Booking Confirmation-Team TheBIT" 
         newMessage['From'] = "thebitteam4@gmail.com"  
         newMessage['To'] = details['email']  
 
 
-        newMessage.set_content(BODY.format(details['booking_id'],details['moviename'],details['theatre'],details['seats'],details['date'])) 
+        newMessage.set_content(BODY.format(details['fname'],details['booking_id'],details['moviename'],details['theater'],
+            details['seatIDs'],details['reservation_date'],details['reservation_time'])) 
 
         membuf=generate_QR_code(details['booking_id'])
 

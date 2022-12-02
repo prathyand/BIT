@@ -30,16 +30,22 @@ def callback(ch, method, properties, body):
     body=json.loads(body); 
     details={}
     details['email'] = body['email']
+    details['fname'] = body['fname']
+    details['lname'] = body['lname']
     details['booking_id'] = body['booking_id']
     details['moviename']= body['moviename']
-    details['theatre']=body['theatre']
+    details['theater']=body['theater']
     details['seats']=body['seats']
-    details['date']=body['date']
+    details['price']=body['price']
+    details['reservation_date']=body['reservation_date']
+    details['reservation_time']=body['reservation_time']
+    details['seatIDs']=body['seatIDs']
+
+    # print(details)
     sendmail(details)
     # time.sleep(body.count(b'.'))
     print(" [x] Done")
     
-
 
 channel.basic_qos(prefetch_count=1)
 channel.basic_consume(queue=constants['QUEUE_NAME'], on_message_callback=callback)
@@ -48,5 +54,6 @@ try:
     channel.start_consuming()
 except Exception as e:
     print(e)
-    channel.start_consuming()
+    # channel.stop_consuming()
+
 
