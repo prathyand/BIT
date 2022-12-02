@@ -1,4 +1,3 @@
-const express = require("express");
 const Theater = require("../Models/Theater");
 const Movie = require("../Models/Movies");
 

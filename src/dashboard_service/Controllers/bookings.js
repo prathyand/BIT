@@ -1,5 +1,4 @@
 const Booking = require("../Models/Bookings");
-const amqp = require("amqplib/callback_api");
 const { connection } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const CONSTANTS = require("../constants");
