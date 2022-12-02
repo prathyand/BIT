@@ -15,12 +15,22 @@ const bookingschema = mongoose.Schema({
         type: String,
         required: false
     },
+    fname: String,
+    lname: String,
     theater_id: String,
     theater_name: String,
     movie_id: String,
     movie_name: String,
     price: Number,
     seats: Number,
+    transactionId: String,
+    reservation_date: String,
+    reservation_time: String,
+    booking_year: String,
+    booking_month: String,
+    booking_day: String,
+    seatIDs: String,
+    paymentSuccess: Boolean
 });
 
 
