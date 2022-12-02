@@ -32,6 +32,7 @@ const SignUp = (props) => {
                 last_name: lastNameInp.current.value,
                 email: emailUserInp.current.value,
                 password: passwordInp.current.value,
+                usertype:"customer",
                 cellphone_no:"",
                 isEmail:true
             }
@@ -42,6 +43,7 @@ const SignUp = (props) => {
                 email: emailUserInp.current.value,
                 password: passwordInp.current.value,
                 cellphone_no:phnoUserInp.current.value,
+                usertype:"customer",
                 isEmail:false
             }
         }
