@@ -78,6 +78,18 @@ router.get('/theaters/movie/:movieId', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
+router.get('/theaters/movie/:movieId', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.post('/bookings', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
+router.get('/gettheaterinfo', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
 app.use("/", router);
 
 app.get("/ping", (req, res) => {
