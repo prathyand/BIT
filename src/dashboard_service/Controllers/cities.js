@@ -1,5 +1,4 @@
 const Theater = require("../Models/Theater");
-const { json } = require("express");
 
 // grabs all unique cities from Theater data table
 const getCities = (async (req,res)=>{
