@@ -3,8 +3,9 @@ const FailurePage = () => {
     bookingDetails = JSON.parse(bookingDetails)
     console.log(bookingDetails)
     bookingDetails["paymentSuccess"] = false 
+    bookingDetails = JSON.stringify(bookingDetails)
     return <div>
-        Booking Failed 
+        Booking Failed {bookingDetails}
         </div>;
   };
   

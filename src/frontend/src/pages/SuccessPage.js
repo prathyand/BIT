@@ -1,11 +1,15 @@
 const SuccessPage = () => {
 let bookingDetails = localStorage.getItem("transaction")
 bookingDetails = JSON.parse(bookingDetails)
+console.log(bookingDetails)
 bookingDetails["paymentSuccess"] = true 
+bookingDetails = JSON.stringify(bookingDetails)
 
-  return <div>
+  return (
+    <div>
       Booking Successful {bookingDetails}
-  </div>;
+    </div>
+  );
 };
 
 export default SuccessPage;
