@@ -7,6 +7,7 @@ citiesrouter = require('./Routes/cities');
 moviesrouter = require('./Routes/movies');
 theatersrouter = require('./Routes/theaters');
 bookingsrouter = require('./Routes/bookings');
+theateradminrouter = require('./Routes/theateradmin');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(function (req, res, next) {
   app.use("/movies",moviesrouter);
   app.use("/theaters",theatersrouter);
   app.use("/bookings",bookingsrouter);
+  app.use("/gettheaterinfo",theateradminrouter);
 
 
   app.get("/ping", (req, res) => {
