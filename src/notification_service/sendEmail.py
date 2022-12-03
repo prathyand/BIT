@@ -56,6 +56,7 @@ def sendmail(details):
                 server.send_message(newMessage)
 
     except Exception as e:
+        print("following exception in sendEmail.py")
         print(e)
 
 # sendmail(None)
