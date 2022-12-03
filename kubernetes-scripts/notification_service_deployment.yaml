@@ -32,5 +32,6 @@ spec:
           value: "5672"
         - name: QUEUE_NAME
           value: "email_worker_queue"
+        tty: true
         
 
