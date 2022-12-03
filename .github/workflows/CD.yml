@@ -91,17 +91,9 @@ jobs:
           port: 22
           script: |
             cd $HOME
-            echo "stopping containers"
-            cd TheBIT/src
-            sudo docker compose -f docker-compose_aws.yml stop
-            sudo docker compose -f docker-compose_aws.yml rm --force
-            cd ..
-            cd ..
             sudo rm -rf TheBIT/
             git clone git@github.iu.edu:pdeshmuk/TheBIT.git
-            cd TheBIT/src 
-            echo "Fetching latest docker images"
-            sudo docker compose -f docker-compose_aws.yml pull
-            echo "Deploying the application"
-            sudo docker compose -f docker-compose_aws.yml up -d
+            cd TheBIT/kubernetes-scripts
+            chmod +x rollout-deployments.sh
+            sudo sh rollout-deployments.sh
 
