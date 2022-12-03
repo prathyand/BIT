@@ -1,9 +1,15 @@
 # BookInTime (TheBIT)
 [![build-test](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CI.yml/badge.svg)](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CI.yml)
 [![Deploy](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CD.yml/badge.svg)](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CD.yml)
-### [TheBIT](http://149.165.169.69/)
 
-Repository Structure
+
+![sysarch](assets/logo.png?raw=true "logo")
+
+
+### :computer: [Production URL](http://149.165.169.69/)
+
+
+**Repository Structure**
 ```
 .
 └── root/
@@ -12,6 +18,7 @@ Repository Structure
     │       ├── CI.yml
     │       └── CD.yml
     ├── assets/
+    ├── kubernetes-scripts/
     ├── src/
     │   ├── auth_service/
     │   ├── dashboard_service/
@@ -45,8 +52,8 @@ docker compose rm --force
 - ReactJS
 - NodeJS
 - ExpressJS
-- RESTful Webservices
 - Docker
+- Kubernetes
 - Python
 - MongoDB
 - RabbitMQ

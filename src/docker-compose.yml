@@ -35,6 +35,9 @@ services:
       - DB_HOSTS=thebit_mongo:27017
       - DB_DATABASE=serv_DB
       - APP_PORT=3002
+      - RABBITMQ_HOST=thebit_rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=email_worker_queue
     ports:
       - 3002:3002
 

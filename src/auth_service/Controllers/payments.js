@@ -18,8 +18,8 @@ const payment = async (req, res) => {
       },
     ],
     mode: 'payment',
-    success_url: `${YOUR_DOMAIN}?success=true`,
-    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+    success_url: `${YOUR_DOMAIN}bookingsuccess`,
+    cancel_url: `${YOUR_DOMAIN}bookingfail`,
   });
   res.send({redirect:session.url});
   // res.redirect(303, session.url);

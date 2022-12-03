@@ -47,9 +47,8 @@ const getMoviesTheaters = (async (req, res) => {
         const movieId = req.params.movieId
         // maybe this should return the entire table instead of just the distinct names? Ask Shanthan maybe
         const theaterList = await Theater.find({"showings.movies.id": movieId})
-
-
         return res.status(200).json({theaterList: theaterList})
+        
     } catch (err) {
         console.log(err)
         return res.status(400).send("Server Error!");

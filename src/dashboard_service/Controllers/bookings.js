@@ -1,8 +1,8 @@
 const Booking = require("../Models/Bookings");
-const amqp = require("amqplib/callback_api");
 const { connection } = require("mongoose");
 const jwt = require("jsonwebtoken");
-const CONSTANTS = require("../constants")
+const CONSTANTS = require("../constants");
+const publish_to_queue = require("./producer");
 
 const getBookings = (async (req, res) => {
     try{
@@ -43,101 +43,90 @@ const getCustomerInfo = (async (req,res)=>{
 const bookMovie = (async (req, res) => {
         // check for JWT token, make sure it's not expired
         const token = req.header("token");
+        let userid="";
         if (token) {
             try {
                 const decoded = jwt.verify(token, process.env.TOKEN_SECRET); //is this variable set?
-                const userid = decoded.userid;
-                
-                // next
+                userid = decoded.userid;connection;
             } catch (e) {
                 console.error(e)
-                res.status(500).send({message: "Invalid token"})
+                res.status(500).send({message: "Invalid token"});
+                return;
             }
-        } else {
-            const userid = ""
-        }
+        } 
 
-        const {
+        var today = new Date();
+        var currDay = today.getDate();
+        var currMonth = today.getMonth()+1;
+        var currYear = today.getFullYear();
+
+        let {
+            fname,
+            lname,
             email,
             theater_id,
             theater_name,
             movie_id,
             movie_name,
             price,
-            seats
-        } = req.body; // also need date, time from frontend
-    
-        const rabbitmq_host = CONSTANTS.RABBITMQ_HOST;
-        const rabbitmq_port = CONSTANTS.RABBITMQ_PORT;
-        const queue = CONSTANTS.RABBITMQ_QUEUE;
+            seats,
+            transactionId,
+            booking_date,
+            booking_time,
+            seatIDs,
+            paymentSuccess
+        } = req.body; 
+        
+        const booking = new Booking();
 
-        const address = "amqp://" + rabbitmq_host + ":" + rabbitmq_port;
-        // const address = "amqp://guest:guest@" + rabbitmq_host + ":" + rabbitmq_port
+        booking.user_id = userid;
+        booking.fname = fname;
+        booking.lname = lname;
+        booking.email=email;
+        booking.theater_id =theater_id;
+        booking.theater_name =theater_name;
+        booking.movie_id =movie_id;
+        booking.movie_name =movie_name;
+        booking.price =parseFloat(price.slice(1));
+        booking.seats =seats;
+        booking.transactionId=transactionId;
+        booking.reservation_date=booking_date;
+        booking.reservation_time=booking_time;
+        booking.seatIDs=seatIDs.toString();
+        booking.booking_year=currYear;
+        booking.booking_month=currMonth;
+        booking.booking_day=currDay;
+        booking.paymentSuccess=paymentSuccess;
 
-        try {
-            // if user is logged in, use JWT for their userID and insert (same step as authenticating token)
-            const booking = new Booking();
-            try{
-                booking.user_id = userid
-            } catch {
-                booking.user_id = ""
-            }
-            booking.email=email;
-            booking.theater_id =theater_id;
-            booking.theater_name =theater_name;
-            booking.movie_id =movie_id;
-            booking.movie_name =movie_name;
-            booking.price =price;
-            booking.seats =seats;
-            const result = await booking.save();
-            const booking_id = result._id; //attempting to get booking id
-
-            // need to update number of seats left in showing
-            console.log("hello")
-            console.log(address)
-            
+        // save the record to the database regardless of the paymentSuccess status
+        const result = await booking.save();
+        const booking_id = result._id;
+        
+        // check if paymentSuccess is true
+        if(paymentSuccess) {
+            // publish the message to the notification queue
             const message = {
                 "email": email,
+                "fname": fname,
+                "lname": lname,
                 "booking_id": booking_id,
                 "moviename": movie_name,
                 "theater": theater_name,
                 "seats": seats,
-                "price": price
+                "price": price,
+                "reservation_date": booking_date,
+                "reservation_time": booking_time,
+                "seatIDs":seatIDs.toString()
             }
 
-            amqp.connect(address, (err, conn) => {
-                if (err){
-                    console.log(err)
-                    // res.status(500).send("Error in connecting to rabbitmq agent");
-                } 
-                console.log("inside connect")
+            publish_to_queue(message);
 
-                conn.createChannel((err1, channel) => {
-                    if (err1){
-                        console.log(err1)
-                        // res.status(500).send("Error in creating rabbitmq channel");
-                    } 
+            res.status(200).send({"message":"reservation created","details":message});
 
-                    console.log("inside create channel")
-
-
-                    channel.assertQueue(queue, {
-                        durable: true
-                    });
-                    const payload = JSON.stringify(message)
-                    channel.sendToQueue(queue, Buffer.from(payload));
-                    console.log("sent message to %s", queue);
-                });
-                setTimeout(function() { conn.close()}, 500);
-                // conn.close();
-            });
-
-            res.status(200).json(message);
-            // save user to DB
-        } catch (err) {
-            console.log(err.message);
-            res.status(500).send("Error in Saving (trying to connect to rabbitmq)");
+        }else{  
+            res.status(200).send({"message":"reservation not created"});
         }
+
     });
 
 module.exports = {

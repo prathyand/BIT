@@ -10,7 +10,8 @@ const signup = async (req, res) => {
             password,
             first_name,
             last_name,
-            cellphone_no
+            cellphone_no,
+            usertype
         } = req.body;
         // console.log(email);
         try {
@@ -36,18 +37,20 @@ const signup = async (req, res) => {
             user.first_name=first_name;
             user.last_name=last_name;
             user.cellphone_no=cellphone_no;
+            user.usertype = usertype;
             // save user to DB
             await user.save();
 
             // prepare payload for JWT
             const payload = {
-                userid:user.userid
+                userid:user.userid,
+                usertype:user.usertype
             };
             // create a token and send it in response body
             jwt.sign(
                 payload,
                 process.env.TOKEN_SECRET, {
-                    expiresIn: '3600s'
+                    expiresIn: '72000s'
                 },
                 (err, token) => {
                     if (err) throw err;
