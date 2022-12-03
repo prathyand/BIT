@@ -33,12 +33,4 @@ spec:
         - name: QUEUE_NAME
           value: "email_worker_queue"
         
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: notification-service
-spec:
-  selector:
-    app: notification
-  type: ClusterIP  
+
