@@ -1,0 +1,30 @@
+.starting {
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.starting h1 {
+  font-size: 5rem;
+}
+
+.main {
+  margin: auto;
+  width: 50%;
+  padding: 40px;
+}
+
+.search {
+  width: fill;
+  height: 35px;
+}
+
+.searchContainer {
+  display:flex;
+  width: 70%;
+  margin:auto;
+  padding: 10px;
+}
+
+.tableContainer {
+  margin-top: 50px;
+}

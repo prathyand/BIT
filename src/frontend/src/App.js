@@ -15,6 +15,9 @@ import AdminPage from './pages/AdminPage';
 import Success from './pages/SuccessPage';
 import Failure from './pages/FailurePage';
 
+import CustomerServiceEmployeePage from './pages/CustomerServiceEmployeePage'
+import CustomerServicePage from './pages/CustomerServicePage'
+
 function App(props) {
   const clientId = constants.CLIENT_ID
   useEffect(() => {
@@ -36,10 +39,12 @@ function App(props) {
           <Route path='/theatrepage' element={<TheatreMoviePage />}></Route>
           <Route path='/theatremovie' element={<TheatreMovieBooking />}></Route>
           <Route path='/search' element={<SearchPage />}></Route>
+          <Route path='/customerservice' element={<CustomerServicePage />}></Route>
           <Route path='/bookingsuccess' element={<Success />}></Route>
           <Route path='/bookingfail' element={<Failure />}></Route>
         </Route>
         <Route path='/admin' element={<AdminPage />}></Route>
+        <Route path='/customerserviceemployee' element={<CustomerServiceEmployeePage />}></Route>
     </Routes>
   );
 }
