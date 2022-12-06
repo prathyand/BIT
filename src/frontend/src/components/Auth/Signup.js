@@ -92,6 +92,18 @@ const SignUp = (props) => {
             setMobileLogin(false)
         }
     }
+
+    async function facebookLogin() {
+        // login with facebook then authenticate with the API to get a JWT auth token
+        const { authResponse } = await new Promise(window.FB.login);
+        if (!authResponse){
+            console.log(authResponse)
+            return;
+        }else{
+            console.log(authResponse)
+            //window.FB.api('/me/permissions', 'delete', null, () => window.FB.logout());
+        }
+    }
         
     return (
         <>
@@ -154,6 +166,10 @@ const SignUp = (props) => {
                             cookiePolicy={'single_host_origin'}
                             isSignedIn={false}
                         />
+                        <button className="btn btn-facebook" onClick={facebookLogin}>
+                            <i className="fa fa-facebook mr-1"></i>
+                            Signup with Facebook
+                        </button>
                     </div>
                 </form>
                 </section>
