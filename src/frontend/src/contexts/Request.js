@@ -23,6 +23,7 @@ export const RequestProvider = (props)=>{
         if(method === "POST"){
             params["body"] = reqBody
         }
+        console.log(params)
         return fetch(domainName_gw1+url,params)
     };
     // const fetchRequesttemp =  (method,url,reqBody,reqHeader) => {
@@ -100,6 +101,14 @@ export const RequestProvider = (props)=>{
         return fetchRequest("GET",url,"",header)
     }
 
+    const getCustomerInfo = (url, data) => {
+        let header = {
+            token : authContext.token
+        }
+        console.log(header)
+        return fetchRequest("GET",url,data,header)
+    }
+
     const getTheaterMovies = (url,data) => {
         let header = {
             token : authContext.token
@@ -139,6 +148,8 @@ export const RequestProvider = (props)=>{
             case constants.REQUEST.MOVIEZIP:
             case constants.REQUEST.THEATERZIP:
                 return getResultsByZipcode(url,data)
+            case '/bookings/customerInfo':
+                return getCustomerInfo(url, data)
             default:
                 break;
         }

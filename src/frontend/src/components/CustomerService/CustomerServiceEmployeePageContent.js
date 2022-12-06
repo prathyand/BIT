@@ -56,13 +56,17 @@ class Table extends Component {
     }
 }
 
+
 const CustomerServiceEmployeePageContent = () => {
     const [entry, setEntry] = useState("");
     const [searchCriteria, setCriteria] = useState("email");
+    const [userData, setUserData] = useState([[]])
     const request = useContext(Request);
-    const path = "bookings/getCustomerInfo"
-    const columns = ["Date", "Theater", "Movie", "Price", "Seats"]
-    const data = [["12/1/2", "AMC12", "Film Red", "20", "3"]]
+    const path = "/bookings/customerInfo"
+    // const columns = ["Date", "Theater", "Movie", "Price", "Seats"]
+    const columns = ["User_ID", "Email", "Theater_ID", "Theater", "Movie_ID", "Movie_Name", "Price", "Seats"]
+    //const columns = ["User_ID", "Email", "fname", "lname", "Theater_ID", "Theater", "Movie_ID", "Movie_Name", "Price", "Seats", "transactionID", "Date", "Time"]
+    const body = [["12/1/2", "AMC12", "Film Red", "20", "3"]]
 
 
     const handleSearch = async () => {
@@ -79,22 +83,29 @@ const CustomerServiceEmployeePageContent = () => {
             if(criteria == "email"){
                 body = {
                     email: value,
-                    userID: ""
+                    userId: ""
                 }
             } else {
                 body = {
                     email: "",
-                    userID: value
+                    userId: value
                 }
             }
 
+            console.log(body)
 
             let getBookings = request.getRequest(path, body);
+            console.log(getBookings)
             getBookings.then(response => {
                 if(response.ok){
-                    response.json().then((data) => {
+                    response.json()
+                    .then((data) => {
                         console.log(data)
+                        setUserData(data)
                         // need some function for displaying data
+                    })
+                    .catch(error => {
+                        console.log(error)
                     })
                 }
             })
@@ -102,11 +113,11 @@ const CustomerServiceEmployeePageContent = () => {
     }
 
     const changeValue = (event) => {
-        setEntry(event.current.value) // might not need current here?
+        setEntry(event.target.value) // might not need current here?
     }
 
     const changeCriteria = (choice) => {
-        setCriteria(choice.value)
+        setCriteria(choice.target.value)
     }
 
     // use table tag
@@ -133,9 +144,9 @@ const CustomerServiceEmployeePageContent = () => {
                 </button>
             </div>
             <div className={classes.tableContainer}>
-                <Table columns={columns} body={data}/>
+                <Table columns={columns} body={body}/>
             </div>
-            <div></div>
+            <div>{userData}</div>
         </Fragment>
     </section>
     );

@@ -20,12 +20,13 @@ const getCustomerInfo = (async (req,res)=>{
             // grab all movies for zip 'zipcode'
             email = req.body.email
             userID = req.body.userID
+            bookingsList = []
 
             if(email != ""){
-                const bookingslist = await Booking.find({'email':email})
+                bookingsList = await Booking.find({'email':email})
             }
             else if(userID != ""){
-                const bookingslist = await Booking.find({'user_id':userID})
+                bookingsList = await Booking.find({'user_id':userID})
             }
             else {
                 console.log("Both email and userID fields were empty when attempting to query booking info by email or userID");
