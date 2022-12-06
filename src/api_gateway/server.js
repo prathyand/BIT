@@ -82,6 +82,10 @@ router.post('/bookings', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
+router.get('/bookings', (req, res,next) => {
+    dashboardServerProxy(req,res,next);  
+});
+
 router.get('/gettheaterinfo', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
