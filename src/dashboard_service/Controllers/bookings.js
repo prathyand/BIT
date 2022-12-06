@@ -79,6 +79,12 @@ const bookMovie = (async (req, res) => {
         
         const booking = new Booking();
 
+        // get current week
+        const now = new Date();
+        const onejan = new Date(now.getFullYear(), 0, 1);
+        const weeknum = Math.ceil((((now.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
+      
+
         booking.user_id = userid;
         booking.fname = fname;
         booking.lname = lname;
@@ -96,6 +102,7 @@ const bookMovie = (async (req, res) => {
         booking.booking_year=currYear;
         booking.booking_month=currMonth;
         booking.booking_day=currDay;
+        booking.booking_week=weeknum;
         booking.paymentSuccess=paymentSuccess;
 
         // save the record to the database regardless of the paymentSuccess status

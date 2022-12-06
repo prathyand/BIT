@@ -28,6 +28,7 @@ const bookingschema = mongoose.Schema({
     reservation_time: String,
     booking_year: String,
     booking_month: String,
+    booking_week: String,
     booking_day: String,
     seatIDs: String,
     paymentSuccess: Boolean
