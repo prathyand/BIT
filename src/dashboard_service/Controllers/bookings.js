@@ -18,9 +18,9 @@ const getBookings = (async (req, res) => {
 const getCustomerInfo = (async (req,res)=>{
         try{
             // grab all movies for zip 'zipcode'
-            email = req.body.email
-            userID = req.body.userID
-            bookingsList = []
+            const email = req.body.email
+            const userID = req.body.userID
+            let bookingsList = []
 
             if(email != ""){
                 bookingsList = await Booking.find({'email':email})

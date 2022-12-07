@@ -82,7 +82,7 @@ router.post('/bookings', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.get('/bookings', (req, res,next) => {
+router.get('/bookings/getCustomerInfo', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
