@@ -41,6 +41,7 @@ def callback(ch, method, properties, body):
     details['reservation_time']=body['reservation_time']
     details['seatIDs']=body['seatIDs']
 
+    print("sending email")
     # print(details)
     sendmail(details)
     # time.sleep(body.count(b'.'))
@@ -53,6 +54,7 @@ channel.basic_consume(queue=constants['QUEUE_NAME'], on_message_callback=callbac
 try:
     channel.start_consuming()
 except Exception as e:
+    print("exception in consumer.py ")
     print(e)
     # channel.stop_consuming()
 
