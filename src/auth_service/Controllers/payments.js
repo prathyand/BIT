@@ -3,7 +3,7 @@ const CONSTANTS = require("../constants");
 
 let YOUR_DOMAIN = 'https://localhost/';
 if(CONSTANTS.environment!=="docker"){
-  YOUR_DOMAIN="https://149.165.169.69/"
+  YOUR_DOMAIN="http://149.165.169.69/"
 }
 
 const payment = async (req, res) => {
