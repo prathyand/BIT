@@ -29,7 +29,7 @@ spec:
             cpu: "500m"
         env:
         - name: DB_HOSTS
-          value: "mongod-0.mongodb-service:27017"
+          value: "mongod-0.mongodb-service,mongod-1.mongodb-service:27017"
         - name: DB_REPLICASET
           value: "MainRepSet"
         - name: PREFS
