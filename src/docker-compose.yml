@@ -20,6 +20,7 @@ services:
       - DB_HOSTS=thebit_mongo:27017
       - DB_DATABASE_AUTH=authDB
       - APP_PORT=3001
+      - environment="docker"
     ports:
       - 3001:3001
 
@@ -52,6 +53,7 @@ services:
       - RABBITMQ_HOST=thebit_rabbitmq
       - RABBITMQ_PORT=5672
       - QUEUE_NAME=email_worker_queue
+    tty: true
   
   rabbitmq:
     image: rabbitmq:3-management-alpine

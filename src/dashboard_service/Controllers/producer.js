@@ -13,27 +13,16 @@ const publish_to_queue =((message)=>{
     try {
 
         console.log("URI ",URI);
-        
-        // const message = {
-        //     "email": email,
-        //     "booking_id": booking_id,
-        //     "moviename": movie_name,
-        //     "theater": theater_name,
-        //     "seats": seats,
-        //     "price": price
-        // }
 
         amqp.connect(URI, (err, conn) => {
             if (err){
                 console.log(err)
-                // res.status(500).send("Error in connecting to rabbitmq agent");
             } 
             console.log("inside connect")
 
             conn.createChannel((err1, channel) => {
                 if (err1){
                     console.log(err1)
-                    // res.status(500).send("Error in creating rabbitmq channel");
                 } 
 
                 console.log("inside create channel")
@@ -47,14 +36,11 @@ const publish_to_queue =((message)=>{
                 console.log("sent message to %s", queue);
             });
             setTimeout(function() { conn.close()}, 500);
-            // conn.close();
         });
 
-        // res.status(200).json(message);
-        // save user to DB
+
     } catch (err) {
         console.log(err.message);
-        // res.status(500).send("Error in Saving (trying to connect to rabbitmq)");
     }
 
 });

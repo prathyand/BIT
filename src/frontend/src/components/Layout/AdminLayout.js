@@ -1,12 +1,12 @@
 import { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import MainNavigation from './MainNavigation';
+import AdminMainNavigation from './AdminMainNavigation';
 
 const Layout = (props) => {
   return (
     <Fragment>
-      <MainNavigation />
+      <AdminMainNavigation />
         <Outlet>{props.children}</Outlet>
     </Fragment>
   );

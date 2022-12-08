@@ -1,9 +1,12 @@
 const stripe = require('stripe')('sk_test_51M5rnlBv4mV1XPloqdurElfnDWwMoggATRBIAVAOxJSs04CDqDbIWBe2FQsrWjsMMqF583j2eMMIvswWE2baOxVI00Bbo4GT5Y');
+const CONSTANTS = require("../constants");
 
-const YOUR_DOMAIN = 'http://localhost:3000/';
+let YOUR_DOMAIN = 'https://localhost/';
+if(CONSTANTS.environment!=="docker"){
+  YOUR_DOMAIN="https://149.165.169.69/"
+}
 
 const payment = async (req, res) => {
-  console.log(req.body.seats)
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -14,10 +17,11 @@ const payment = async (req, res) => {
           },
           unit_amount: 1000,
         },
-        quantity: parseInt(req.body.seats),
+        quantity: parseInt(req.body.seats)
       },
     ],
     mode: 'payment',
+    allow_promotion_codes: true,
     success_url: `${YOUR_DOMAIN}bookingsuccess`,
     cancel_url: `${YOUR_DOMAIN}bookingfail`,
   });

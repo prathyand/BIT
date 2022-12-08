@@ -18,14 +18,15 @@ const getBookings = (async (req, res) => {
 const getCustomerInfo = (async (req,res)=>{
         try{
             // grab all movies for zip 'zipcode'
-            email = req.body.email
-            userID = req.body.userID
+            const email = req.body.email
+            const userID = req.body.userID
+            let bookingsList = []
 
             if(email != ""){
-                const bookingslist = await Booking.find({'email':email})
+                bookingsList = await Booking.find({'email':email})
             }
             else if(userID != ""){
-                const bookingslist = await Booking.find({'user_id':userID})
+                bookingsList = await Booking.find({'user_id':userID})
             }
             else {
                 console.log("Both email and userID fields were empty when attempting to query booking info by email or userID");
@@ -79,6 +80,12 @@ const bookMovie = (async (req, res) => {
         
         const booking = new Booking();
 
+        // get current week
+        const now = new Date();
+        const onejan = new Date(now.getFullYear(), 0, 1);
+        const weeknum = Math.ceil((((now.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
+      
+
         booking.user_id = userid;
         booking.fname = fname;
         booking.lname = lname;
@@ -96,6 +103,7 @@ const bookMovie = (async (req, res) => {
         booking.booking_year=currYear;
         booking.booking_month=currMonth;
         booking.booking_day=currDay;
+        booking.booking_week=weeknum;
         booking.paymentSuccess=paymentSuccess;
 
         // save the record to the database regardless of the paymentSuccess status
