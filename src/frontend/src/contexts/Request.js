@@ -127,7 +127,16 @@ export const RequestProvider = (props)=>{
 
     const sendPaymentReq = (url,data) => {
         let body = JSON.stringify(data)
-        return fetchRequest("POST",url,body)
+        let header = {
+            "Content-Type" : "application/json"
+        }
+        if(authContext.token && authContext.isLoggedIn){
+            header = {
+                "Content-Type" : "application/json",
+                token : authContext.token
+            }
+        }
+        return fetchRequest("POST",url,body,header)
     }
 
     const sendBookingDetails = (url,data) => {

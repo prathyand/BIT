@@ -304,7 +304,7 @@ const MovieBooking = (props) => {
         <Col xs={12} md={8}>
           <div>
             <Card style={{ background: "transparent" }}>
-              <img className={classes.movImg} src={poster} />
+              <img alt="loading" className={classes.movImg} src={poster} />
               <Card.Body>
                 <Card.Title
                   style={{ fontSize: "35px", color: "black" }}

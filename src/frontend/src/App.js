@@ -40,10 +40,7 @@ function App(props) {
         <Route path="/theatrepage" element={<TheatreMoviePage />}></Route>
         <Route path="/theatremovie" element={<TheatreMovieBooking />}></Route>
         <Route path="/search" element={<SearchPage />}></Route>
-        <Route
-          path="/customerservice"
-          element={<CustomerServicePage />}
-        ></Route>
+        <Route path="/customerservice" element={<CustomerServicePage />}></Route>
         <Route path="/bookingsuccess" element={<Success />}></Route>
         <Route path="/bookingfail" element={<Failure />}></Route>
       </Route>

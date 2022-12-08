@@ -28,6 +28,7 @@ const SuccessPage = () => {
       getProfile.then(response => {
           if(response.ok){
               response.json().then((data)=>{
+                // eslint-disable-next-line
                   bookingDetails = JSON.parse(bookingDetails)
                   bookingDetails["email"] = data.user_email
                   bookingDetails["fname"] = data.first_name
