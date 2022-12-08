@@ -1,5 +1,10 @@
 const stripe = require('stripe')('sk_test_51M5rnlBv4mV1XPloqdurElfnDWwMoggATRBIAVAOxJSs04CDqDbIWBe2FQsrWjsMMqF583j2eMMIvswWE2baOxVI00Bbo4GT5Y');
-const YOUR_DOMAIN = 'https://localhost:3000/';
+const CONSTANTS = require("../constants");
+
+let YOUR_DOMAIN = 'https://localhost/';
+if(CONSTANTS.environment!=="docker"){
+  YOUR_DOMAIN="https://149.165.169.69/"
+}
 
 const payment = async (req, res) => {
   const session = await stripe.checkout.sessions.create({
