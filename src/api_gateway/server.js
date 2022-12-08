@@ -41,6 +41,10 @@ router.post('/updateprofile', (req, res,next) => {
     authServerProxy(req,res,next);  
 });
 
+router.post('/updateprofile/resetpasswd', (req, res,next) => {
+    authServerProxy(req,res,next);  
+});
+
 router.post('/auth/google', (req, res,next) => {
     authServerProxy(req,res,next);  
 });
