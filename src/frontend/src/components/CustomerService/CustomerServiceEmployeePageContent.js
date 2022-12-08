@@ -146,7 +146,7 @@ const CustomerServiceEmployeePageContent = () => {
             <div className={classes.tableContainer}>
                 <Table columns={columns} body={body}/>
             </div>
-            <div>{userData}</div>
+            <div></div>
         </Fragment>
     </section>
     );
