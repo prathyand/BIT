@@ -45,10 +45,12 @@ const bookMovie = (async (req, res) => {
         // check for JWT token, make sure it's not expired
         const token = req.header("token");
         let userid="";
+        let usertype="customer";
         if (token) {
             try {
-                const decoded = jwt.verify(token, process.env.TOKEN_SECRET); //is this variable set?
-                userid = decoded.userid;connection;
+                const decoded = jwt.verify(token, CONSTANTS.TOKEN_SECRET); 
+                userid = decoded.userid;
+                usertype = decoded.usertype;
             } catch (e) {
                 console.error(e)
                 res.status(500).send({message: "Invalid token"});
@@ -80,7 +82,7 @@ const bookMovie = (async (req, res) => {
         
         const booking = new Booking();
 
-        // get current week
+        // get the current week
         const now = new Date();
         const onejan = new Date(now.getFullYear(), 0, 1);
         const weeknum = Math.ceil((((now.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
@@ -89,6 +91,7 @@ const bookMovie = (async (req, res) => {
         booking.user_id = userid;
         booking.fname = fname;
         booking.lname = lname;
+        booking.usertype=usertype;
         booking.email=email;
         booking.theater_id =theater_id;
         booking.theater_name =theater_name;
@@ -127,6 +130,7 @@ const bookMovie = (async (req, res) => {
                 "seatIDs":seatIDs.toString()
             }
 
+            // publish the message to the RabbitMQ queue for notification
             publish_to_queue(message);
 
             res.status(200).send({"message":"reservation created","details":message});
