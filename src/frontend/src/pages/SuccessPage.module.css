@@ -1,0 +1,33 @@
+.card {
+    margin: 3rem auto;
+    width: 95%;
+    max-width: 75rem;
+    border-radius: 6px;
+    background-color: #ebedef;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    /* text-align: center; */
+  }
+  
+  .card h1,
+  .card h2 {
+    /* text-align: center; */
+    color: white;
+  }
+  
+  .card h3 {
+    /* text-align: center; */
+    color: #2eb85c;
+  }
+
+  .label {
+    font-weight:bold;
+  }
+
+  .value {
+      padding-left: 10px;
+  }
+
+  .fail {
+    color: red !important;
+}

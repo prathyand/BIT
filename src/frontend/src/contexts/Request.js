@@ -130,6 +130,19 @@ export const RequestProvider = (props)=>{
         return fetchRequest("POST",url,body)
     }
 
+    const sendBookingDetails = (url,data) => {
+        let header = {
+            "Content-Type" : "application/json"
+        }
+        if(authContext.token && authContext.isLoggedIn){
+            header = {
+                "Content-Type" : "application/json",
+                token : authContext.token
+            }
+        }
+        return fetchRequest("POST",url,data,header)
+    }
+
     const handleGet = (url,data) => {
         switch(url){
             case "/profile":
@@ -166,6 +179,8 @@ export const RequestProvider = (props)=>{
                 return sendUpdateProfile(url,data)
             case "/payment":
                 return sendPaymentReq(url,data)
+            case constants.REQUEST.BOOKING:
+                return sendBookingDetails(url,data)
             default:
                 break;
         }

@@ -84,6 +84,18 @@ const Login = (props) => {
         }
     }
 
+    async function facebookLogin() {
+        // login with facebook then authenticate with the API to get a JWT auth token
+        const { authResponse } = await new Promise(window.FB.login);
+        if (!authResponse){
+            console.log(authResponse)
+            return;
+        }else{
+            console.log(authResponse)
+            //window.FB.api('/me/permissions', 'delete', null, () => window.FB.logout());
+        }
+    }
+
     return (  
             <>
             {isLoggedIn && <Navigate to="/"/>}
@@ -152,6 +164,10 @@ const Login = (props) => {
                             prompt="select_account"
                             isSignedIn={false}
                         />
+                        <button className="btn btn-facebook" onClick={facebookLogin}>
+                            <i className="fa fa-facebook mr-1"></i>
+                            Login with Facebook
+                        </button>
                         </div>
                     </form>
                     </section>

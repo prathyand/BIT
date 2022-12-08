@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
+import AdminLayout from './components/Layout/AdminLayout';
 // import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
@@ -12,6 +13,7 @@ import TheatreMoviePage from './pages/TheatrePage';
 import TheatreMovieBooking from './components/MovieBooking/TheatreMovieBooking';
 import SearchPage from './pages/SearchPage';
 import AdminPage from './pages/AdminPage';
+import InPersonTheaterPage from './pages/InPersonTheaterPage';
 import Success from './pages/SuccessPage';
 import Failure from './pages/FailurePage';
 
@@ -43,8 +45,11 @@ function App(props) {
           <Route path='/bookingsuccess' element={<Success />}></Route>
           <Route path='/bookingfail' element={<Failure />}></Route>
         </Route>
-        <Route path='/admin' element={<AdminPage />}></Route>
         <Route path='/customerserviceemployee' element={<CustomerServiceEmployeePage />}></Route>
+        <Route element={<AdminLayout />}>
+          <Route path='/admin' element={<AdminPage />}></Route>
+          <Route path='/adhoc' element={<InPersonTheaterPage />}></Route>
+        </Route>
     </Routes>
   );
 }

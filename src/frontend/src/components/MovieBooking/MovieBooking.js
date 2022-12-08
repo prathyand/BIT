@@ -191,6 +191,10 @@ const MovieBooking = (props) => {
                         bookingDetails["email"] = userMail.current.value
                         bookingDetails["fname"] = userFname.current.value
                         bookingDetails["lname"] = userLname.current.value
+                    }else{
+                        bookingDetails["email"] = ""
+                        bookingDetails["fname"] = ""
+                        bookingDetails["lname"] = ""
                     }
                     authContext.setBookingDetails(bookingDetails)
                     window.open(data.redirect, "_self");

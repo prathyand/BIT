@@ -88,3 +88,14 @@ input {
 .searchInner {
   display: flex;
 }
+
+.title {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding-left: 5%;
+  font-family: 'Lato', sans-serif;
+  font-size: 2rem;
+  color: white;
+  margin: 0;
+}

@@ -31,6 +31,7 @@ const TheatreMovieBooking = () => {
     const userMail = useRef()
     const userFname = useRef()
     const userLname = useRef()
+    const movieDate = useRef()
     const [movieBooked,setMovieBooked] = useState("")
     const [showTime, setShowTime] = useState("")
     const [theater, setTheater] = useState("")
@@ -68,7 +69,10 @@ const TheatreMovieBooking = () => {
             movie_id:movieId,
             movie_name:movie,
             price:"$" + (10*tempSeats).toString(),
-            seats:tempSeats
+            seats:tempSeats,
+            booking_time:show.current.value,
+            booking_date:movieDate.current.value,
+            seatIDs:selectedSeat
         }
         authContext.setBookingDetails(bookingDetails)
     }
@@ -89,7 +93,7 @@ const TheatreMovieBooking = () => {
 
     const makePayment = (event) => {
         const form = document.getElementById("userDets");
-        document.getElementById("userDetsSubmit").click();
+        document.getElementById("userDetsSubmit") && document.getElementById("userDetsSubmit").click();
         if (!isLoggedin && form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
@@ -113,6 +117,10 @@ const TheatreMovieBooking = () => {
                         bookingDetails["email"] = userMail.current.value
                         bookingDetails["fname"] = userFname.current.value
                         bookingDetails["lname"] = userLname.current.value
+                    }else{
+                        bookingDetails["email"] = ""
+                        bookingDetails["fname"] = ""
+                        bookingDetails["lname"] = ""
                     }
                     authContext.setBookingDetails(bookingDetails)
                     window.open(data.redirect, "_self");
@@ -217,6 +225,14 @@ const TheatreMovieBooking = () => {
                 </Form.Label>
                 <Col sm={10}>
                 <Form.Control type="inputtext" value={theaterName} disabled/>
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                Select the date
+                </Form.Label>
+                <Col sm={10}>
+                <input type="date" ref={movieDate}></input>
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
