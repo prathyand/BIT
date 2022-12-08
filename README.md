@@ -3,7 +3,7 @@
 [![Deploy](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CD.yml/badge.svg)](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CD.yml)
 
 
-![sysarch](assets/logo.png?raw=true "logo")
+![sysarch](assets/logo.svg?raw=true "logo")
 
 
 ### :computer: [Production URL](http://149.165.169.69/)
