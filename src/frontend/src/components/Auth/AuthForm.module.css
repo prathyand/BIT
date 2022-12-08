@@ -1,11 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+
+.bgimg {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .auth {
-  margin: 3rem auto;
+  margin: 14% auto;
+  margin-bottom: 0px;
   width: 95%;
   max-width: 25rem;
   border-radius: 6px;
-  background-color: #38015c;
+  /*background-color: #38015c;*/
+  background-image: url("popcorn1.png");
+  background-repeat: no-repeat;
+  background-size: 408px 408px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 1rem;
+  text-align: center;
+}
+
+.brand {
+  background: linear-gradient(90deg, #800000, #ff0000, #ff0000, #800000);
+  font-family: Lobster, cursive;
+  font-size: 65px;
+  position: fixed;
+  color: white;
+  margin-left: 39.4%;
+  top: 14%;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 50px;
+}
+
+.brand:hover {
+  background: linear-gradient(90deg, #1a02a2, #5440e9, #5440e9, #1a02a2);
+}
+
+::placeholder {
   text-align: center;
 }
 
@@ -33,17 +72,16 @@
 
 .control input {
   font: inherit;
-  background-color: #f1e1fc;
+  background-color: #b6d6eb;
   color: #38015c;
-  border-radius: 4px;
-  border: 1px solid white;
+  border-radius: 45px;
+  border: 5px solid black;
   width: 100%;
   text-align: left;
-  padding: 0.25rem;
+  padding: 4px;
 }
 
 .actions {
-  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,6 +95,7 @@
   border: 1px solid #9f5ccc;
   border-radius: 4px;
   padding: 0.5rem 2.5rem;
+  margin-bottom: 6px;
 }
 
 .actions button:hover {
@@ -65,21 +104,21 @@
 }
 
 .actions .toggle {
-  margin-top: 1rem;
-  background-color: transparent;
-  color: #9f5ccc;
-  border: none;
+  background-color: #f01414;
+  color: white;
+  border: 3px solid black;
   padding: 0.15rem 1.5rem;
 }
 
 .actions .toggle2 {
-  background-color: transparent;
-  color: #9f5ccc;
-  border: none;
+  background-color: #f01414;
+  color: white;
+  border: 3px solid black;
 }
 
 .actions .toggle:hover,
 .actions .toggle2:hover {
-  background-color: transparent;
-  color: #ae82cc;
+  background-color: #f7eda2;
+  color: black;
+  border: 3px solid black;
 }

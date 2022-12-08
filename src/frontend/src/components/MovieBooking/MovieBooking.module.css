@@ -1,45 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Ranchers&display=swap");
+
 .table tbody tr td:not(:first-child) {
-    border: 2px solid blue;
-    width: 3em;
-    height:3em;
+  border: 2px solid black;
+  width: 3em;
+  height: 3em;
 }
 
 .table tbody tr td {
-    text-align: center;
+  text-align: center;
 }
 
 .booked {
-    background: darkgray;
-    pointer-events: none;
+  background-color: red;
+  pointer-events: none;
+}
+
+.avail {
+  background-color: aqua;
 }
 
 .selected {
-    background: green;
+  background: rgb(34, 129, 34);
+  color: white;
 }
 
 .table tbody tr td:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
-  
+
 .table tbody tr td:first-child {
-    font-weight:bold;
+  font-weight: bold;
 }
 
 .table tr td:nth-child(11) {
-    border:none!important;
+  border: none !important;
+  background-color: transparent;
 }
 
 .table {
-    border-spacing: 3em;
-    text-align: center;
+  border-spacing: 3em;
+  text-align: center;
 }
 
 .screen {
-    text-align: center;
-    font-weight: 800;
-    font-size: xx-large;
+  text-align: center;
+  font-weight: 800;
+  font-size: xx-large;
 }
 
 .theater {
-    border-style: none;
+  border-style: none;
+}
+
+.movImg {
+  height: 450px;
+  width: 650px;
+  margin-left: 20%;
+  border-radius: 45px;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(to right, rgb(202, 202, 237), darkorchid, rgb(83, 5, 122))
+      border-box;
+  border: 8px solid transparent;
+}
+
+.movImg:hover {
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(
+        to right,
+        rgb(255, 204, 198),
+        rgb(247, 3, 3),
+        rgb(139, 0, 0)
+      )
+      border-box;
+  border: 8px solid transparent;
+}
+
+.bookbg {
+  background: linear-gradient(
+    to bottom,
+    black,
+    rgb(104, 101, 101),
+    rgb(190, 186, 186)
+  );
+}
+
+.movTitle {
+  font-family: "Ranchers", cursive;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  background-image: url("titleBG.jpg");
+  background-repeat: repeat;
+  background-size: contain;
+}
+
+.movTitle:hover {
+  background-position-x: 90%;
 }

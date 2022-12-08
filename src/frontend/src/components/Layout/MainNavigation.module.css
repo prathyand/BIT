@@ -1,19 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+
 .header {
   width: 100%;
   height: 5rem;
   /* background-color: #38015c; */
-  background-color: #ef8f02;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-image: url("lightsGrey.jpg");
+  background-size: 40px 40px;
+  background-repeat: repeat;
+}
+
+.header:hover {
+  background-image: url("lights.jpg");
+}
+
+.header:hover .logo {
+  background: linear-gradient(90deg, #1a02a2, #5440e9, #5440e9, #1a02a2);
 }
 
 .logo {
-  font-family: 'Lato', sans-serif;
-  font-size: 2rem;
+  background: linear-gradient(90deg, #800000, #ff0000, #ff0000, #800000);
+  font-family: Lobster, cursive;
+  font-size: 35px;
   color: white;
-  margin: 0;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 50px;
 }
 
 .header ul {
@@ -30,7 +45,7 @@
 
 .header a {
   text-decoration: none;
-  color: white;
+  color: black;
   font-weight: bold;
   padding-left: 5%;
 }
@@ -39,7 +54,7 @@
   font: inherit;
   background-color: transparent;
   border: 1px solid white;
-  color: white;
+  color: black;
   font-weight: bold;
   padding: 0.5rem 1.5rem;
   border-radius: 6px;
@@ -47,12 +62,11 @@
 }
 
 .header a:hover {
-  color: #c291e2;
+  color: red;
 }
 
 .header button:hover {
-  background-color: #c291e2;
-  color: #38015c;
+  color: red;
 }
 
 .search-container {
@@ -87,4 +101,15 @@ input {
 
 .searchInner {
   display: flex;
+}
+
+.title {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding-left: 5%;
+  font-family: 'Lato', sans-serif;
+  font-size: 2rem;
+  color: white;
+  margin: 0;
 }

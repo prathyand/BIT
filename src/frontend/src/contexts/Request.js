@@ -23,6 +23,7 @@ export const RequestProvider = (props)=>{
         if(method === "POST"){
             params["body"] = reqBody
         }
+        console.log(params)
         return fetch(domainName_gw1+url,params)
     };
     // const fetchRequesttemp =  (method,url,reqBody,reqHeader) => {
@@ -100,6 +101,14 @@ export const RequestProvider = (props)=>{
         return fetchRequest("GET",url,"",header)
     }
 
+    const getCustomerInfo = (url, data) => {
+        let header = {
+            token : authContext.token
+        }
+        console.log(header)
+        return fetchRequest("GET",url,data,header)
+    }
+
     const getTheaterMovies = (url,data) => {
         let header = {
             token : authContext.token
@@ -118,7 +127,29 @@ export const RequestProvider = (props)=>{
 
     const sendPaymentReq = (url,data) => {
         let body = JSON.stringify(data)
-        return fetchRequest("POST",url,body)
+        let header = {
+            "Content-Type" : "application/json"
+        }
+        if(authContext.token && authContext.isLoggedIn){
+            header = {
+                "Content-Type" : "application/json",
+                token : authContext.token
+            }
+        }
+        return fetchRequest("POST",url,body,header)
+    }
+
+    const sendBookingDetails = (url,data) => {
+        let header = {
+            "Content-Type" : "application/json"
+        }
+        if(authContext.token && authContext.isLoggedIn){
+            header = {
+                "Content-Type" : "application/json",
+                token : authContext.token
+            }
+        }
+        return fetchRequest("POST",url,data,header)
     }
 
     const handleGet = (url,data) => {
@@ -139,6 +170,8 @@ export const RequestProvider = (props)=>{
             case constants.REQUEST.MOVIEZIP:
             case constants.REQUEST.THEATERZIP:
                 return getResultsByZipcode(url,data)
+            case '/bookings/customerInfo':
+                return getCustomerInfo(url, data)
             default:
                 break;
         }
@@ -155,6 +188,8 @@ export const RequestProvider = (props)=>{
                 return sendUpdateProfile(url,data)
             case "/payment":
                 return sendPaymentReq(url,data)
+            case constants.REQUEST.BOOKING:
+                return sendBookingDetails(url,data)
             default:
                 break;
         }
