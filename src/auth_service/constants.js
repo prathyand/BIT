@@ -8,5 +8,8 @@ module.exports = {
     frontend_google_clientID: process.env.GCLIENT_ID || " ",
     environment: process.env.environment || 'docker',
     DB_REPLICASET: process.env.DB_REPLICASET,
+    RABBITMQ_HOST: process.env.RABBITMQ_HOST || 'localhost',
+    RABBITMQ_PORT: process.env.RABBITMQ_PORT || '5672',
+    RABBITMQ_QUEUE: process.env.RABBITMQ_QUEUE || 'reset_password_queue',
     PREFS: process.env.PREFS
 }
