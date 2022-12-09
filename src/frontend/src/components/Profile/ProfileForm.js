@@ -1,13 +1,14 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import constants from '../../constants';
-import { useContext, useState, useEffect, useCallback } from 'react';
+import { useContext, useState, useEffect, useCallback, useRef } from 'react';
 import Request from '../../contexts/Request';
 import AuthContext from '../../contexts/AuthContext';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Navigate } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
 
 const ProfileForm = () => {
   const [fname,setFName] = useState("")
@@ -19,6 +20,11 @@ const ProfileForm = () => {
   const request = useContext(Request)
   const authContext = useContext(AuthContext)
   const isLoggedIn = authContext.isLoggedIn
+  const password = useRef()
+  const confPassword = useRef()
+  const [passwordError,setPassError] = useState(false)
+  const [passErrorMessage,setErrMesg] = useState("")
+  const [show, setShow] = useState(false);
 
   const setData = (data) =>{
     setFName(data.first_name)
@@ -37,6 +43,38 @@ const ProfileForm = () => {
     setChangePass(event.target.checked)
   }
 
+  const changePassword = (event) => {
+    console.log(event)
+    let passVal = password.current.value
+    let confPassVal = confPassword.current.value
+    if(passVal === confPassVal){
+      setPassError(false)
+      let body = JSON.stringify({
+        password: passVal
+      });
+      let changePassReq = request.postRequest(constants.REQUEST.CHANGE_PASSWORD,body);
+      changePassReq.then(response => {
+          if(response.ok){
+              response.json().then((data)=>{
+                  console.log(data)
+                  setChangePass(event.target.checked)
+                  if(document.getElementById("passCheck")){
+                    document.getElementById("passCheck").checked = false
+                  }
+                  setShow(true)
+                  // setData(data)
+              })
+          }else{
+              console.log(response)
+          }
+      });
+    }else{
+      // setPassError("Passwords do not match")
+      setPassError(true)
+      setErrMesg("Passwords do not match")
+    }
+  }
+
   const sendUpdate = (event) =>{
     event.preventDefault()
     let body = JSON.stringify(
@@ -51,6 +89,11 @@ const ProfileForm = () => {
       if(response.ok){
         response.json().then((data)=>{
           setData(data.message)
+          setEdit(false)
+          if(document.getElementById("profileEdit")){
+            document.getElementById("profileEdit").checked = false
+          }
+          setShow(true)
         });
       }else{
         console.log(response)
@@ -85,6 +128,11 @@ const ProfileForm = () => {
     {!isLoggedIn && <Navigate to="/"/>}
     {isLoggedIn && (
     <Card style={{ width: '94.5rem', padding: "2rem" }}>
+      {show && 
+      <Alert variant="success" onClose={() => setShow(false)} dismissible >
+          Successfully updated the details
+      </Alert>
+      }
       {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
       <Card.Body>
         {/* <Card.Title>{fname}</Card.Title> */}
@@ -132,7 +180,13 @@ const ProfileForm = () => {
                 Password
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="password" placeholder="Password" disabled={!changePass}/>
+                <Form.Control type="password" placeholder="Password" disabled={!changePass} ref={password} isInvalid={passwordError}/>
+                <Form.Control.Feedback type="invalid">
+                  {passErrorMessage}
+              </Form.Control.Feedback>
+              <Form.Control.Feedback type="valid">
+                  Passwords Match
+                </Form.Control.Feedback>
               </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-3">
@@ -140,19 +194,25 @@ const ProfileForm = () => {
                 Confirm Password
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="password" placeholder="Confirm Password" disabled={!changePass} />
+                <Form.Control type="password" placeholder="Confirm Password" disabled={!changePass} ref={confPassword} isInvalid={passwordError}/>
+                <Form.Control.Feedback type="invalid">
+                  {passErrorMessage}
+                </Form.Control.Feedback>
+                <Form.Control.Feedback type="valid">
+                  Passwords Match
+                </Form.Control.Feedback>
               </Col>
           </Form.Group>
           </>
           }
           <Form.Group as={Row} className="mb-3">
             <Col sm={{ span: 10, offset: 2 }}>
-              <Form.Check label="Edit Profile" value={edit} onChange={editForm}/>
+              <Form.Check label="Edit Profile" id="profileEdit" value={edit} onChange={editForm}/>
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-3">
             <Col sm={{ span: 10, offset: 2 }}>
-              <Form.Check label="Change Password" value={changePass} onChange={onChangePass}/>
+              <Form.Check label="Change Password" id="passCheck" value={changePass} onChange={onChangePass}/>
             </Col>
           </Form.Group>
           
@@ -163,7 +223,7 @@ const ProfileForm = () => {
                 </>
               }
               {(changePass && !edit) && 
-                <Button style={{ marginLeft:'5px' }} disabled={!changePass}>Change Password</Button>
+                <Button style={{ marginLeft:'5px' }} disabled={!changePass} onClick={changePassword}>Change Password</Button>
               }
               {(edit && changePass) && <>
                 <Button type="submit" disabled={!edit}>Submit</Button>
