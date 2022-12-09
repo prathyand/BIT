@@ -283,6 +283,9 @@ const MainNavigation = () => {
                 <Link to="/profile">Profile</Link>
               </li>
             )}
+            <li>
+              <Link to="/customerservice">Support</Link>
+            </li>
             {ctxt.isLoggedIn && (
               <li>
                 <button onClick={handleLogout}>Logout</button>
