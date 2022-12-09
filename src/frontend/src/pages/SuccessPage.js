@@ -3,6 +3,16 @@ import Request from '../contexts/Request';
 import AuthContext from '../contexts/AuthContext';
 import { useContext, useState, useEffect } from 'react';
 import classes from './SuccessPage.module.css';
+import GoogleMapReact from 'google-map-react';
+import { Icon } from '@iconify/react'
+import locationIcon from '@iconify/icons-mdi/map-marker'
+
+const LocationPin = ({ text }) => (
+  <div className="pin">
+    <Icon icon={locationIcon} className={classes.pinIcon} />
+    <p className={classes.pinText}>{text}</p>
+  </div>
+)
 
 const SuccessPage = () => {
   const [fetching, setFetchVal] = useState(true)
@@ -14,8 +24,14 @@ const SuccessPage = () => {
   let bookingDetails = localStorage.getItem("transaction")
   bookingDetails = JSON.parse(bookingDetails)
   console.log(bookingDetails)
+  const position = bookingDetails.location
+  const address = bookingDetails.address
   bookingDetails["paymentSuccess"] = true 
   bookingDetails = JSON.stringify(bookingDetails)
+  const defaultProps = {
+    center: position,
+    zoom: 15
+  };
 
   useEffect(()=>{
     authContext.login(loginToken)
@@ -148,7 +164,20 @@ const SuccessPage = () => {
               </tr>
             </tbody>
           </table>
-          {/* <span>{JSON.stringify(bookingConfirmation)}</span> */}
+          <span>Please find the theater location below</span>
+          <div style={{ height: '40vh', width: '100%' , paddingTop:"5px"}}>
+            <GoogleMapReact
+              bootstrapURLKeys={{ key: "AIzaSyBhuv4sCGofPq35zqJPj3huzws-hB3egJU" }}
+              defaultCenter={defaultProps.center}
+              defaultZoom={defaultProps.zoom}
+            >
+              <LocationPin
+                lat={position.lat}
+                lng={position.lng}
+                text={address}
+              />
+            </GoogleMapReact>
+          </div>
         </section>
       </div>
     }
