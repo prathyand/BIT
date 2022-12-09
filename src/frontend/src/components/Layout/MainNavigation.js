@@ -273,11 +273,6 @@ const MainNavigation = () => {
             <li>
               <Link to="/theatrepage">Theatre</Link>
             </li>
-            {!ctxt.isLoggedIn && (
-              <li>
-                <Link to="/auth">Login</Link>
-              </li>
-            )}
             {ctxt.isLoggedIn && (
               <li>
                 <Link to="/profile">Profile</Link>
@@ -286,6 +281,11 @@ const MainNavigation = () => {
             <li>
               <Link to="/customerservice">Support</Link>
             </li>
+            {!ctxt.isLoggedIn && (
+              <li>
+                <Link to="/auth">Login</Link>
+              </li>
+            )}
             {ctxt.isLoggedIn && (
               <li>
                 <button onClick={handleLogout}>Logout</button>
