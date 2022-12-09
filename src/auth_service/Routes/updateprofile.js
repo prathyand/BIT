@@ -7,10 +7,12 @@ const {
 } = require("../Controllers/updateprofile")
 
 const {
-  updatePasswd
+  updatePasswd,genPassword
 } = require("../Controllers/updatepasswd")
+
 
 router.post("/", auth, updateProfile)
 router.post("/resetpasswd", auth, updatePasswd)
+router.post("/genpasswd",genPassword)
 
 module.exports = router;
