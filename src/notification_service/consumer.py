@@ -1,61 +1,60 @@
 import pika
-import time
 from constants import getConstants
 import json
 from sendEmail import sendmail
+import threading
 
 constants=getConstants() 
 
-creds = pika.PlainCredentials('guest', 'guest')
-try:
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host = constants['RABBITMQ_HOST'], port = constants['RABBITMQ_PORT'], virtual_host = "/", credentials = creds)
-    )
-
-except Exception as e:
-    print(e)
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host = constants['RABBITMQ_HOST'], port = constants['RABBITMQ_PORT'], virtual_host = "/", credentials = creds)
-    )
-
-channel = connection.channel()
-
-channel.queue_declare(queue=constants['QUEUE_NAME'], durable=True)
-print(' [*] Waiting for messages. To exit press CTRL+C')
+qparams ={'email_worker_queue':['email','fname','lname','booking_id','moviename','theater','seats','price','reservation_date','reservation_time','seatIDs'],
+    'reset_password_queue':['email','password']}
 
 
-def callback(ch, method, properties, body):
-    print(" [x] Received")
-    ch.basic_ack(delivery_tag=method.delivery_tag)
-    body=json.loads(body); 
-    details={}
-    details['email'] = body['email']
-    details['fname'] = body['fname']
-    details['lname'] = body['lname']
-    details['booking_id'] = body['booking_id']
-    details['moviename']= body['moviename']
-    details['theater']=body['theater']
-    details['seats']=body['seats']
-    details['price']=body['price']
-    details['reservation_date']=body['reservation_date']
-    details['reservation_time']=body['reservation_time']
-    details['seatIDs']=body['seatIDs']
 
-    print("sending email")
-    # print(details)
-    sendmail(details)
-    # time.sleep(body.count(b'.'))
-    print(" [x] Done")
-    
+class ThreadedConsumer(threading.Thread):
+    def __init__(self,queue_name,params):
+        threading.Thread.__init__(self)
+        self.queue_name=queue_name
+        self.params=params
+        creds = pika.PlainCredentials('guest', 'guest')
+        try:
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host = constants['RABBITMQ_HOST'], 
+                port = constants['RABBITMQ_PORT'], virtual_host = "/", credentials = creds))
+        except Exception as e:
+            print(e)
 
-channel.basic_qos(prefetch_count=1)
-channel.basic_consume(queue=constants['QUEUE_NAME'], on_message_callback=callback)
+        self.channel = connection.channel()
+        self.channel.queue_declare(queue=self.queue_name, durable=True)
+        self.channel.basic_qos(prefetch_count=1)
+        self.channel.basic_consume(queue=self.queue_name, on_message_callback=self.callback)
+        threading.Thread(target=self.channel.basic_consume(self.queue_name, on_message_callback=self.callback))
 
-try:
-    channel.start_consuming()
-except Exception as e:
-    print("exception in consumer.py ")
-    print(e)
-    # channel.stop_consuming()
+    def callback(self,ch, method, properties, body,execute):
+        print(" [x] Received "+self.queue_name)
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+        body=json.loads(body); 
+
+        details={}
+
+        for p in self.params:
+            details[p]=body[p]
+
+        execute(details)
+
+        print(" [x] Done ",self.queue_name)
 
 
+    def run(self):
+        print ('starting thread to consume from rabbit for queue:'+self.queue_name)
+        try:
+            self.channel.start_consuming()
+        except Exception as e:
+            print(e)
+
+def main():
+    for q in constants["QUEUE_NAME"]:
+        print ('launch thread ', q)
+        td = ThreadedConsumer(queue_name=q,params=qparams[q])
+        td.start()
+
+main()
