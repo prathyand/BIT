@@ -1,5 +1,6 @@
 const User = require("../Models/User");
 const bcrypt = require("bcryptjs");
+const publish_to_queue = require("./producer");
 
 
 const updatePasswd = async (req, res) => {
@@ -61,6 +62,13 @@ const updatePasswd = async (req, res) => {
       user.password = await bcrypt.hash(passwd, salt);
 
       await user.save();
+
+      const message = {
+        "email": req.email,
+        "password": passwd
+      }
+
+      publish_to_queue(message)
 
       res.status(200).json({
         message: "password updated!"
