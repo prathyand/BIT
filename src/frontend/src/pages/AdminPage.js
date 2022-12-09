@@ -8,8 +8,7 @@ import AuthContext from '../contexts/AuthContext';
 import { useRef, useState, useContext } from 'react';
 import { Alert } from "react-bootstrap";
 import classes from '../components/Auth/AuthForm.module.css';
-import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import background from "./theat.jpg";
 
 const LoginPage = () => {
     const username = useRef()
@@ -51,7 +50,7 @@ const LoginPage = () => {
     }
     return (
             <section className={classes.auth}>
-            <h1>Login</h1>
+            <h1 className={classes.login}>Login</h1>
             { error && <h3><Alert variant="danger">{error}</Alert></h3>}
             { success && 
                 <h2>
@@ -62,15 +61,15 @@ const LoginPage = () => {
             }
             <form onSubmit={formSubmitted.bind(this)}>
                 <div className={classes.control}>
-                <label htmlFor='username'>Username</label>
-                <input type='text' id='username' required  ref={username}/>
+                    {/* <label htmlFor='username'>Username</label> */}
+                    <input type='text' id='username' required  placeholder="Username" ref={username}/>
                 </div>
                 <div className={classes.control}>
-                <label htmlFor='password'>Your Password</label>
-                <input type='password' id='password' required ref={passwordInp}/>
+                    {/* <label htmlFor='password'>Your Password</label> */}
+                    <input type='password' id='password' placeholder="Your Password" required ref={passwordInp}/>
                 </div>
                 <div className={classes.actions}>
-                <button>Login</button>
+                <button style={{ borderRadius: "45px", border: "5px solid black" }}>Login</button>
                 </div>
             </form>
             </section>
@@ -161,27 +160,18 @@ const AdminPage = () => {
 
     return (
         <>
-            {!isLoggedIn && <LoginPage/>}
+            {!isLoggedIn && 
+            <div className={classes.bg}>
+                <div
+                style={{ backgroundImage: `url(${background})` }}
+                className={classes.bgimg}>
+              <LoginPage/>
+                </div>
+            </div>}
             {isLoggedIn && 
                 <>
-                    <header className={classes.header}>
-                        <div style={{display:"flex"}}>
-                            <Link to='/admin' id="webTitle">
-                            <div className={classes.logo}>BookInTime</div>
-                            </Link>
-                        </div>
-                        <div style={{display:"flex", alignItems:"center"}}>
-                            <nav>
-                            <ul>
-                                <li>
-                                <Button>Filter</Button>
-                                </li>
-                            </ul>
-                            </nav>
-                        </div>
-                    </header>
-                    <div style={{backgroundColor:"#ebedef"}}>
-                    <p>Admin Page</p>
+                    <div style={{backgroundColor:"#ebedef", paddingTop:"20px"}}>
+                    {/* <p>Admin Page</p> */}
                     <div>
                         <CRow>
                             {widgets.map((widget) => (

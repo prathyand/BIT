@@ -113,3 +113,10 @@ input {
   color: white;
   margin: 0;
 }
+
+.navList {
+  border-radius : 45px;
+  background-color: lightgoldenrodyellow;
+  text-align: center;
+  border : 10px double black;
+}

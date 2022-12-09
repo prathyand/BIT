@@ -265,14 +265,7 @@ const MainNavigation = () => {
                 ))}
           </div>
         </div>
-        <nav
-          style={{
-            border: "10px double black",
-            borderRadius: "45px",
-            backgroundColor: "lightgoldenrodyellow",
-            textAlign: "center",
-          }}
-        >
+        <nav className={classes.navList}>
           <ul>
             <li>
               <Link to="/">Movie</Link>

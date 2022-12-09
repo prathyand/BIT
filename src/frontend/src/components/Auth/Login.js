@@ -108,20 +108,7 @@ const Login = (props) => {
             {/*<video autoplay muted className={classes.tVid}>
               <source src={video} type="video/mp4/"></source>
               </video>*/}
-            <h1
-              style={{
-                fontSize: "45px",
-                color: "black",
-                backgroundColor: "lightyellow",
-                width: "150px",
-                marginLeft: "28%",
-                borderRadius: "30px",
-                paddingLeft: "8px",
-                paddingRight: "8px",
-                paddingBottom: "8px",
-                border: "5px solid black",
-              }}
-            >
+            <h1 className={classes.login}>
               Login
             </h1>
             {error && (
