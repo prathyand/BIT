@@ -21,6 +21,9 @@ services:
       - DB_DATABASE_AUTH=authDB
       - APP_PORT=3001
       - environment="docker_aws"
+      - RABBITMQ_HOST=thebit_rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=reset_password_queue
     ports:
       - 3001:3001
 
@@ -52,7 +55,7 @@ services:
     environment:
       - RABBITMQ_HOST=thebit_rabbitmq
       - RABBITMQ_PORT=5672
-      - QUEUE_NAME=email_worker_queue
+      - QUEUE_NAME=email_worker_queue&reset_password_queue
 
   rabbitmq:
     image: rabbitmq:3-management-alpine

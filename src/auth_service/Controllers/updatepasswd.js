@@ -33,11 +33,11 @@ const updatePasswd = async (req, res) => {
 
   const genPassword = async (req, res) => {
     try {
-      
-      const user = await User.findOne({'user_email':req.email});
+      const {email} = req.body
+      const user = await User.findOne({'user_email':email});
 
       if (!user){ 
-        return res.status(400).json({message: "User Not Exist"});
+        return res.status(400).json({message: "User Not Exist, invalid email"});
       }
         
       var characters = 'abcdefghijklmnoqrstuvwxyz0123456789?<>!"£$%^&*()-+./';
@@ -64,7 +64,7 @@ const updatePasswd = async (req, res) => {
       await user.save();
 
       const message = {
-        "email": req.email,
+        "email": email,
         "password": passwd
       }
 

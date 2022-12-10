@@ -15,6 +15,6 @@ def getConstants():
     constants["QUEUE_NAME"] = ['email_worker_queue','reset_password_queue']
     if os.environ.get('QUEUE_NAME') is not None:
         qs = str(os.environ.get('QUEUE_NAME'))
-        constants["QUEUE_NAME"] = qs.split(' ')
+        constants["QUEUE_NAME"] = qs.split('&')
 
     return constants
