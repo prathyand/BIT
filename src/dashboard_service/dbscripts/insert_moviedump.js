@@ -3,6 +3,7 @@ const connectDB = require("../dbconnect");
 const Movie = require("../Models/Movies");
 const fs = require('fs');
 const axios = require('axios');
+const bcrypt = require("bcryptjs");
 
 
 try{

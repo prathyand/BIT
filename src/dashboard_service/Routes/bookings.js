@@ -8,7 +8,6 @@ const {
     bookMovie
 } = require("../Controllers/bookings");
 
-// return the list of all cities in the database
 router.get('/', getBookings);
 router.get('/customerInfo', getCustomerInfo);
 router.post('/', bookMovie);
