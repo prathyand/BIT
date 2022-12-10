@@ -18,14 +18,17 @@ const getBookings = (async (req, res) => {
 const getCustomerInfo = (async (req,res)=>{
         try{
             // grab all movies for zip 'zipcode'
-            const email = req.body.email
-            const userID = req.body.userID
+            const email = req.query.email
+            const userID = req.query.userid
+            // console.log(req.params['userid'])
+            console.log(email)
+            console.log(userID)
             let bookingsList = []
 
-            if(email != ""){
+            if(email){
                 bookingsList = await Booking.find({'email':email})
             }
-            else if(userID != ""){
+            else if(userID){
                 bookingsList = await Booking.find({'user_id':userID})
             }
             else {
@@ -40,6 +43,7 @@ const getCustomerInfo = (async (req,res)=>{
             return res.status(400).send('Couldnt find bookings by userID/email');
         }
 });
+
 
 const bookMovie = (async (req, res) => {
         // check for JWT token, make sure it's not expired
