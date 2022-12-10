@@ -64,7 +64,7 @@ const updatePasswd = async (req, res) => {
       await user.save();
 
       const message = {
-        "email": req.email,
+        "email": email,
         "password": passwd
       }
 
