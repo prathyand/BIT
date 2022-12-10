@@ -17,6 +17,7 @@ const bookingschema = mongoose.Schema({
     },
     fname: String,
     lname: String,
+    usertype: String,
     theater_id: String,
     theater_name: String,
     movie_id: String,
