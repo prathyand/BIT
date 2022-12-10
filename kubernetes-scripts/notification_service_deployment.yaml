@@ -31,7 +31,7 @@ spec:
         - name: RABBITMQ_PORT
           value: "5672"
         - name: QUEUE_NAME
-          value: "email_worker_queue"
+          value: "email_worker_queue&reset_password_queue"
         tty: true
         
 

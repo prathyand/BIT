@@ -18,7 +18,9 @@ let requestEndPoints = {
     PAYMENT:"/payment",
     MOVIEZIP:"/movies/zip/",
     THEATERZIP:"/theaters/zip/",
-    BOOKING:"/bookings"
+    BOOKING:"/bookings",
+    CHANGE_PASSWORD:"/updateprofile/resetpasswd",
+    FORGOT_PASSWORD:"/updateprofile/genpasswd"
 }
 
 module.exports = {

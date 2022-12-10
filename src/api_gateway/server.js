@@ -41,6 +41,14 @@ router.post('/updateprofile', (req, res,next) => {
     authServerProxy(req,res,next);  
 });
 
+router.post('/updateprofile/resetpasswd', (req, res,next) => {
+    authServerProxy(req,res,next);  
+});
+
+router.post('/updateprofile/genpasswd', (req, res,next) => {
+    authServerProxy(req,res,next);  
+});
+
 router.post('/auth/google', (req, res,next) => {
     authServerProxy(req,res,next);  
 });
@@ -82,7 +90,7 @@ router.post('/bookings', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.get('/bookings/getCustomerInfo', (req, res,next) => {
+router.get('/bookings/customerInfo', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 

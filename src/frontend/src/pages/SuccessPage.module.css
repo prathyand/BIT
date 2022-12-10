@@ -30,4 +30,15 @@
 
   .fail {
     color: red !important;
-}
+  }
+
+  .pinIcon {
+    height: 40px;
+    width: 40px;
+    color: #f44336;
+  }
+
+  .pinText {
+    color: blue;
+    font-size: large;
+  }

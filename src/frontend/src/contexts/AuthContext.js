@@ -16,18 +16,25 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = (props)=>{
   const [token,setToken] = useState(null)
   const [location,setLocation] = useState("Bloomington")
+  const [isLoggedIn,setLoginState] = useState(false)
 
   const navigate = useNavigate();
 
-  const isLoggedIn = !!token
+  // if(!token){
+  //   setLoginState(false)
+  // }
+
+  // const isLoggedIn = !!token
 
   const loginHandler = (token) => {
     setToken(token)
+    setLoginState(true)
     window.localStorage.setItem(constants.AUTH_TOKEN_KEY,token)
   }
 
   const logoutHandler = () => {
     setToken(null)
+    setLoginState(false)
     window.localStorage.removeItem(constants.AUTH_TOKEN_KEY)
     navigate("/")
   }

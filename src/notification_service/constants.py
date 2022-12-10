@@ -12,8 +12,9 @@ def getConstants():
     if os.environ.get('RABBITMQ_PORT') is not None:
         constants["RABBITMQ_PORT"] = os.environ.get('RABBITMQ_PORT')
 
-    constants["QUEUE_NAME"] = 'email_worker_queue'
+    constants["QUEUE_NAME"] = ['email_worker_queue','reset_password_queue']
     if os.environ.get('QUEUE_NAME') is not None:
-        constants["QUEUE_NAME"] = os.environ.get('QUEUE_NAME')
+        qs = str(os.environ.get('QUEUE_NAME'))
+        constants["QUEUE_NAME"] = qs.split('&')
 
     return constants

@@ -18,6 +18,7 @@ import Success from "./pages/SuccessPage";
 import Failure from "./pages/FailurePage";
 import CustomerServiceEmployeePage from "./pages/CustomerServiceEmployeePage";
 import CustomerServicePage from "./pages/CustomerServicePage";
+import CustomerServiceSearchPage from "./pages/CustomerServiceSearchPage";
 
 function App(props) {
   const clientId = constants.CLIENT_ID;
@@ -46,8 +47,12 @@ function App(props) {
       </Route>
       <Route
         path="/customerserviceemployee"
-        element={<CustomerServiceEmployeePage />}
-      ></Route>
+        element={<CustomerServiceEmployeePage />}>
+      </Route>
+      <Route
+        path="/customerservicesearch"
+        element={<CustomerServiceSearchPage />}>
+      </Route>
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<AdminPage />}></Route>
         <Route path="/adhoc" element={<InPersonTheaterPage />}></Route>

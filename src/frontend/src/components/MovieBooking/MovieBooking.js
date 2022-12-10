@@ -37,6 +37,8 @@ const MovieBooking = (props) => {
   const [price, setPrice] = useState("");
   const [edit, setEdit] = useState(true);
   const [showSummary, setShowSumary] = useState(false);
+  const [location,setLocation] = useState()
+  const [address,setAddress] = useState()
   const columnsSeats = [
     1,
     2,
@@ -90,6 +92,8 @@ const MovieBooking = (props) => {
       booking_time: show.current.value,
       booking_date: movieDate.current.value,
       seatIDs: selectedSeat,
+      location: location,
+      address: address
     };
     authContext.setBookingDetails(bookingDetails);
   };
@@ -102,6 +106,7 @@ const MovieBooking = (props) => {
     for (let i = 0; i < theatres.length; i++) {
       if (theatres[i].theater === tempName) {
         setShows(theatres[i].shows);
+        setLocation(theatres[i].position)
       }
     }
   };
@@ -131,7 +136,19 @@ const MovieBooking = (props) => {
               id: theaterData[i]._id,
               theater: theatreName,
               shows: shows,
+              address: theaterData[i].address,
+              position:{
+                lat:theaterData[i].lat,
+                lng:theaterData[i].long,
+              }
             });
+            if(i===0){
+              setLocation({
+                lat:theaterData[i].lat,
+                lng:theaterData[i].long
+              })
+              setAddress(theaterData[i].address)
+            }
           }
           setTheatres(tempTheater);
           setShows(tempTheater[0].shows);

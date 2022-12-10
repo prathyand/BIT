@@ -40,6 +40,12 @@ spec:
           value: "kubernetes"
         - name: APP_PORT
           value: "3001"
+        - name: RABBITMQ_HOST
+          value: "rabbitmq-0.rabbitmq.rabbits.svc.cluster.local"
+        - name: RABBITMQ_PORT
+          value: "5672"
+        - name: QUEUE_NAME
+          value: "reset_password_queue"
 
 ---
 apiVersion: v1
