@@ -3,7 +3,7 @@ from email.message import EmailMessage
 from QRGenerator import generate_QR_code
 
 SSLPORT = 465 
-PWD = 'lgugznawuemiyomm'
+PWD = 'slgugznawuemiyommt'
 BODY_booking="""\
 Hello {},
 

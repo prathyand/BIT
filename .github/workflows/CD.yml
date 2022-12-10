@@ -70,13 +70,13 @@ jobs:
           tags: prathyand/thebitbeta:notification_service_latest
 #           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build and push frontend
-        uses: docker/build-push-action@v3
-        with:
-          context: ./src/frontend/
-          file: ./src/frontend/Dockerfile-AWS.dockerfile
-          push: false
-          tags: prathyand/thebitbeta:frontend_latest
+#       - name: Build and push frontend
+#         uses: docker/build-push-action@v3
+#         with:
+#           context: ./src/frontend/
+#           file: ./src/frontend/Dockerfile-AWS.dockerfile
+#           push: false
+#           tags: prathyand/thebitbeta:frontend_latest
 #           labels: ${{ steps.meta.outputs.labels }}
 
 #       - name: executing remote ssh commands using key file

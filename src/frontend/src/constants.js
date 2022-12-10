@@ -28,7 +28,7 @@ module.exports = {
     REACT_APP_GATEWAY_PORT: process.env.REACT_APP_GATEWAY_PORT || 5001,
     DOMAIN: process.env.FEDOMAIN || 'localhost',
     FE_PORT: process.env.FEPORT || 3000,
-    CLIENT_ID: process.env.CLIENT_ID || "624148654388-pep2rsbqfuscb5mibsh16l3fv1hhlp7e.apps.googleusercontent.com",
+    CLIENT_ID: process.env.CLIENT_ID || "",
     REQUEST: requestEndPoints,
     AUTH_TOKEN_KEY: "the_bit_token"
 }
