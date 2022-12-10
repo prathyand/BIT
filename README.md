@@ -1,6 +1,6 @@
 # BookInTime (TheBIT)
-[![build-test](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CI.yml/badge.svg)](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CI.yml)
-[![Deploy](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CD.yml/badge.svg)](https://github.iu.edu/pdeshmuk/TheBIT/actions/workflows/CD.yml)
+[![build-test](https://github.com/prathyand/BIT/actions/workflows/CI.yml/badge.svg)](https://github.com/prathyand/BIT/actions/workflows/CI.yml)
+[![Deploy](https://github.com/prathyand/BIT/actions/workflows/CD.yml/badge.svg)](https://github.com/prathyand/BIT/actions/workflows/CD.yml)
 
 
 ![sysarch](assets/logo.svg?raw=true "logo")
