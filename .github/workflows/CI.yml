@@ -64,15 +64,15 @@ jobs:
           npm run test
 
       # Build frontend
-      - uses: actions/checkout@v2
-      - name: Use Node.js LTS Gallium
-        uses: actions/setup-node@v2
-        with:
-          node-version: "lts/gallium"
-          # cache: 'npm'
-          # cache-dependency-path: '**/package-lock.json'
-      - name: Build Web-App module
-        working-directory: ./src/frontend
-        run: |
-          npm ci --legacy-peer-deps
-          CI="" npm run build --if-present
+#       - uses: actions/checkout@v2
+#       - name: Use Node.js LTS Gallium
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: "lts/gallium"
+#           # cache: 'npm'
+#           # cache-dependency-path: '**/package-lock.json'
+#       - name: Build Web-App module
+#         working-directory: ./src/frontend
+#         run: |
+#           npm ci --legacy-peer-deps
+#           CI="" npm run build --if-present
