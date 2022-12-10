@@ -204,6 +204,7 @@ export const RequestProvider = (props)=>{
             case constants.REQUEST.BOOKING:
                 return sendBookingDetails(url,data)
             case constants.REQUEST.CHANGE_PASSWORD:
+            case constants.REQUEST.FORGOT_PASSWORD:
                 return sendChangePassword(url,data)
             default:
                 break;
