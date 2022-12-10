@@ -67,9 +67,10 @@ const StartingPageContent = () => {
               <Card>
                 <Card.Img
                   variant="top"
-                  src={movie.poster_path}
+                  src={movie.poster_path.endsWith("null") ? "backup_poster.svg": movie.poster_path }
                   width="300"
                   height="300"
+                  style={{backgroundColor:"antiquewhite"}}
                 />
                 <Card.Body
                   style={{

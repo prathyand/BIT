@@ -1,8 +1,11 @@
-/*
+
 body {
   background-color: #282c34;
 }
-*/
+
+.CustomerServicePageWrapper {
+  background: gray;
+}
 
 .CustomerServicePageContent {
   text-align: center;
@@ -34,8 +37,8 @@ body {
   min-height: 100vh;
   background-color: rgb(40, 37, 53);
 }
-/*
-main {
+
+.messagePane {
   padding: 10px;
   height: 80vh;
   margin: 10vh 0 10vh;
@@ -43,7 +46,7 @@ main {
   display: flex;
   flex-direction: column;
 }
-*/
+
 main::-webkit-scrollbar {
   width: 0.25rem;
 }
@@ -56,8 +59,7 @@ main::-webkit-scrollbar-thumb {
   background: #6649b8;
 }
 
-/*
-form {
+.messageForm {
   height: 10vh;
   position: fixed;
   bottom: 0;
@@ -68,13 +70,14 @@ form {
   font-size: 1.5rem;
 }
 
-form button {
+.messageForm button {
   width: 20%;
   background-color: rgb(56, 56, 143);
 }
 
 
-input {
+
+.messageForm input {
   line-height: 1.5;
   width: 100%;
   font-size: 1.5rem;
@@ -85,7 +88,7 @@ input {
   padding: 0 10px;
 }
 
-button {
+.messageForm button {
   background-color: #282c34; 
   border: none;
   color: white;
@@ -97,12 +100,11 @@ button {
   font-size: 1.25rem;
 }
 
-button:disabled {
+.messageForm button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-*/
 
 .sign-in {
   color: #282c34;
@@ -118,8 +120,9 @@ ul, li {
   text-align: left;
   list-style: none;
 }
+*/
 
-p {
+.textMsg {
   max-width: 500px;
   margin-bottom: 12px;
   line-height: 24px;
@@ -134,7 +137,6 @@ p {
   display: flex;
   align-items: center;
 }
-*/
 
 .sent {
   flex-direction: row-reverse;
@@ -150,11 +152,15 @@ p {
   color: black;
 }
 
-/*
-img {
+.profileImg {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 40%;
   margin: 2px 5px;
 }
-*/
+
+
+.chatHeader {
+  background: black;
+  color: white;
+}

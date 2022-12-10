@@ -24,13 +24,13 @@ const AdminMainNavigation = () => {
         <div className={classes.title}>BookInTime</div>
       </div>
       <div style={{display:"flex", alignItems:"center"}}>
-        <nav>
+        <nav className={classes.navList}>
           <ul>
             
             {!ctxt.isLoggedIn && 
               (
                 <li>
-                  <Link to='/auth'>Login</Link>
+                  <Link to='/admin'>Login</Link>
                 </li>
               )
             }
