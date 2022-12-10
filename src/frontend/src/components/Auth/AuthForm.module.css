@@ -122,3 +122,17 @@
   color: black;
   border: 3px solid black;
 }
+
+
+.login {
+  font-size: 45px;
+  color: black !important;
+  background-color: lightyellow;
+  width: 150px;
+  margin-left: 28%;
+  border-radius: 30px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 8px;
+  border: 5px solid black;
+}

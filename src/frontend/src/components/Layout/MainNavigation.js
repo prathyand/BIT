@@ -265,14 +265,7 @@ const MainNavigation = () => {
                 ))}
           </div>
         </div>
-        <nav
-          style={{
-            border: "10px double black",
-            borderRadius: "45px",
-            backgroundColor: "lightgoldenrodyellow",
-            textAlign: "center",
-          }}
-        >
+        <nav className={classes.navList}>
           <ul>
             <li>
               <Link to="/">Movie</Link>
@@ -280,14 +273,17 @@ const MainNavigation = () => {
             <li>
               <Link to="/theatrepage">Theatre</Link>
             </li>
-            {!ctxt.isLoggedIn && (
-              <li>
-                <Link to="/auth">Login</Link>
-              </li>
-            )}
             {ctxt.isLoggedIn && (
               <li>
                 <Link to="/profile">Profile</Link>
+              </li>
+            )}
+            <li>
+              <Link to="/customerservice">Support</Link>
+            </li>
+            {!ctxt.isLoggedIn && (
+              <li>
+                <Link to="/auth">Login</Link>
               </li>
             )}
             {ctxt.isLoggedIn && (

@@ -9,6 +9,7 @@ import { Alert } from "react-bootstrap";
 import { GoogleLogin } from "react-google-login";
 import constants from "../../constants";
 import { useRef, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
   const clientId = constants.CLIENT_ID;
@@ -17,10 +18,55 @@ const Login = (props) => {
   const phnoUserInp = useRef();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [forgotPassword,setForgotPassword] = useState(false);
   const [isMobileLogin, setMobileLogin] = useState(false);
   const authContext = useContext(AuthContext);
   const request = useContext(Request);
   const isLoggedIn = authContext.isLoggedIn;
+
+  const ForgotPassword = () => {
+    const emailUserInp = useRef();
+    const request = useContext(Request);
+    const [success, setSuccess] = useState("");
+    const navigate = useNavigate()
+    const resetpassword = (event) => {
+      event.preventDefault()
+      let data = JSON.stringify({
+        email: emailUserInp.current.value
+      });
+      let resetPassword = request.postRequest(constants.REQUEST.FORGOT_PASSWORD, data);
+      resetPassword.then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            setSuccess("New password sent to the entered email.Please login again.Redirecting to Login page in 3sec");
+            setTimeout(()=>{
+              setForgotPassword(false)
+              navigate("/auth")
+            },3000)
+          });
+        }
+      });
+    }
+    return (
+      <section className={classes.auth}>
+        {success && <Alert variant="success">{success}</Alert>}
+        <div className={classes.control}>
+          <input
+            type="email"
+            id="email"
+            required
+            ref={emailUserInp}
+            placeholder="Your Email"
+          />
+        </div>
+        <div className={classes.actions}>
+          <button type="button" style={{ borderRadius: "45px", border: "5px solid black" }} onClick={resetpassword}>
+            Reset Password
+          </button>
+        </div>
+      </section>
+    )
+  }
 
   const onSuccess = (res) => {
     let googleAuth = request.postRequest(constants.REQUEST.GOOGLE_EP, res);
@@ -28,7 +74,7 @@ const Login = (props) => {
       if (response.ok) {
         response.json().then((data) => {
           setSuccess("Signin Successful");
-          authContext.login(data.token);
+          authContext.login(data.token);          
         });
       } else {
         console.log(response);
@@ -101,27 +147,14 @@ const Login = (props) => {
   return (
     <div>
       {isLoggedIn && <Navigate to="/" />}
-      {!isLoggedIn && (
+      {(!isLoggedIn && forgotPassword) && (
+        <ForgotPassword/>
+      )}
+      {(!isLoggedIn && !forgotPassword) && (
         <div>
           <h1 className={classes.brand}>BookInTime</h1>
           <section className={classes.auth}>
-            {/*<video autoplay muted className={classes.tVid}>
-              <source src={video} type="video/mp4/"></source>
-              </video>*/}
-            <h1
-              style={{
-                fontSize: "45px",
-                color: "black",
-                backgroundColor: "lightyellow",
-                width: "150px",
-                marginLeft: "28%",
-                borderRadius: "30px",
-                paddingLeft: "8px",
-                paddingRight: "8px",
-                paddingBottom: "8px",
-                border: "5px solid black",
-              }}
-            >
+            <h1 className={classes.login}>
               Login
             </h1>
             {error && (
@@ -187,7 +220,7 @@ const Login = (props) => {
                 >
                   Create new account
                 </button>
-                <button type="button" className={classes.toggle2}>
+                <button type="button" className={classes.toggle2} onClick={()=>setForgotPassword(true)}>
                   Forgot Password?
                 </button>
                 <GoogleLogin
