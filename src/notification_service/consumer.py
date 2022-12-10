@@ -37,6 +37,8 @@ class ThreadedConsumer(threading.Thread):
         details={}
 
         for p in self.params:
+            if p not in body:
+                continue
             details[p]=body[p]
 
         sendmail(details)
