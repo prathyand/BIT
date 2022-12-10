@@ -7,6 +7,9 @@
     "@coreui/icons-react": "^2.1.0",
     "@coreui/react": "^4.4.0",
     "@coreui/react-chartjs": "^2.1.0",
+    "@googlemaps/react-wrapper": "^1.1.35",
+    "@iconify/icons-mdi": "^1.2.34",
+    "@iconify/react": "^4.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -14,6 +17,7 @@
     "dotenv": "^16.0.3",
     "firebase": "^9.12.1",
     "gapi-script": "^1.2.0",
+    "google-map-react": "^2.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
@@ -26,8 +30,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "HTTPS=true react-scripts start",
-    "build": "HTTPS=true react-scripts build",
+    "start": "react-scripts start",
+    "httpsStart": "HTTPS=true react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js src/"

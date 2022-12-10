@@ -15,6 +15,11 @@ const TheatreMovieBooking = () => {
     const theaterData = location.state.theater
     const theaterName = theaterData.name
     const theaterId = theaterData._id
+    const tlocation = {
+        lat: theaterData.lat,
+        lng: theaterData.long
+    }
+    const address = theaterData.address
     const movieData = location.state.movie
     const movie = movieData.title
     const movieId = movieData._id
@@ -72,7 +77,9 @@ const TheatreMovieBooking = () => {
             seats:tempSeats,
             booking_time:show.current.value,
             booking_date:movieDate.current.value,
-            seatIDs:selectedSeat
+            seatIDs:selectedSeat,
+            location: tlocation,
+            address: address
         }
         authContext.setBookingDetails(bookingDetails)
     }

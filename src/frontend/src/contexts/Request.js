@@ -152,6 +152,19 @@ export const RequestProvider = (props)=>{
         return fetchRequest("POST",url,data,header)
     }
 
+    const sendChangePassword = (url,data) => {
+        let header = {
+            "Content-Type" : "application/json"
+        }
+        if(authContext.token && authContext.isLoggedIn){
+            header = {
+                "Content-Type" : "application/json",
+                token : authContext.token
+            }
+        }
+        return fetchRequest("POST",url,data,header)
+    }
+
     const handleGet = (url,data) => {
         switch(url){
             case "/profile":
@@ -190,6 +203,9 @@ export const RequestProvider = (props)=>{
                 return sendPaymentReq(url,data)
             case constants.REQUEST.BOOKING:
                 return sendBookingDetails(url,data)
+            case constants.REQUEST.CHANGE_PASSWORD:
+            case constants.REQUEST.FORGOT_PASSWORD:
+                return sendChangePassword(url,data)
             default:
                 break;
         }
