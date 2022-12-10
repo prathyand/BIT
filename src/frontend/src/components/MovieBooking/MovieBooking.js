@@ -139,7 +139,7 @@ const MovieBooking = (props) => {
               address: theaterData[i].address,
               position:{
                 lat:theaterData[i].lat,
-                long:theaterData[i].long,
+                lng:theaterData[i].long,
               }
             });
             if(i===0){
