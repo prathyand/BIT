@@ -11,7 +11,7 @@ on:
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 #     strategy:
 #       matrix:
 #         contexts: [./src/auth_service,./src/frontend]
@@ -22,78 +22,78 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+#       - name: Log in to Docker Hub
+#         uses: docker/login-action@v2
+#         with:
+#           username: ${{ secrets.DOCKER_USERNAME }}
+#           password: ${{ secrets.DOCKER_PASSWORD }}
       
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: prathyand/thebitbeta
+#       - name: Extract metadata (tags, labels) for Docker
+#         id: meta
+#         uses: docker/metadata-action@v4
+#         with:
+#           images: prathyand/thebitbeta
       
       - name: Build and push authmodule
         uses: docker/build-push-action@v3
         with:
           context: ./src/auth_service/
           file: ./src/auth_service/Dockerfile
-          push: true
+          push: false
           tags: prathyand/thebitbeta:auth_module_latest
-          labels: ${{ steps.meta.outputs.labels }}
+#           labels: ${{ steps.meta.outputs.labels }}
   
       - name: Build and push apigateway
         uses: docker/build-push-action@v3
         with:
           context: ./src/api_gateway/
           file: ./src/api_gateway/Dockerfile
-          push: true
+          push: false
           tags: prathyand/thebitbeta:api_gateway_latest
-          labels: ${{ steps.meta.outputs.labels }}
+#           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push dashboard_service
         uses: docker/build-push-action@v3
         with:
           context: ./src/dashboard_service/
           file: ./src/dashboard_service/Dockerfile
-          push: true
+          push: false
           tags: prathyand/thebitbeta:dashboard_service_latest
-          labels: ${{ steps.meta.outputs.labels }}
+#           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push notification_service
         uses: docker/build-push-action@v3
         with:
           context: ./src/notification_service/
           file: ./src/notification_service/Dockerfile
-          push: true
+          push: false
           tags: prathyand/thebitbeta:notification_service_latest
-          labels: ${{ steps.meta.outputs.labels }}
+#           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v3
         with:
           context: ./src/frontend/
           file: ./src/frontend/Dockerfile-AWS.dockerfile
-          push: true
+          push: false
           tags: prathyand/thebitbeta:frontend_latest
-          labels: ${{ steps.meta.outputs.labels }}
+#           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: executing remote ssh commands using key file
-        uses: appleboy/ssh-action@master
-        with:
-          # host for ec2 server
-          host: ${{ secrets.AWS_HOST }}
-          # username for ec2 server
-          username: ${{ secrets.AWS_USER }}
-          # AWS ec2 userkey, added to server and github secrets
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd $HOME
-            sudo rm -rf TheBIT/
-            git clone git@github.iu.edu:pdeshmuk/TheBIT.git
-            cd TheBIT/kubernetes-scripts
-            chmod +x rollout-deployments.sh
-            sudo sh rollout-deployments.sh
+#       - name: executing remote ssh commands using key file
+#         uses: appleboy/ssh-action@master
+#         with:
+#           # host for ec2 server
+#           host: ${{ secrets.AWS_HOST }}
+#           # username for ec2 server
+#           username: ${{ secrets.AWS_USER }}
+#           # AWS ec2 userkey, added to server and github secrets
+#           key: ${{ secrets.SSH_PRIVATE_KEY }}
+#           port: 22
+#           script: |
+#             cd $HOME
+#             sudo rm -rf TheBIT/
+#             git clone git@github.iu.edu:pdeshmuk/TheBIT.git
+#             cd TheBIT/kubernetes-scripts
+#             chmod +x rollout-deployments.sh
+#             sudo sh rollout-deployments.sh
 
