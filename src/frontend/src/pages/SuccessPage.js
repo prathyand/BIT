@@ -14,7 +14,7 @@ const LocationPin = ({ text }) => (
   </div>
 )
 
-const SuccessPage = () => {
+const SuccessPage = (props) => {
   const [fetching, setFetchVal] = useState(true)
   const [bookingConfirmation, setBookingDets] = useState("")
   const request = useContext(Request)
@@ -39,6 +39,7 @@ const SuccessPage = () => {
   },[])
 
   useEffect(()=>{
+    let dets = JSON.parse(bookingDetails)
     if(authContext.isLoggedIn){
       let getProfile = request.getRequest(constants.REQUEST.PROFILE_EP);
       getProfile.then(response => {
@@ -65,12 +66,10 @@ const SuccessPage = () => {
                     }
                   })
               })
-              // console.log(context)
-              // this.props.navigation.navigate('./', {replace:true})
           }
       });
-      // return fname,lname,mail
-    }else{
+    }
+    else if(!authContext.isLoggedIn && dets.fname && dets.lname){
       let bookingReq = request.postRequest(constants.REQUEST.BOOKING,bookingDetails);
       bookingReq.then(response => {
         if(response.ok){
