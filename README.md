@@ -30,21 +30,29 @@
     ├── .gitignore
     └── README.md
 ```
-## To build and run the project (LINUX)
+## To build and run the project (Linux)
 ```sh
-cd src
+# First clone the repository
+git clone https://github.iu.edu/pdeshmuk/TheBIT.git
+
+# cd into the src directory
+cd TheBIT/src
+
+# build the container 
 docker compose build
+
+# run the container in detached mode
 docker compose up -d
 ```
 access the application on localhost (http://localhost/)
 
-to stop the application
+
 
 ```sh
+# to stop the application
 docker compose stop
-```
-to clean the containers:
-```sh
+
+# to remove the containers (cleanup)
 docker compose rm --force
 ```
 
