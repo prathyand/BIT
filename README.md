@@ -33,7 +33,7 @@
 ## To build and run the project (Linux)
 ```sh
 # First clone the repository
-git clone https://github.iu.edu/pdeshmuk/TheBIT.git
+git clone https://github.com/prathyand/BIT.git
 
 # cd into the src directory
 cd TheBIT/src
